@@ -1,0 +1,20 @@
+label {
+    color: #000 !important;
+}
+
+.navbar-nav {
+    color: #000000;
+}
+
+.info_proses {
+    padding: 2px 0 2px 0;
+    width: 100px;
+    text-align: center;
+    border-radius: 50px;
+    color: #ffffff;
+    font-weight: 400;
+}
+
+#picon {
+    font-size: 10px;
+}
