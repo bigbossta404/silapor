@@ -3,24 +3,32 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pengguna_mod extends CI_Model
 {
-    public function pengguna()
+    public function getAkun($email)
     {
         $this->db->select('*');
         $this->db->from('pelapor');
-        $this->db->where('id_pelapor', 3);
+        $this->db->where('email', $email);
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+    public function pengguna($email)
+    {
+        $this->db->select('*');
+        $this->db->from('pelapor');
+        $this->db->where('email', $email);
         $query = $this->db->get();
         return $query->row_array();
     }
 
-    function getData_surat($limit, $start)
+    function getData_surat($limit, $start, $data)
     {
-        $this->db->select('no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, ps.id_proses idps,proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses');
+        $this->db->select('s.id_surat idsurat, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, ps.id_proses idps,proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses');
         $this->db->from('surat s');
         $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas');
         $this->db->join('aktivitas_surat a', 'a.id_surat = s.id_surat');
         $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
-        $this->db->where('s.id_pelapor', 3);
+        $this->db->where('p.email', $data['email']);
         $this->db->order_by('tanggal', 'DESC');
         $this->db->limit($limit, $start);
 
@@ -28,7 +36,7 @@ class Pengguna_mod extends CI_Model
         return $query->result_array();
     }
 
-    function countAllsurat()
+    function countAllsurat($data)
     {
         $this->db->select('no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, ps.id_proses idps,proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses');
         $this->db->from('surat s');
@@ -36,10 +44,24 @@ class Pengguna_mod extends CI_Model
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas');
         $this->db->join('aktivitas_surat a', 'a.id_surat = s.id_surat');
         $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
-        $this->db->where('s.id_pelapor', 3);
+        $this->db->where('p.email', $data['email']);
         $this->db->order_by('tanggal', 'DESC');
         $query = $this->db->get();
         return $query->num_rows();
+    }
+    function getData_byid($id)
+    {
+        $this->db->select('s.id_surat idsurat, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, ps.id_proses idps,proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
+        $this->db->from('surat s');
+        $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
+        $this->db->join('berkas b', 'b.id_berkas = s.id_berkas');
+        $this->db->join('aktivitas_surat a', 'a.id_surat = s.id_surat');
+        $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
+        $this->db->join('petugas pt', 'pt.id_petugas = s.`id_petugas`', 'left');
+        $this->db->where('s.id_surat', $id);
+
+        $query = $this->db->get();
+        return $query->row_array();
     }
     function jenisaduan()
     {
@@ -48,4 +70,24 @@ class Pengguna_mod extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+    function makeRandom()
+    {
+        $this->db->select('count(*) as num');
+        $this->db->from('surat');
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
+    // CRUD Laporan
+
+    function insertLapor($data)
+    {
+        $this->db->set('tanggal', 'NOW()', FALSE);
+        $this->db->insert('surat', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
+
+    // End CRUD Laporan
 }
