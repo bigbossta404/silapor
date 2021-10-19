@@ -88,6 +88,13 @@ class Pengguna_mod extends CI_Model
             return true; // to the controller
         }
     }
+    function insertRegis($data)
+    {
+        $this->db->insert('pelapor', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
 
     // End CRUD Laporan
 }

@@ -5,9 +5,11 @@
 	<meta charset="utf-8">
 	<meta name="author" content="Kodinger">
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>My Login Page</title>
+
+	<title>Masuk Akun</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/my-login.css') ?>">
+	<link rel="shortcut icon" type="image/jpg" href="<?= base_url('assets/img/lambang.png') ?>" />
 </head>
 
 <body class="my-login-page">
@@ -22,7 +24,7 @@
 					?>
 					<div class="card fat">
 						<div class="card-body">
-							<h4 class="card-title">Masuk Si-Lapor</h4>
+							<h4 class="card-title">Masuk SPKT Pakualaman</h4>
 							<form method="POST" class="my-login-validation" novalidate="">
 								<div class="form-group">
 									<label for="email">Alamat E-Mail</label>
@@ -57,13 +59,13 @@
 									</button>
 								</div>
 								<div class="mt-4 text-center">
-									Belum punya akun? buat <a href="register.html">disini</a>
+									Belum punya akun? buat <a href="<?= base_url('daftar') ?>">disini</a>
 								</div>
 							</form>
 						</div>
 					</div>
 					<div class="footer">
-						Copyright &copy; 2021 &mdash; SiLapor - Kalimantan Utara
+						Copyright &copy; 2021 &mdash; SPKT Pakualaman
 					</div>
 				</div>
 			</div>

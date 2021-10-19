@@ -153,7 +153,7 @@
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="<?= base_url('pengguna/profile') ?>">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
@@ -175,71 +175,62 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-xl mb-4">
-                    <div class="card shadow h-100 py-2">
-                        <div class="card-body">
-                            <ul class="bs4-order-tracking">
-                                <li class="step <?= ($dl['idps'] >= 1) ? 'active' : '' ?>">
-                                    <div><i class="fas fa-paper-plane"></i></div> Terkirim
-                                </li>
-                                <li class="step <?= ($dl['idps'] >= 2) ? 'active' : (($dl['idps'] == 0) ? 'ditolak' : '') ?>">
-                                    <?= ($dl['idps'] >= 2) ? '<div><i class="fas fa-download"></i></div> Diterima' : (($dl['idps'] == 0) ? '<div><i class="far fa-times-circle"></i></div> Ditolak' : '<div><i class="fas fa-download"></i></div> Diterima') ?>
-                                </li>
-                                <li class="step <?= ($dl['idps'] >= 3) ? 'active' : '' ?>">
-                                    <div><i class="fas fa-search"></i></div> Dievaluasi
-                                </li>
-                                <li class="step <?= ($dl['idps'] >= 4) ? 'active' : '' ?>">
-                                    <div><i class="fas fa-file-signature"></i></div> Proses
-                                </li>
-                                <li class="step <?= ($dl['idps'] >= 5) ? 'active' : '' ?>">
-                                    <div><i class=" far fa-check-circle"></i>
-                                    </div> Selesai
-                                </li>
-                            </ul>
-                        </div>
+            <div class="wrapper bg-white">
+                <div class="d-flex align-items-start py-3 border-bottom"> <img src="<?= base_url('assets/img/profile/default.png') ?>" class="img" alt="">
+                    <div class="pl-sm-4 pl-2" id="img-section"> <b>Foto Profile</b>
+                        <p>Jenis file wajib .png/jpg/jpeg dan dibawah 1MB</p> <input type="file" class="form-control-file" id="exampleFormControlFile1">
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-xl mb-4">
-                    <div class="card shadow h-100 py-2">
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center pl-3 pr-3 border-bottom">
-                                <div class="col">
-                                    <div class="info-pinjam">
-                                        <div class="nolap">
-                                            <div class="mb-0 font-weight-bold text-gray-800">
-                                                No Lap. <?php echo $dl['idsurat'] ?>
-                                            </div>
-                                        </div>
-                                        <p class="mb-2">Surat <?php echo $dl['nberkas'] ?> - Dikirim pada tanggal <?php echo $dl['tglkirim'] ?></p>
-                                    </div>
-                                </div>
-                                <div class="col-auto d-flex align-items-center">
-                                    <div class="mr-4">Oleh <?php echo $dl['nama'] ?></div>
-                                </div>
-                            </div>
-                            <div class="row pl-3 pr-3">
-                                <div class="col">
-                                    <div class="keterangan">
-                                        <div class="mb-0 font-weight-bold text-gray-800">
-                                            Keterangan:
-                                        </div>
-                                        <p><?php echo $dl['keterangan'] ?></p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row pl-3 pr-3" style="<?php echo ($dl['namapetugas'] && $dl['ket'] != null) ? 'display:content;' : 'display:none;' ?>">
-                                <div class="col">
-                                    <div class="balasan">
-                                        <span class="font-weight-bold text-gray-800"><i class="fas fa-reply fa-xs"></i> <small>Dibalas: <?php echo ($dl['id_petugas'] == null) ? '-' : 'Petugas ' . $dl['namapetugas'] ?></small></span>
-                                        <p class="mt-1"><?php echo $dl['ket'] ?>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="py-2">
+                    <div class="row py-2">
+                        <div class="col-md-6">
+                            <label for="nama">Nama Depan</label>
+                            <input type="text" class="bg-light form-control" placeholder="Bambang" value="<?= $ses_akun['nama'] ?>">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email">Email Address</label>
+                            <input type="text" class="bg-light form-control" placeholder="namamu_@email.com" value="<?= $ses_akun['email'] ?>">
                         </div>
                     </div>
+                    <div class="row py-2">
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="phone">Nomor Telp.</label>
+                            <input type="number" class="bg-light form-control" placeholder="08123xxxx" value="<?= $ses_akun['notelp'] ?>">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email">Jenis Kelamin</label>
+                            <select type="text" class="bg-light form-control" placeholder="steve_@email.com">
+                                <option value>Jenis Kelamin</option>
+                                <option value="Pria" <?php echo ($ses_akun['jk'] == 'Pria' ? 'selected' : '') ?>>Pria</option>
+                                <option value="Wanita" <?php echo ($ses_akun['jk'] == 'Wanita' ? 'selected' : '') ?>>Wanita</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="phone">Alamat.</label>
+                            <textarea type="text" class="bg-light form-control" placeholder="jl. indah RT 00 / RW 00"><?= $ses_akun['alamat'] ?></textarea>
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-md-6">
+                            <label for="ktp">E-KTP (pdf/png/jpg 1mb)</label>
+                            <input id="input-ktp" name="input-b2" type="file" class="file input-ktp" data-show-preview="false">
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3" id="lang">
+                            <label for="ktp">Kartu Keluarga (pdf/png/jpg 1mb)</label>
+                            <input id="input-kk" name="input-b2" type="file" class="file input-kk" data-show-preview="false">
+                        </div>
+                    </div>
+                    <div class="py-3 pb-4 mt-3">
+                        <button class="btn btn-success mr-3">Simpan</button> <button class="btn btn-secondary border button">Batal</button>
+                    </div>
+                    <!-- <div class="d-sm-flex align-items-center pt-3" id="deactivate">
+                        <div> <b>Deactivate your account</b>
+                            <p>Details about your company account and password</p>
+                        </div>
+                        <div class="ml-auto"> <button class="btn danger">Deactivate</button> </div>
+                    </div> -->
                 </div>
             </div>
         </div>

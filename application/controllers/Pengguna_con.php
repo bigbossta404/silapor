@@ -55,10 +55,18 @@ class Pengguna_con extends CI_Controller
             $data['jenisaduan'] = $this->pengguna_mod->jenisaduan();
             $data['title'] = 'Dashboard';
 
-            $data['btn'] = ' <div class="d-sm-flex align-items-center">
+            if ($data['ses_akun']['img_ktp'] == null || $data['ses_akun']['img_kk'] == null) {
+                $data['btn'] = ' <div class="d-sm-flex align-items-center">
             <h1 class="h4 mb-0 text-gray-800">Kotak Surat</h1>
-            <div class="btn btn-primary ml-4" data-toggle="modal" data-target=".buatlaporan"><i class="fas fa-plus"></i> Buat Laporan</div>
+            <div class="btn btn-primary ml-4" data-toggle="modal" data-target=".noticelap"><i class="fas fa-plus"></i> Buat Laporan</div>
             </div>';
+            } else {
+                $data['btn'] = ' <div class="d-sm-flex align-items-center">
+                <h1 class="h4 mb-0 text-gray-800">Kotak Surat</h1>
+                <div class="btn btn-primary ml-4" data-toggle="modal" data-target=".buatlaporan"><i class="fas fa-plus"></i> Buat Laporan</div>
+                </div>';
+            }
+
             $this->load->view('pub_pengguna/layout/header', $data);
             $this->load->view('pub_pengguna/dashboard', $data);
             $this->load->view('pub_pengguna/layout/footer', $data);
@@ -130,9 +138,23 @@ class Pengguna_con extends CI_Controller
             $data['ses_akun'] = $this->pengguna_mod->pengguna($this->session->userdata('email'));
             $data['dl'] = $this->pengguna_mod->getData_byid($id_surat);
             $data['title'] = 'Detail Laporan';
-
+            $data['heading'] = ' <h4 class="mb-0 text-gray-800">Detail Laporan</h4>';
             $this->load->view('pub_pengguna/layout/header', $data);
             $this->load->view('pub_pengguna/detailLap', $data);
+            $this->load->view('pub_pengguna/layout/footer', $data);
+        } else {
+            redirect('/');
+        }
+    }
+
+    public function viewProfile()
+    {
+        if ($this->session->userdata('logged')) {
+            $data['ses_akun'] = $this->pengguna_mod->pengguna($this->session->userdata('email'));
+            $data['title'] = 'Profile';
+            $data['heading'] = ' <h4 class="mb-0 text-gray-800">Pengaturan Akun</h4>';
+            $this->load->view('pub_pengguna/layout/header', $data);
+            $this->load->view('pub_pengguna/profile', $data);
             $this->load->view('pub_pengguna/layout/footer', $data);
         } else {
             redirect('/');
