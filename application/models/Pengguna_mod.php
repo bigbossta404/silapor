@@ -96,5 +96,14 @@ class Pengguna_mod extends CI_Model
         }
     }
 
+    function updateProfile($data, $id)
+    {
+        $this->db->where('id_pelapor', $id);
+        $this->db->update('pelapor', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
+
     // End CRUD Laporan
 }

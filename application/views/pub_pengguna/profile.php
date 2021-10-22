@@ -68,62 +68,76 @@
         <!-- Begin Page Content -->
         <div class="container-fluid">
             <div class="wrapper bg-white">
-                <div class="d-flex align-items-start py-3 border-bottom"> <img src="<?= base_url('assets/img/profile/default.png') ?>" class="img" alt="">
-                    <div class="pl-sm-4 pl-2" id="img-section"> <b>Foto Profile</b>
-                        <p>Jenis file wajib .png/jpg/jpeg dan dibawah 1MB</p> <input type="file" class="form-control-file" id="exampleFormControlFile1">
-                    </div>
-                </div>
-                <div class="py-2">
-                    <div class="row py-2">
-                        <div class="col-md-6">
-                            <label for="nama">Nama Depan</label>
-                            <input type="text" class="bg-light form-control" placeholder="Bambang" value="<?= $ses_akun['nama'] ?>">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="email">Email Address</label>
-                            <input type="text" class="bg-light form-control" placeholder="namamu_@email.com" value="<?= $ses_akun['email'] ?>">
+                <form id="submit_p" enctype="multipart/form-data">
+                    <div class="d-flex align-items-start py-3 border-bottom">
+                        <img src="<?= ($ses_akun['profile'] == null) ? base_url('assets/img/profile/default.png') : base_url('assets/img/profile/' . $ses_akun['profile'])  ?>" class="img" alt="">
+                        <div class="pl-sm-4 pl-2" id="img-section"> <b>Foto Profile</b>
+                            <p>Jenis file wajib .png/jpg/jpeg dan dibawah 1MB</p>
+                            <input type="file" name="upload-pp" class="form-control-file" id="upload-pp">
+                            <span class="error-input_pp error-dialog text-danger mt-2"></span>
                         </div>
                     </div>
-                    <div class="row py-2">
-                        <div class="col-md-6 pt-md-0 pt-3">
-                            <label for="phone">Nomor Telp.</label>
-                            <input type="number" class="bg-light form-control" placeholder="08123xxxx" value="<?= $ses_akun['notelp'] ?>">
+                    <div class="py-2">
+                        <div class="row py-2">
+                            <div class="col-md-6">
+                                <label for="nama">Nama Depan</label>
+                                <input type="text" class="bg-light form-control" id="nama_p" name="nama_p" placeholder="Bambang" value="<?= $ses_akun['nama'] ?>">
+                                <span class="error-nama_p error-dialog text-danger mt-2"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="email">Email Address</label>
+                                <input type="text" class="bg-light form-control" id="email_p" name="email_p" placeholder="namamu_@email.com" value="<?= $ses_akun['email'] ?>">
+                                <span class="error-email_p error-dialog text-danger mt-2"></span>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <label for="email">Jenis Kelamin</label>
-                            <select type="text" class="bg-light form-control" placeholder="steve_@email.com">
-                                <option value>Jenis Kelamin</option>
-                                <option value="Pria" <?php echo ($ses_akun['jk'] == 'Pria' ? 'selected' : '') ?>>Pria</option>
-                                <option value="Wanita" <?php echo ($ses_akun['jk'] == 'Wanita' ? 'selected' : '') ?>>Wanita</option>
-                            </select>
+                        <div class="row py-2">
+                            <div class="col-md-6 pt-md-0 pt-3">
+                                <label for="phone">Nomor Telp.</label>
+                                <input type="number" class="bg-light form-control" id="nomor_p" name="nomor_p" placeholder="08123xxxx" value="<?= $ses_akun['notelp'] ?>">
+                                <span class="error-nomor_p error-dialog text-danger mt-2"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="jk">Jenis Kelamin</label>
+                                <select type="text" class="bg-light form-control" id="jk_p" name="jk_p" placeholder="steve_@email.com">
+                                    <option value>Jenis Kelamin</option>
+                                    <option value="Pria" <?php echo ($ses_akun['jk'] == 'Pria' ? 'selected' : '') ?>>Pria</option>
+                                    <option value="Wanita" <?php echo ($ses_akun['jk'] == 'Wanita' ? 'selected' : '') ?>>Wanita</option>
+                                </select>
+                                <span class="error-jk_p error-dialog text-danger mt-2"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row py-2">
-                        <div class="col-md-6 pt-md-0 pt-3">
-                            <label for="phone">Alamat.</label>
-                            <textarea type="text" class="bg-light form-control" placeholder="jl. indah RT 00 / RW 00"><?= $ses_akun['alamat'] ?></textarea>
+                        <div class="row py-2">
+                            <div class="col-md-6 pt-md-0 pt-3">
+                                <label for="phone">Alamat.</label>
+                                <textarea type="text" class="bg-light form-control" id="alamat_p" name="alamat_p" placeholder="jl. indah RT 00 / RW 00"><?= $ses_akun['alamat'] ?></textarea>
+                                <span class="error-alamat_p error-dialog text-danger mt-2"></span>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row py-2">
-                        <div class="col-md-6">
-                            <label for="ktp">E-KTP (pdf/png/jpg 1mb)</label>
-                            <input id="input-ktp" name="input-b2" type="file" class="file input-ktp" data-show-preview="false">
+                        <div class="row py-2">
+                            <div class="col-md-6">
+                                <label for="ktp">E-KTP (pdf/png/jpg 1mb) <?php echo ($ses_akun['img_ktp'] == null) ? '' : '<i class="text-success fas fa-check-circle"></i>' ?></label>
+                                <input id="input-ktp" name="input-ktp" type="file" class="file input-ktp" data-show-preview="false">
+                                <span class="error-input_ktp error-dialog text-danger mt-2"></span>
+                            </div>
+                            <div class="col-md-6 pt-md-0 pt-3" id="lang">
+                                <label for="ktp">Kartu Keluarga (pdf/png/jpg 1mb) <?php echo ($ses_akun['img_kk'] == null) ? '' : '<i class="text-success fas fa-check-circle"></i>' ?></label>
+                                <input id="input-kk" name="input-kk" type="file" class="file input-kk" data-show-preview="false">
+                                <span class="error-input_kk error-dialog text-danger mt-2"></span>
+                            </div>
                         </div>
-                        <div class="col-md-6 pt-md-0 pt-3" id="lang">
-                            <label for="ktp">Kartu Keluarga (pdf/png/jpg 1mb)</label>
-                            <input id="input-kk" name="input-b2" type="file" class="file input-kk" data-show-preview="false">
+                        <div class="py-3 pb-4 mt-3">
+                            <button class="btn btn-success mr-3" type="submit" id="saveprofile">Simpan</button>
+                            <button class="btn btn-secondary border button">Batal</button>
                         </div>
-                    </div>
-                    <div class="py-3 pb-4 mt-3">
-                        <button class="btn btn-success mr-3">Simpan</button> <button class="btn btn-secondary border button">Batal</button>
-                    </div>
-                    <!-- <div class="d-sm-flex align-items-center pt-3" id="deactivate">
+
+                        <!-- <div class="d-sm-flex align-items-center pt-3" id="deactivate">
                         <div> <b>Deactivate your account</b>
                             <p>Details about your company account and password</p>
                         </div>
                         <div class="ml-auto"> <button class="btn danger">Deactivate</button> </div>
                     </div> -->
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
 

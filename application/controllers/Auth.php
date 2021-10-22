@@ -81,7 +81,7 @@ class Auth extends CI_Controller
         if ($this->session->userdata('logged')) {
             redirect('pengguna/index');
         } else {
-            $this->form_validation->set_rules('nama-reg', 'Nama-reg', 'required|trim', [
+            $this->form_validation->set_rules('nama-reg', 'Nama-reg', 'required|trim|callback_alpha_dash_space', [
                 'required' => 'Nama wajib diisi',
             ]);
             $this->form_validation->set_rules('email-reg', 'Email-reg', 'required|trim|valid_email|is_unique[pelapor.email]', [
@@ -140,5 +140,14 @@ class Auth extends CI_Controller
     {
         $this->session->sess_destroy();
         redirect('/');
+    }
+    function alpha_dash_space($nama)
+    {
+        if (!preg_match('/^[a-zA-Z\s]+$/', $nama)) {
+            $this->form_validation->set_message('alpha_dash_space', 'Nama harus alfabet');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
     }
 }

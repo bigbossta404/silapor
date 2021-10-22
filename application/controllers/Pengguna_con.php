@@ -160,4 +160,135 @@ class Pengguna_con extends CI_Controller
             redirect('/');
         }
     }
+
+    public function saveProfile()
+    {
+        if ($this->session->userdata('logged')) {
+
+            $this->form_validation->set_rules('nama_p', 'Nama_p', 'required|trim|callback_alpha_dash_space', [
+                'required' => 'Nama wajib diisi'
+            ]);
+            $this->form_validation->set_rules('email_p', 'Email_p', 'required|trim|valid_email', [
+                'required' => 'Email wajib diisi',
+                'valid_email' => 'Email tidak valid',
+            ]);
+            $this->form_validation->set_rules('jk_p', 'Jk_p', 'required|trim|in_list[Pria,Wanita]', [
+                'required' => 'Jenis Kelamin wajib diisi',
+                'in_list' => 'Jenis Kelamin tidak valid'
+            ]);
+            $this->form_validation->set_rules('nomor_p', 'Nomor_p', 'required|trim|numeric|min_length[12]|max_length[13]', [
+                'required' => 'Jenis Kelamin wajib diisi',
+                'numeric' => 'Harus format angka',
+                'min_length' => 'Minimal 12 digit',
+                'max_length' => 'Maksimal 13 digit'
+            ]);
+            $this->form_validation->set_rules('alamat_p', 'Alamat_p', 'required|trim', [
+                'required' => 'Alamat wajib diisi',
+            ]);
+            if ($this->form_validation->run() == false) {
+                $alert = array(
+                    'error' => true,
+                    'nama_p' => form_error('nama_p', '<small>', '</small>'),
+                    'email_p' => form_error('email_p', '<small>', '</small>'),
+                    'jk_p' => form_error('jk_p', '<small>', '</small>'),
+                    'nomor_p' => form_error('nomor_p', '<small>', '</small>'),
+                    'alamat_p' => form_error('alamat_p', '<small>', '</small>'),
+                );
+                echo json_encode($alert);
+            } else {
+                $ses_akun = $this->pengguna_mod->pengguna($this->session->userdata('email'));
+                $id = $ses_akun['id_pelapor'];
+                $data = [
+                    'nama' => $_POST['nama_p'],
+                    'email' => $_POST['email_p'],
+                    'jk' => $_POST['jk_p'],
+                    'notelp' => $_POST['nomor_p'],
+                    'alamat' => $_POST['alamat_p'],
+                ];
+
+                if (!empty($_FILES['upload-pp']['name'])) {
+                    $config = array();
+                    $config['encrypt_name'] = TRUE;
+                    $config['upload_path']          = './assets/img/profile';
+                    $config['allowed_types']        = 'jpeg|jpg|png';
+                    $config['max_size']             = 2048;
+
+                    $this->load->library('upload', $config, 'profile');
+                    $this->profile->initialize($config);
+                    $profile = $this->profile->do_upload('upload-pp');
+                    if (!$profile) {
+                        $data['error_pp'] = $this->profile->display_errors('<small>', '</small>');
+                    } else {
+                        $data['profile'] = $this->profile->data('file_name');
+                    }
+                }
+                //Config KTP 
+                if (!empty($_FILES['input-ktp']['name'])) {
+                    $config = array();
+                    $config['encrypt_name'] = TRUE;
+                    $config['upload_path']          = './assets/img/ektp';
+                    $config['allowed_types']        = 'pdf|jpeg|jpg|png';
+                    $config['max_size']             = 2048;
+
+                    $this->load->library('upload', $config, 'ektp');
+                    $this->ektp->initialize($config);
+                    $ektp = $this->ektp->do_upload('input-ktp');
+
+                    if (!$ektp) {
+                        $data['error_ktp'] = $this->ektp->display_errors('<small>', '</small>');
+                    } else {
+                        $data['img_ktp'] = $this->ektp->data('file_name');
+                    }
+                }
+                //Config KK 
+                if (!empty($_FILES['input-kk']['name'])) {
+                    $config = array();
+                    $config['encrypt_name'] = TRUE;
+                    $config['upload_path']          = './assets/img/kk';
+                    $config['allowed_types']        = 'pdf|jpeg|jpg|png';
+                    $config['max_size']             = 2048;
+
+                    $this->load->library('upload', $config, 'kk');
+                    $this->kk->initialize($config);
+                    $kk = $this->kk->do_upload('input-kk');
+
+                    if (!$kk) {
+                        $data['error_kk'] = $this->kk->display_errors('<small>', '</small>');
+                    } else {
+                        $data['img_kk'] = $this->kk->data('file_name');
+                    }
+                }
+
+                // echo json_encode(var_dump($data));
+                if (isset($data['error_pp']) || isset($data['error_ktp']) || isset($data['error_kk'])) {
+                    $alert = array(
+                        'error_upload' => true,
+                        'error_pp' => (isset($data['error_pp'])) ? $data['error_pp'] : '',
+                        'error_ktp' => (isset($data['error_ktp'])) ? $data['error_ktp'] : '',
+                        'error_kk' => (isset($data['error_kk'])) ? $data['error_kk'] : '',
+                    );
+                    echo json_encode($alert);
+                } else {
+                    $do_save = $this->pengguna_mod->updateProfile($data, $id);
+                    if ($do_save) {
+                        echo json_encode('sukses');
+                    } else {
+                        echo json_encode('gagal');
+                    }
+                }
+            }
+        } else {
+            redirect('/');
+        }
+    }
+
+    function alpha_dash_space($nama)
+    {
+        if (!preg_match('/^[a-zA-Z\s]+$/', $nama)) {
+            $this->form_validation->set_message('alpha_dash_space', 'Nama harus alfabet');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
 }

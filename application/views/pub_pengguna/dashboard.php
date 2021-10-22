@@ -45,7 +45,7 @@
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="<?= base_url('pengguna/profile') ?>">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
@@ -71,7 +71,7 @@
                 foreach ($d_surat as $ds) : ?>
                     <div class="row">
                         <div class="col-xl mb-4">
-                            <div class="card <?php echo ($ds['idps'] == 1) ? 'border-left-primary' : (($ds['idps'] == 5) ? 'border-left-success' : (($ds['idps'] == 0) ? 'border-left-danger' : 'border-left-warning')); ?> shadow h-100 py-2">
+                            <div class="card <?php echo ($ds['idps'] == 1) || ($ds['idps'] == 4) || ($ds['idps'] == 3) ? 'border-left-primary' : (($ds['idps'] == 0) ? 'border-left-danger' : (($ds['idps'] == 5) ? 'border-left-success' : 'border-left-primary')); ?> shadow h-100 py-2">
                                 <div class="card-body">
                                     <div class="row no-gutters align-items-center pl-3 pr-3">
                                         <div class="col">
@@ -82,7 +82,7 @@
                                                     </div>
                                                 </div>
                                                 <p class="mb-2">Surat <?php echo $ds['nberkas'] ?> - Dikirim pada tanggal <?php echo $ds['tglkirim'] ?></p>
-                                                <div class="mr-3 info_proses <?php echo ($ds['idps'] == 1) ? 'bg-primary' : (($ds['idps'] == 5) ? 'bg-success' : (($ds['idps'] == 0) ? 'bg-danger' : 'bg-warnign')); ?>"><i class="fas fa-circle mr-2" id="picon"></i><?php echo $ds['proses'] ?></div>
+                                                <div class="mr-3 info_proses <?php echo ($ds['idps'] == 1) || ($ds['idps'] == 4) || ($ds['idps'] == 3) ? 'bg-primary' : (($ds['idps'] == 0) ? 'bg-danger' : (($ds['idps'] == 5) ? 'bg-success' : 'border-left-primary')); ?>"><i class="fas fa-circle mr-2" id="picon"></i><?php echo $ds['proses'] ?></div>
                                             </div>
                                         </div>
                                         <div class="col-auto d-flex align-items-center">
