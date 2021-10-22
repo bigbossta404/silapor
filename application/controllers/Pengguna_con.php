@@ -198,6 +198,9 @@ class Pengguna_con extends CI_Controller
             } else {
                 $ses_akun = $this->pengguna_mod->pengguna($this->session->userdata('email'));
                 $id = $ses_akun['id_pelapor'];
+                $old_pp = $ses_akun['profile'];
+                $old_ktp = $ses_akun['img_ktp'];
+                $old_kk = $ses_akun['img_kk'];
                 $data = [
                     'nama' => $_POST['nama_p'],
                     'email' => $_POST['email_p'],
@@ -219,6 +222,7 @@ class Pengguna_con extends CI_Controller
                     if (!$profile) {
                         $data['error_pp'] = $this->profile->display_errors('<small>', '</small>');
                     } else {
+                        unlink('assets/img/profile/' . $old_pp);
                         $data['profile'] = $this->profile->data('file_name');
                     }
                 }
@@ -237,6 +241,7 @@ class Pengguna_con extends CI_Controller
                     if (!$ektp) {
                         $data['error_ktp'] = $this->ektp->display_errors('<small>', '</small>');
                     } else {
+                        unlink('assets/img/ektp/' . $old_ktp);
                         $data['img_ktp'] = $this->ektp->data('file_name');
                     }
                 }
@@ -255,6 +260,7 @@ class Pengguna_con extends CI_Controller
                     if (!$kk) {
                         $data['error_kk'] = $this->kk->display_errors('<small>', '</small>');
                     } else {
+                        unlink('assets/img/kk/' . $old_kk);
                         $data['img_kk'] = $this->kk->data('file_name');
                     }
                 }
@@ -269,6 +275,7 @@ class Pengguna_con extends CI_Controller
                     );
                     echo json_encode($alert);
                 } else {
+
                     $do_save = $this->pengguna_mod->updateProfile($data, $id);
                     if ($do_save) {
                         echo json_encode('sukses');
