@@ -20,8 +20,10 @@
 					<div class="brand">
 						<img src="<?= base_url('assets/img/lambang.png') ?>" alt="logo">
 					</div>
-					<?= $this->session->flashdata('pesan');
-					?>
+					<div class="pesan">
+						<?= $this->session->flashdata('pesan');
+						?>
+					</div>
 					<div class="card fat">
 						<div class="card-body">
 							<h4 class="card-title">Masuk SPKT Pakualaman</h4>

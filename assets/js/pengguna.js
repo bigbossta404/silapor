@@ -79,7 +79,7 @@ $(document).ready(function(){
             contentType: false,
             async:false,
             success: function(data){
-                if(data == 'sukses'){
+                if(data.sukses == true){
                     Swal.fire({
                         position: 'center',
                         icon: 'success',
@@ -87,7 +87,12 @@ $(document).ready(function(){
                         showConfirmButton: false,
                         timer: 1500
                     }).then(function(){
-                        location.reload();
+                        if(data.data['email'] != data.old_email){
+                            window.location.href = '../auth/logout';
+                            $('.pesan').html('<div class="alert alert-success alert-dismissible" role="alert">Email diubah, silahkan login kembali.<span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span></div>');
+                        }else{
+                            location.reload();
+                        }
                     });
                 }else if(data == 'gagal'){
                     Swal.fire({

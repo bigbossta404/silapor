@@ -177,7 +177,7 @@ class Pengguna_con extends CI_Controller
                 'in_list' => 'Jenis Kelamin tidak valid'
             ]);
             $this->form_validation->set_rules('nomor_p', 'Nomor_p', 'required|trim|numeric|min_length[12]|max_length[13]', [
-                'required' => 'Jenis Kelamin wajib diisi',
+                'required' => 'Nomor wajib diisi',
                 'numeric' => 'Harus format angka',
                 'min_length' => 'Minimal 12 digit',
                 'max_length' => 'Maksimal 13 digit'
@@ -278,7 +278,12 @@ class Pengguna_con extends CI_Controller
 
                     $do_save = $this->pengguna_mod->updateProfile($data, $id);
                     if ($do_save) {
-                        echo json_encode('sukses');
+                        $alert = array(
+                            'sukses' => true,
+                            'data' => $data,
+                            'old_email' => $this->session->userdata('email')
+                        );
+                        echo json_encode($alert);
                     } else {
                         echo json_encode('gagal');
                     }
