@@ -11,4 +11,8 @@ $route['daftar'] = 'auth/daftar';
 $route['pengguna/index'] = 'pengguna_con/index';
 $route['pengguna/index/(:any)'] = 'pengguna_con/index/(:any)';
 $route['pengguna/profile'] = 'pengguna_con/viewProfile';
+
+// Petugas
+$route['loginpetugas'] = 'auth/loginpetugaspkt';
+$route['petugas'] = 'petugas_con/index';
 // $route['pengguna/viewLaporan/(:any)'] = 'pengguna_con/viewLaporan/(:any)';

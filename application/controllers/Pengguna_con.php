@@ -14,7 +14,7 @@ class Pengguna_con extends CI_Controller
     }
     public function index()
     {
-        if ($this->session->userdata('logged')) {
+        if ($this->session->userdata('level') == 2) {
             $data['ses_akun'] = $this->pengguna_mod->pengguna($this->session->userdata('email'));
 
             $config['base_url'] = 'http://localhost/silapor/pengguna/index';
@@ -134,7 +134,7 @@ class Pengguna_con extends CI_Controller
 
     public function viewLaporan($id_surat)
     {
-        if ($this->session->userdata('logged')) {
+        if ($this->session->userdata('level') == 2) {
             $data['ses_akun'] = $this->pengguna_mod->pengguna($this->session->userdata('email'));
             $data['dl'] = $this->pengguna_mod->getData_byid($id_surat);
             $data['title'] = 'Detail Laporan';
@@ -149,7 +149,7 @@ class Pengguna_con extends CI_Controller
 
     public function viewProfile()
     {
-        if ($this->session->userdata('logged')) {
+        if ($this->session->userdata('level') == 2) {
             $data['ses_akun'] = $this->pengguna_mod->pengguna($this->session->userdata('email'));
             $data['title'] = 'Profile';
             $data['heading'] = ' <h4 class="mb-0 text-gray-800">Pengaturan Akun</h4>';
@@ -163,7 +163,7 @@ class Pengguna_con extends CI_Controller
 
     public function saveProfile()
     {
-        if ($this->session->userdata('logged')) {
+        if ($this->session->userdata('level') == 2) {
 
             $this->form_validation->set_rules('nama_p', 'Nama_p', 'required|trim|callback_alpha_dash_space', [
                 'required' => 'Nama wajib diisi'

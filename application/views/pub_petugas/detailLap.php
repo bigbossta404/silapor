@@ -11,8 +11,7 @@
                 <i class="fa fa-bars"></i>
             </button>
 
-            <?= $btn ?>
-
+            <?= $heading ?>
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
                 <!-- Nav Item - Search Dropdown (Visible Only XS) -->
@@ -34,6 +33,7 @@
                         </form>
                     </div>
                 </li>
+
 
                 <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -67,43 +67,73 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <?php if (!empty($d_surat)) {
-                foreach ($d_surat as $ds) : ?>
-                    <div class="row">
-                        <div class="col-xl mb-4">
-                            <div class="card <?php echo ($ds['idps'] == 1) || ($ds['idps'] == 4) || ($ds['idps'] == 3) ? 'border-left-primary' : (($ds['idps'] == 0) ? 'border-left-danger' : (($ds['idps'] == 5) ? 'border-left-success' : 'border-left-primary')); ?> shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center pl-3 pr-3">
-                                        <div class="col">
-                                            <div class="info-pinjam">
-                                                <div class="nolap">
-                                                    <div class="mb-0 font-weight-bold text-gray-800">
-                                                        No Lap. <?php echo $ds['no_lp'] ?>
-                                                    </div>
-                                                </div>
-                                                <p class="mb-2">Surat <?php echo $ds['nberkas'] ?> - Dikirim pada tanggal <?php echo $ds['tglkirim'] ?></p>
-                                                <div class="mr-3 info_proses <?php echo ($ds['idps'] == 1) || ($ds['idps'] == 4) || ($ds['idps'] == 3) ? 'bg-primary' : (($ds['idps'] == 0) ? 'bg-danger' : (($ds['idps'] == 5) ? 'bg-success' : 'border-left-primary')); ?>"><i class="fas fa-circle mr-2" id="picon"></i><?php echo $ds['proses'] ?></div>
+            <div class="row">
+                <div class="col-xl mb-4">
+                    <div class="card shadow h-100 py-2">
+                        <div class="card-body">
+                            <ul class="bs4-order-tracking">
+                                <li class="step <?= ($dl['idps'] >= 1) ? 'active' : '' ?>">
+                                    <div><i class="fas fa-paper-plane"></i></div> Terkirim
+                                </li>
+                                <li class="step <?= ($dl['idps'] >= 2) ? 'active' : (($dl['idps'] == 0) ? 'ditolak' : '') ?>">
+                                    <?= ($dl['idps'] >= 2) ? '<div><i class="fas fa-download"></i></div> Diterima' : (($dl['idps'] == 0) ? '<div><i class="far fa-times-circle"></i></div> Ditolak' : '<div><i class="fas fa-download"></i></div> Diterima') ?>
+                                </li>
+                                <li class="step <?= ($dl['idps'] >= 3) ? 'active' : '' ?>">
+                                    <div><i class="fas fa-search"></i></div> Dievaluasi
+                                </li>
+                                <li class="step <?= ($dl['idps'] >= 4) ? 'active' : '' ?>">
+                                    <div><i class="fas fa-file-signature"></i></div> Proses
+                                </li>
+                                <li class="step <?= ($dl['idps'] >= 5) ? 'active' : '' ?>">
+                                    <div><i class=" far fa-check-circle"></i>
+                                    </div> Selesai
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl mb-4">
+                    <div class="card shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center pl-3 pr-3 border-bottom">
+                                <div class="col">
+                                    <div class="info-pinjam">
+                                        <div class="nolap">
+                                            <div class="mb-0 font-weight-bold text-gray-800">
+                                                No Lap. <?php echo $dl['idsurat'] ?>
                                             </div>
                                         </div>
-                                        <div class="col-auto d-flex align-items-center">
-                                            <div class="mr-4">Respon <?php echo ($ds['tgl_proses'] != null) ? $ds['tgl_proses'] : '-' ?></div>
-                                            <div class="btn btn-primary btn-buka" id="<?php echo $ds['idsurat'] ?>"><i class="fas fa-envelope-open-text"></i> Buka</div>
+                                        <p class="mb-2">Surat <?php echo $dl['nberkas'] ?> - Dikirim pada tanggal <?php echo $dl['tglkirim'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="col-auto d-flex align-items-center">
+                                    <div class="mr-4">Oleh <?php echo $dl['nama'] ?></div>
+                                </div>
+                            </div>
+                            <div class="row pl-3 pr-3">
+                                <div class="col">
+                                    <div class="keterangan">
+                                        <div class="mb-0 font-weight-bold text-gray-800">
+                                            Keterangan:
                                         </div>
+                                        <p><?php echo $dl['keterangan'] ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pl-3 pr-3" style="<?php echo ($dl['namapetugas'] && $dl['ket'] != null) ? 'display:content;' : 'display:none;' ?>">
+                                <div class="col">
+                                    <div class="balasan">
+                                        <span class="font-weight-bold text-gray-800"><i class="fas fa-reply fa-xs"></i> <small>Dibalas: <?php echo ($dl['id_petugas'] == null) ? '-' : 'Petugas ' . $dl['namapetugas'] . ' (' . $dl['tgl_proses'] . ')' ?></small></span>
+                                        <p class="mt-1"><?php echo $dl['ket'] ?>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                <?php endforeach;
-            } else { ?>
-                <div class="row ">
-                    <div class="col-xl mb-4">
-                        <div class="empty-box">
-                            <p>Data kosong</p>
-                        </div>
-                    </div>
                 </div>
-            <?php } ?>
+            </div>
         </div>
 
         <!-- /.container-fluid -->
@@ -116,7 +146,7 @@
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
-                <span>Copyright &copy; SPKT - Pakualaman 2021</span>
+                <span>Copyright &copy; SiLapor - Kalimantan Utara 2021</span>
             </div>
         </div>
     </footer>

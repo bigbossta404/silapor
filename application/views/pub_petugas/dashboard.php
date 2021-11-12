@@ -11,7 +11,7 @@
                 <i class="fa fa-bars"></i>
             </button>
 
-            <?= $btn ?>
+            <!-- <?= $btn ?> -->
 
             <!-- Topbar Navbar -->
             <ul class="navbar-nav ml-auto">
@@ -41,11 +41,11 @@
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?= ucfirst($ses_akun['nama']) ?> </span>
-                        <img class="img-profile rounded-circle" src="<?= ($ses_akun['profile'] == null) ? base_url('assets/img/profile/default.png') : base_url('assets/img/profile/' . $ses_akun['profile'])  ?>">
+                        <img class="img-profile rounded-circle" src="<?= base_url('assets/img/profile/default.png') ?>">
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="<?= base_url('pengguna/profile') ?>">
+                        <a class="dropdown-item" href="#">
                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                             Profile
                         </a>
@@ -67,49 +67,28 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <?php if (!empty($d_surat)) {
-                foreach ($d_surat as $ds) : ?>
-                    <div class="row">
-                        <div class="col-xl mb-4">
-                            <div class="card <?php echo ($ds['idps'] == 1) || ($ds['idps'] == 4) || ($ds['idps'] == 3) ? 'border-left-primary' : (($ds['idps'] == 0) ? 'border-left-danger' : (($ds['idps'] == 5) ? 'border-left-success' : 'border-left-primary')); ?> shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center pl-3 pr-3">
-                                        <div class="col">
-                                            <div class="info-pinjam">
-                                                <div class="nolap">
-                                                    <div class="mb-0 font-weight-bold text-gray-800">
-                                                        No Lap. <?php echo $ds['no_lp'] ?>
-                                                    </div>
-                                                </div>
-                                                <p class="mb-2">Surat <?php echo $ds['nberkas'] ?> - Dikirim pada tanggal <?php echo $ds['tglkirim'] ?></p>
-                                                <div class="mr-3 info_proses <?php echo ($ds['idps'] == 1) || ($ds['idps'] == 4) || ($ds['idps'] == 3) ? 'bg-primary' : (($ds['idps'] == 0) ? 'bg-danger' : (($ds['idps'] == 5) ? 'bg-success' : 'border-left-primary')); ?>"><i class="fas fa-circle mr-2" id="picon"></i><?php echo $ds['proses'] ?></div>
-                                            </div>
-                                        </div>
-                                        <div class="col-auto d-flex align-items-center">
-                                            <div class="mr-4">Respon <?php echo ($ds['tgl_proses'] != null) ? $ds['tgl_proses'] : '-' ?></div>
-                                            <div class="btn btn-primary btn-buka" id="<?php echo $ds['idsurat'] ?>"><i class="fas fa-envelope-open-text"></i> Buka</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach;
-            } else { ?>
-                <div class="row ">
-                    <div class="col-xl mb-4">
-                        <div class="empty-box">
-                            <p>Data kosong</p>
+            <div class="row">
+                <div class="col-xl mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="tablesurat" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                                <thead>
+                                    <th>Surat</th>
+                                    <th>Keterangan</th>
+                                    <th>Jenis</th>
+                                    <th>Aksi</th>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
-            <?php } ?>
+            </div>
         </div>
 
         <!-- /.container-fluid -->
-        <div class="row justify-content-center">
-            <?= $this->pagination->create_links(); ?>
-        </div>
     </div>
 
     <!-- Footer -->

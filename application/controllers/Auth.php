@@ -9,12 +9,14 @@ class Auth extends CI_Controller
         $this->load->helper('url');
         $this->load->library('form_validation');
         $this->load->model('pengguna_mod');
+        $this->load->model('petugas_mod');
     }
 
     public function index()
     {
-
-        if ($this->session->userdata('logged')) {
+        if ($this->session->userdata('level') == 1) {
+            redirect('petugas');
+        } else if ($this->session->userdata('level') == 2) {
             redirect('pengguna/index');
         } else {
             $this->form_validation->set_rules('email', 'Email', 'required|trim', [
@@ -30,12 +32,32 @@ class Auth extends CI_Controller
             }
         }
     }
+
+    // LOGIN PETUGAS
+    public function loginpetugaspkt()
+    {
+        if ($this->session->userdata('level') == 1) {
+            redirect('petugas');
+        } else if ($this->session->userdata('level') == 2) {
+            redirect('pengguna/index');
+        } else {
+            $this->form_validation->set_rules('email', 'Email', 'required|trim', [
+                'required' => 'Email wajib diisi'
+            ]);
+            $this->form_validation->set_rules('password', 'Password', 'required|trim', [
+                'required' => 'Password dibutuhkan'
+            ]);
+            if ($this->form_validation->run() == false) {
+                $this->load->view('auth/loginpetugas');
+            } else {
+                $this->_loginpetugas();
+            }
+        }
+    }
     private function _login()
     {
         $email = $this->input->post('email');
         $password = $this->input->post('password');
-
-
         $user = $this->pengguna_mod->getAkun($email);
         if ($user) {
             if ($user['active'] == 1) {
@@ -45,6 +67,7 @@ class Auth extends CI_Controller
                         'email' => $user['email'],
                         'nama' => $user['nama'],
                         'profile' => $user['profile'],
+                        'level' => 2,
                     ];
                     $this->session->set_userdata('logged', TRUE);
                     $this->session->set_userdata($data);
@@ -75,10 +98,57 @@ class Auth extends CI_Controller
             redirect('/');
         }
     }
+    private function _loginpetugas()
+    {
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+
+        $user = $this->petugas_mod->getAkun($email);
+        if ($user) {
+            if ($user['active'] == 1) {
+                if ($password == $user['password']) {
+                    $data = [
+                        'id_petugas' => $user['id_petugas'],
+                        'email' => $user['email'],
+                        'nama' => $user['nama'],
+                        'profile' => $user['profile'],
+                        'level' => 1,
+                    ];
+                    $this->session->set_userdata('logged', TRUE);
+                    $this->session->set_userdata($data);
+                    redirect('petugas');
+                } else {
+                    $this->session->set_flashdata('pesan', '<div class="alert alert-danger alert-dismissible" role="alert">
+                   Password salah.
+                    <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+                  </div>');
+
+                    redirect('loginpetugas');
+                }
+            } else {
+                $this->session->set_flashdata('pesan', '<div class="alert alert-warning alert-dismissible" role="alert">
+                Akun belum aktif.
+                <span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span>
+              </div>');
+
+                redirect('loginpetugas');
+            }
+        } else {
+            $this->session->set_flashdata('pesan', '<div class="alert alert-danger" role="alert">
+            Email tidak terdaftar.
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button> </div>');
+
+            redirect('loginpetugas');
+        }
+    }
 
     public function daftar()
     {
-        if ($this->session->userdata('logged')) {
+        if ($this->session->userdata('level') == 1) {
+            redirect('petugas');
+        } else if ($this->session->userdata('level') == 2) {
             redirect('pengguna/index');
         } else {
             $this->form_validation->set_rules('nama-reg', 'Nama-reg', 'required|trim|callback_alpha_dash_space', [

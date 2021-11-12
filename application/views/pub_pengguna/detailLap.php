@@ -146,7 +146,7 @@
     <footer class="sticky-footer bg-white">
         <div class="container my-auto">
             <div class="copyright text-center my-auto">
-                <span>Copyright &copy; SiLapor - Kalimantan Utara 2021</span>
+                <span>Copyright &copy; SPKT - Pakualaman 2021</span>
             </div>
         </div>
     </footer>
