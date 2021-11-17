@@ -120,6 +120,10 @@ $(document).ready(function(){
         });
 
     });
+    $(this).on('click','.btn_balas',function(){
+        id = $(this).attr('id');
+        window.location = '../petugas_con/pesanBalasan/' + id;
+    })
 })
 
 // Datatables
@@ -134,6 +138,31 @@ $(document).ready( function () {
         "serverSide": true, 
         ajax: {
             url: "petugas_con/inboxSurat",
+            type: "POST"
+        },
+        "columnDefs": [{
+            "targets": [3],
+            "className": "text-center",
+            "orderable": false
+        }],
+        "columns": [
+            { "width": "20%" },
+            null,
+            null,
+            null
+          ]
+    });
+
+    $('#tablebalas').DataTable({
+        "language": {
+            "emptyTable": "Tidak Ada Tagihan",
+            "processing": "Memuat Data",
+            "zeroRecords": "Data Tidak Ditemukan"
+        },
+        "processing": true, 
+        "serverSide": true, 
+        ajax: {
+            url: "../petugas_con/inboxBalasan",
             type: "POST"
         },
         "columnDefs": [{

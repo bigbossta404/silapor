@@ -69,20 +69,56 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl mb-4">
-                    <div class="card">
+                    <div class="card shadow h-100 py-2">
                         <div class="card-body">
-                            <table id="tablebalas" class="table table-striped table-bordered" width="100%" cellspacing="0">
-                                <thead>
-                                    <th>Surat</th>
-                                    <!-- <th>Keterangan</th> -->
-                                    <th>Jenis</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </thead>
-                                <tbody>
-
-                                </tbody>
-                            </table>
+                            <div class="row no-gutters align-items-center pl-3 pr-3">
+                                <div class="col d-flex align-items-center">
+                                    <a href="#" class="btn btn-primary mr-3"><i class="far fa-paper-plane"></i> Balas</a>
+                                    <a href="#" class="btn btn-danger "><i class="fas fa-print"></i></i> Cetak Surat</a>
+                                    <span class="ml-auto">Status: <span class="rounded bg-success p-1 w100"></span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl mb-4">
+                    <div class="card shadow h-100 py-2">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center pl-3 pr-3 border-bottom">
+                                <div class="col">
+                                    <div class="info-pinjam">
+                                        <div class="nolap">
+                                            <div class="mb-0 font-weight-bold text-gray-800">
+                                                No Lap. <?php echo $dl['idsurat'] ?>
+                                            </div>
+                                        </div>
+                                        <p class="mb-2">Surat <?php echo $dl['nberkas'] ?> - Dikirim pada tanggal <?php echo $dl['tglkirim'] ?></p>
+                                    </div>
+                                </div>
+                                <div class="col-auto d-flex align-items-center">
+                                    <div class="mr-4">Oleh <?php echo $dl['nama'] ?></div>
+                                </div>
+                            </div>
+                            <div class="row pl-3 pr-3">
+                                <div class="col">
+                                    <div class="keterangan">
+                                        <div class="mb-0 font-weight-bold text-gray-800">
+                                            Keterangan:
+                                        </div>
+                                        <p><?php echo $dl['keterangan'] ?></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row pl-3 pr-3" style="<?php echo ($dl['namapetugas'] && $dl['ket'] != null) ? 'display:content;' : 'display:none;' ?>">
+                                <div class="col">
+                                    <div class="balasan">
+                                        <span class="font-weight-bold text-gray-800"><i class="fas fa-reply fa-xs"></i> <small>Dibalas: <?php echo ($dl['id_petugas'] == null) ? '-' : 'Petugas ' . $dl['namapetugas'] . ' (' . $dl['tgl_proses'] . ')' ?></small></span>
+                                        <p class="mt-1"><?php echo $dl['ket'] ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

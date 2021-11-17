@@ -36,15 +36,15 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item  <?php echo ($this->uri->segment(1) == 'petugas') ? 'active' : '' ?>">
+            <li class="nav-item  <?php echo (count($this->uri->segment_array()) <= 2 && $this->uri->segment(1) == 'pengguna') ? 'active' : '' ?>">
                 <a class="nav-link" href="<?= base_url('/') ?>">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Dashboard</span></a>
             </li>
 
             <!-- Heading -->
-            <li class="nav-item <?php echo ($this->uri->segment(2) == 'profile') ? 'active' : '' ?>">
-                <a class="nav-link" href="<?= base_url('pengguna/profile') ?>">
+            <li class="nav-item <?php echo ($this->uri->segment(2) == 'balasan') ? 'active' : '' ?>">
+                <a class="nav-link" href="<?= base_url('petugas/balasan') ?>">
                     <i class="fas fa-envelope-open-text"></i>
                     <span>Balasan</span>
                 </a>

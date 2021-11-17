@@ -15,4 +15,6 @@ $route['pengguna/profile'] = 'pengguna_con/viewProfile';
 // Petugas
 $route['loginpetugas'] = 'auth/loginpetugaspkt';
 $route['petugas'] = 'petugas_con/index';
+$route['petugas/balasan'] = 'petugas_con/balasanSurat';
+// $route['asu/jancok/(:num)'] = 'petugas_con/pesanBalasan/(:num)';
 // $route['pengguna/viewLaporan/(:any)'] = 'pengguna_con/viewLaporan/(:any)';
