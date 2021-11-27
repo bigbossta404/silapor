@@ -89,12 +89,19 @@ class Pengguna_con extends CI_Controller
             )
         );
         $this->form_validation->set_rules(
-            'aduan',
-            'Aduan',
-            'trim|required|in_list[1,2,3,4]',
+            'tempat',
+            'Tempat',
+            'trim|required',
             array(
-                'required' => 'Aduan wajib isi.',
-                'in_list' => 'Input tidak valid.',
+                'required' => 'TKP wajib isi.'
+            )
+        );
+        $this->form_validation->set_rules(
+            'tgl',
+            'Tgl',
+            'trim|required',
+            array(
+                'required' => 'Tanggal kejadian wajib isi.'
             )
         );
         $this->form_validation->set_rules(
@@ -112,7 +119,8 @@ class Pengguna_con extends CI_Controller
             $alert = array(
                 'error' => true,
                 'nama' => form_error('nama', '<small>', '</small>'),
-                'aduan' => form_error('aduan', '<small>', '</small>'),
+                'tempat' => form_error('tempat', '<small>', '</small>'),
+                'tgl' => form_error('tgl', '<small>', '</small>'),
                 'isilapor' => form_error('isilapor', '<small>', '</small>')
             );
             echo json_encode($alert);
@@ -121,7 +129,8 @@ class Pengguna_con extends CI_Controller
                 'no_lp' =>  'LP' . ($num['num'] + 1),
                 'keterangan' => $this->input->post('isilapor'),
                 'id_pelapor' => $session['id_pelapor'],
-                'id_berkas' => $this->input->post('aduan')
+                'tgl_kejadian' => $this->input->post('tgl'),
+                'tempat_kejadian' => $this->input->post('tempat')
             );
             $do_submit = $this->pengguna_mod->insertLapor($datalapor);
             if ($do_submit == true) {
@@ -137,6 +146,12 @@ class Pengguna_con extends CI_Controller
         if ($this->session->userdata('level') == 2) {
             $data['ses_akun'] = $this->pengguna_mod->pengguna($this->session->userdata('email'));
             $data['dl'] = $this->pengguna_mod->getData_byid($id_surat);
+            $proses = $this->pengguna_mod->kamusProses();
+
+            if (array_key_exists($data['dl']['proses'], $proses)) {
+                $data['proses'] = $proses[$data['dl']['proses']];
+            }
+
             $data['title'] = 'Detail Laporan';
             $data['heading'] = ' <h4 class="mb-0 text-gray-800">Detail Laporan</h4>';
             $this->load->view('pub_pengguna/layout/header', $data);

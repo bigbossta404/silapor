@@ -1,10 +1,12 @@
 $(document).ready(function(){
     $(this).on('click','#submitsurat',function(){
         var nama = $('#nama').val();
-        var aduan = $('#aduan').val();
-        var judul = $('#judul').val();
+        var tempat = $('#tempat').val();
+        var tgl = $('#datepicker').val();
         var isilapor = $('#isilapor').val();
-        var file = $('#file').val();
+        // var file = $('#file').val();
+
+        // alert(tgl);
         Swal.fire({
             title: 'Apakah sudah benar?',
             text: "Jika sudah, silahkan klik kirim",
@@ -18,7 +20,7 @@ $(document).ready(function(){
             if(result.isConfirmed){
                 $.ajax({    
                     url:'../pengguna_con/submitLaporan',
-                    data: {nama:nama,aduan:aduan,isilapor:isilapor,file:file},
+                    data: {nama:nama,tempat:tempat,tgl:tgl,isilapor:isilapor},
                     type: 'POST',
                     dataType: 'JSON',
                     success:function(data){
@@ -37,7 +39,8 @@ $(document).ready(function(){
                               });
                         }else if(data.error){
                             $('.error-nama').html(data['nama'])
-                            $('.error-aduan').html(data['aduan'])
+                            $('.error-tempat').html(data['tempat'])
+                            $('.error-tgl').html(data['tgl'])
                             $('.error-isilap').html(data['isilapor'])
                         }
                         
@@ -49,14 +52,26 @@ $(document).ready(function(){
     })
     $(this).on('click','.btn-buka',function(){
         var id_surat = $(this).attr('id');
-        $.ajax({
-            url: '../pengguna_con/viewLaporan/'+id_surat,
-            type: 'POST',
-            data: {id_surat:id_surat},
-            success:function(){
-                window.location.href = '../pengguna_con/viewLaporan/'+id_surat;
-            }        
-        })
+        var count = (location.pathname.split('/').length - 1) - (location.pathname[location.pathname.length - 1] == '/' ? 1 : 0);
+        if(count == 3){
+            $.ajax({
+                url: '../pengguna_con/viewLaporan/'+id_surat,
+                type: 'POST',
+                data: {id_surat:id_surat},
+                success:function(){
+                    window.location.href = '../pengguna_con/viewLaporan/'+id_surat;
+                }        
+            })
+        }else{
+            $.ajax({
+                url: '../../pengguna_con/viewLaporan/'+id_surat,
+                type: 'POST',
+                data: {id_surat:id_surat},
+                success:function(){
+                    window.location.href = '../../pengguna_con/viewLaporan/'+id_surat;
+                }        
+            })
+        }
     });
     
     $('#input-kk').fileinput({

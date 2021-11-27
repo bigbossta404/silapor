@@ -28,11 +28,11 @@ class Petugas_mod extends CI_Model
     {
 
         $this->db->select('s.id_surat, no_lp, p.nama pengguna, tanggal, keterangan, nama_berkas ,s.id_petugas, tgl_proses, proses');
-        $this->db->from('surat s');
+        $this->db->from('sttl s');
         $this->db->join('pelapor p', 's.id_pelapor = p.id_pelapor');
         $this->db->join('aktivitas_surat aks', 'aks.id_surat = s.id_surat');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas');
-        $this->db->join('proses pr', 'pr.id_proses = aks.id_proses');
+        // $this->db->join('proses pr', 'pr.id_proses = aks.id_proses');
         $this->db->where('s.id_petugas IS NULL', null, false);
 
         $i = 0;
@@ -97,11 +97,11 @@ class Petugas_mod extends CI_Model
     {
 
         $this->db->select('s.id_surat, no_lp, p.nama pengguna, tanggal, keterangan, nama_berkas ,s.id_petugas, tgl_proses, proses');
-        $this->db->from('surat s');
+        $this->db->from('sttl s');
         $this->db->join('pelapor p', 's.id_pelapor = p.id_pelapor');
         $this->db->join('aktivitas_surat aks', 'aks.id_surat = s.id_surat');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas');
-        $this->db->join('proses pr', 'pr.id_proses = aks.id_proses');
+        // $this->db->join('proses pr', 'pr.id_proses = aks.id_proses');
         $this->db->where('s.id_petugas', $id['id_petugas']);
 
         $i = 0;
@@ -160,12 +160,12 @@ class Petugas_mod extends CI_Model
 
     function getData_byid($id)
     {
-        $this->db->select('s.id_surat idsurat, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, ps.id_proses idps,proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
-        $this->db->from('surat s');
+        $this->db->select('s.id_surat idsurat, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
+        $this->db->from('sttl s');
         $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas');
         $this->db->join('aktivitas_surat a', 'a.id_surat = s.id_surat');
-        $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
+        // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
         $this->db->join('petugas pt', 'pt.id_petugas = s.`id_petugas`', 'left');
         $this->db->where('s.id_surat', $id);
 

@@ -45,16 +45,27 @@
                             <span class="error-nama error-dialog text-danger mt-2"></span>
                         </div>
                     </div>
+                </div>
+                <div class="row px-4">
                     <div class="col-md">
                         <div class="form-group">
-                            <label for="jenis">Jenis Aduan</label>
-                            <select class="form-control" id="aduan">
-                                <option selected value>-- Pilih Aduan --</option>
-                                <?php foreach ($jenisaduan as $jd) : ?>
-                                    <option value="<?= $jd['id_berkas']; ?>"> <?= $jd['nama_berkas'] ?> </option>
-                                <?php endforeach; ?>
-                            </select>
-                            <span class="error-aduan error-dialog text-danger mt-2"></span>
+                            <label for="tempat">Tempat Kejadian</label>
+                            <input type="text" class="form-control" id="tempat" placeholder="Alamat/tempat">
+                            <span class="error-tempat error-dialog text-danger mt-2"></span>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-group">
+                            <label for="date">Tanggal Kejadian</label>
+                            <div class="input-group date datepicker">
+                                <input type="text" class="form-control" id="datepicker" placeholder="dd/mm/yyyy">
+                                <span class="input-group-append">
+                                    <span class="input-group-text bg-white">
+                                        <i class="fa fa-calendar"></i>
+                                    </span>
+                                </span>
+                                <span class="error-tgl error-dialog text-danger mt-2"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -110,6 +121,9 @@
 <script src=<?= base_url('assets/js/pengguna.js') ?>></script>
 <script src=<?= base_url('assets/js/fileinput.min.js') ?>></script>
 <script src=<?= base_url('assets/vendor/chart.js/Chart.min.js') ?>></script>
+<script src=<?= base_url('assets/datepicker/js/bootstrap-datepicker.min.js') ?>></script>
+<script src=<?= base_url('assets/datepicker/locales/bootstrap-datepicker.id.min.js') ?>></script>
+<!-- <script src="@@path/vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script> -->
 
 <script src=<?= base_url('assets/js/demo/chart-area-demo.js') ?>></script>
 <script src=<?= base_url('assets/js/demo/chart-pie-demo.js') ?>></script>
@@ -126,6 +140,15 @@
             $('#counttype').text(len);
         }
     };
+    $(function() {
+        $(".datepicker").datepicker({
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            clearBtn: true,
+            todayHighlight: true,
+            language: 'id'
+        });
+    });
 </script>
 </body>
 

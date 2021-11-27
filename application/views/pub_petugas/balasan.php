@@ -71,6 +71,15 @@
                 <div class="col-xl mb-4">
                     <div class="card">
                         <div class="card-body">
+                            <a href="" class="btn btn-primary">Cetak</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl mb-4">
+                    <div class="card">
+                        <div class="card-body">
                             <table id="tablebalas" class="table table-striped table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <th>Surat</th>

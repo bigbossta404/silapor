@@ -14,6 +14,7 @@
     <link href=<?= base_url('assets/css/styles.css') ?> rel="stylesheet">
     <link href=<?= base_url('assets/css/sweetalert2.min.css') ?> rel="stylesheet">
     <link href=<?= base_url('assets/css/fileinput.min.css') ?> rel="stylesheet">
+    <link href=<?= base_url('assets/datepicker/css/bootstrap-datepicker.min.css') ?> rel="stylesheet">
     <link rel="shortcut icon" type="image/jpg" href="<?= base_url('assets/img/lambang.png') ?>" />
 </head>
 

@@ -41,7 +41,7 @@ class Petugas_con extends CI_Controller
                 $row[] = '<b>' . $surat->no_lp . '</b><br> <span>' . $surat->pengguna . '<br><small>' . $surat->tanggal . '<small></span>';
                 $row[] = $surat->keterangan;
                 $row[] = $surat->nama_berkas;
-                $row[] =  '<button class="btn btn-primary btn_active" data-toggle="modal" id="' . $surat->id_surat . '"><i class="far fa-paper-plane"></i> Balas</button>
+                $row[] =  '<button class="btn btn-primary btn_active" data-toggle="modal" id="' . $surat->id_surat . '"><i class="far fa-folder-open"></i></button>
                             <button class="btn btn-danger btn_hapusakun" id="' . $surat->id_surat . '"><i class="fas fa-trash-alt"></i></button>';
                 $data[] = $row;
             }
@@ -85,7 +85,7 @@ class Petugas_con extends CI_Controller
                 $row[] = '<b>' . $surat->no_lp . '</b><br> <span>' . $surat->pengguna . '<br><small>' . $surat->tanggal . '<small></span>';
                 $row[] = $surat->nama_berkas;
                 $row[] = $surat->proses;
-                $row[] =  '<button class="btn btn-primary btn_active btn_balas" data-toggle="modal" id="' . $surat->id_surat . '"><i class="far fa-paper-plane"></i> Update</button>
+                $row[] =  '<button class="btn btn-primary btn_active btn_balas" data-toggle="modal" id="' . $surat->id_surat . '"><i class="fas fa-pencil-alt"></i></button>
                             <button class="btn btn-danger btn_hapus_balas" id="' . $surat->id_surat . '"><i class="fas fa-trash-alt"></i></button>';
                 $data[] = $row;
             }

@@ -176,3 +176,17 @@ label {
 #picon {
     font-size: 10px;
 }
+
+.datepicker td,
+.datepicker th {
+    text-align: center !important;
+    width: 25px !important;
+    height: 20px !important;
+    border-radius: 4px !important;
+    border: none !important;
+    padding: 10px !important;
+}
+
+.datepicker-dropdown {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}

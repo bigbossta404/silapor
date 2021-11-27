@@ -72,19 +72,19 @@
                     <div class="card shadow h-100 py-2">
                         <div class="card-body">
                             <ul class="bs4-order-tracking">
-                                <li class="step <?= ($dl['idps'] >= 1) ? 'active' : '' ?>">
+                                <li class="step <?= ($proses >= 1) ? 'active' : '' ?>">
                                     <div><i class="fas fa-paper-plane"></i></div> Terkirim
                                 </li>
-                                <li class="step <?= ($dl['idps'] >= 2) ? 'active' : (($dl['idps'] == 0) ? 'ditolak' : '') ?>">
-                                    <?= ($dl['idps'] >= 2) ? '<div><i class="fas fa-download"></i></div> Diterima' : (($dl['idps'] == 0) ? '<div><i class="far fa-times-circle"></i></div> Ditolak' : '<div><i class="fas fa-download"></i></div> Diterima') ?>
+                                <li class="step <?= ($proses >= 2) ? 'active' : (($proses == 0) ? 'ditolak' : '') ?>">
+                                    <?= ($proses >= 2) ? '<div><i class="fas fa-download"></i></div> Diterima' : (($proses == 0) ? '<div><i class="far fa-times-circle"></i></div> Ditolak' : '<div><i class="fas fa-download"></i></div> Diterima') ?>
                                 </li>
-                                <li class="step <?= ($dl['idps'] >= 3) ? 'active' : '' ?>">
+                                <li class="step <?= ($proses >= 3) ? 'active' : '' ?>">
                                     <div><i class="fas fa-search"></i></div> Dievaluasi
                                 </li>
-                                <li class="step <?= ($dl['idps'] >= 4) ? 'active' : '' ?>">
+                                <li class="step <?= ($proses >= 4) ? 'active' : '' ?>">
                                     <div><i class="fas fa-file-signature"></i></div> Proses
                                 </li>
-                                <li class="step <?= ($dl['idps'] >= 5) ? 'active' : '' ?>">
+                                <li class="step <?= ($proses >= 5) ? 'active' : '' ?>">
                                     <div><i class=" far fa-check-circle"></i>
                                     </div> Selesai
                                 </li>
@@ -102,10 +102,10 @@
                                     <div class="info-pinjam">
                                         <div class="nolap">
                                             <div class="mb-0 font-weight-bold text-gray-800">
-                                                No Lap. <?php echo $dl['idsurat'] ?>
+                                                No Lap. <?php echo $dl['no_lp'] ?>
                                             </div>
                                         </div>
-                                        <p class="mb-2">Surat <?php echo $dl['nberkas'] ?> - Dikirim pada tanggal <?php echo $dl['tglkirim'] ?></p>
+                                        <p class="mb-2"><?php echo ($dl['nberkas'] == null) ? 'Seleksi berkas' : 'Surat ' . $dl['nberkas'] ?> - Dikirim pada tanggal <?php echo $dl['tglkirim'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-auto d-flex align-items-center">
