@@ -22,11 +22,11 @@ class Pengguna_mod extends CI_Model
 
     function getData_surat($limit, $start, $data)
     {
-        $this->db->select('s.id_surat idsurat, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses');
-        $this->db->from('sttl s');
+        $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses');
+        $this->db->from('sttlp s');
         $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
-        $this->db->join('aktivitas_sttl a', 'a.id_surat = s.id_surat');
+        $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = s.id_sttlp');
         // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
         $this->db->where('p.email', $data['email']);
         $this->db->order_by('tanggal', 'DESC');
@@ -39,10 +39,10 @@ class Pengguna_mod extends CI_Model
     function countAllsurat($data)
     {
         $this->db->select('no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses');
-        $this->db->from('sttl s');
+        $this->db->from('sttlp s');
         $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
-        $this->db->join('aktivitas_sttl a', 'a.id_surat = s.id_surat');
+        $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = s.id_sttlp');
         // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
         $this->db->where('p.email', $data['email']);
         $this->db->order_by('tanggal', 'DESC');
@@ -51,14 +51,14 @@ class Pengguna_mod extends CI_Model
     }
     function getData_byid($id)
     {
-        $this->db->select('s.id_surat idsurat, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
-        $this->db->from('sttl s');
+        $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
+        $this->db->from('sttlp s');
         $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
-        $this->db->join('aktivitas_sttl a', 'a.id_surat = s.id_surat');
+        $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = s.id_sttlp');
         // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
         $this->db->join('petugas pt', 'pt.id_petugas = s.`id_petugas`', 'left');
-        $this->db->where('s.id_surat', $id);
+        $this->db->where('s.id_sttlp', $id);
 
         $query = $this->db->get();
         return $query->row_array();
@@ -73,7 +73,7 @@ class Pengguna_mod extends CI_Model
     function makeRandom()
     {
         $this->db->select('count(*) as num');
-        $this->db->from('sttl');
+        $this->db->from('sttlp');
         $query = $this->db->get();
         return $query->row_array();
     }
@@ -96,7 +96,7 @@ class Pengguna_mod extends CI_Model
     function insertLapor($data)
     {
         $this->db->set('tanggal', 'NOW()', FALSE);
-        $this->db->insert('sttl ', $data);
+        $this->db->insert('sttlp ', $data);
         if ($this->db->affected_rows() > 0) {
             return true; // to the controller
         }
