@@ -84,6 +84,48 @@ $(document).ready(function(){
         })
         
     })
+    $(this).on('click','#simpanActive',function(){
+        var email = $('#email_pelapor').val();
+        var status = $('#status_pelapor').val();
+        Swal.fire({
+            title: (status == 1)?'Aktifkan Akun Ini?':'Non-Aktifkan Akun Ini?',
+            text: "Jika yakin, silahkan klik simpan",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya, simpan'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                $.ajax({    
+                    url:'../updateAktivasi',
+                    data: {status:status,email:email},
+                    type: 'POST',
+                    dataType: 'JSON',
+                    success:function(data){
+                        if(data == 'gagal'){
+                            Swal.fire(
+                                'Gagal update!',
+                                'Perubahan pada akun gagal.',
+                                'error',
+                              )
+                        }else if(data == 'sukses'){
+                            Swal.fire(
+                                'Berhasil update!',
+                                'Perubahan pada akun berhasil.',
+                                'success',
+                              )
+                              .then(function(){
+                                location.reload();
+                              });
+                        }
+                    }
+                })
+            }
+        })
+        
+    })
 })
 
 // Datatables

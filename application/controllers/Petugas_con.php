@@ -267,4 +267,22 @@ class Petugas_con extends CI_Controller
             redirect('/');
         }
     }
+
+    function updateAktivasi()
+    {
+        if ($this->session->userdata('level') == 1) {
+            $data = array(
+                'email' => $this->input->post('email'),
+                'status' => $this->input->post('status')
+            );
+            $do_submit = $this->petugas_mod->updateAktivasi($data);
+            if ($do_submit) {
+                echo json_encode('sukses');
+            } else {
+                echo json_encode('gagal');
+            }
+        } else {
+            redirect('/');
+        }
+    }
 }

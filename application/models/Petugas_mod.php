@@ -303,4 +303,13 @@ class Petugas_mod extends CI_Model
             return true; // to the controller
         }
     }
+    function updateAktivasi($data)
+    {
+        $this->db->set('active', $data['status']);
+        $this->db->where('email', $data['email']);
+        $this->db->update('pelapor');
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
 }

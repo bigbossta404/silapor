@@ -74,11 +74,11 @@
                         <div class="pl-sm-4 pl-2" id="img-section">
                             <label for="">Status akun</label>
                             <div class=" d-flex align-items-center">
-                                <select type="text" class="bg-light form-control mr-3" id="jk_p" name="jk_p" placeholder="steve_@email.com">
+                                <select type="text" class="bg-light form-control mr-3" id="status_pelapor" name="status_pelapor" placeholder="steve_@email.com">
                                     <option value="1" <?php echo ($user['active'] == '1' ? 'selected' : '') ?>>Aktif</option>
                                     <option value="2" <?php echo ($user['active'] == '2' ? 'selected' : '') ?>>Pending</option>
                                 </select>
-                                <button class="btn btn-success">Simpan</button>
+                                <button type="button" class="btn btn-success" id="simpanActive">Simpan</button>
                             </div>
                         </div>
                     </div>
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="email">Email Address</label>
-                                <input type="text" class="bg-light form-control" id="email_p" name="email_p" placeholder="namamu_@email.com" value="<?= $user['email'] ?>" disabled>
+                                <input type="text" class="bg-light form-control" id="email_pelapor" name="email_pelapor" placeholder="namamu_@email.com" value="<?= $user['email'] ?>" disabled>
                                 <span class="error-email_p error-dialog text-danger mt-2"></span>
                             </div>
 
@@ -111,28 +111,29 @@
                         <div class="row py-2">
                             <div class="col-md-6 pt-md-0 pt-3">
                                 <label for="phone">Alamat.</label>
-                                <textarea type="text" class="bg-light form-control" id="alamat_p" name="alamat_p" placeholder="jl. indah RT 00 / RW 00" disabled><?= $user['alamat'] ?></textarea>
+                                <textarea type="text" class="bg-light form-control" id="alamat_p" name="alamat_p" rows="5" cols="50" disabled><?= $user['alamat'] ?></textarea>
                                 <span class="error-alamat_p error-dialog text-danger mt-2"></span>
                             </div>
                             <div class="col-md-6">
-                                <div class="d-flex">
-                                    <div class="ektp mr-4">
+                                <div class="row">
+                                    <div class="col">
                                         <label for="ktp">E-KTP <?php echo ($user['img_ktp'] == null) ? '(kosong)' : '(terunggah) <i class="text-success fas fa-check-circle"></i>' ?></label><br>
-                                        <button class="btn btn-primary" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</button>
+                                        <button class="btn btn-primary mr-2" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</button>
                                         <button class="btn btn-danger" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
                                     </div>
-                                    <div class="kk">
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col">
                                         <label for="ktp">Kartu Keluarga <?php echo ($user['img_kk'] == null) ? '(kosong)' : '(terunggah) <i class="text-success fas fa-check-circle"></i>' ?></label><br>
-                                        <button class="btn btn-primary" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</button>
+                                        <button class="btn btn-primary mr-2" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</button>
                                         <button class="btn btn-danger" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="row py-2">
-                            <div class="col-md-6 pt-md-0 pt-3" id="lang">
 
-                            </div>
                         </div>
                         <!-- <div class="py-3 pb-4 mt-3">
                             <button class="btn btn-success mr-3" type="submit" id="saveprofile">Simpan</button>
