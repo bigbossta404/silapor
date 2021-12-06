@@ -122,14 +122,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row pl-3 pr-3" style="<?php echo ($dl['namapetugas'] && $dl['ket'] != null) ? 'display:content;' : 'display:none;' ?>">
-                                <div class="col">
-                                    <div class="balasan">
-                                        <span class="font-weight-bold text-gray-800"><i class="fas fa-reply fa-xs"></i> <small>Dibalas: <?php echo ($dl['id_petugas'] == null) ? '-' : 'Petugas ' . $dl['namapetugas'] . ' (' . $dl['tgl_proses'] . ')' ?></small></span>
-                                        <p class="mt-1"><?php echo $dl['ket'] ?>
+                            <?php foreach ($reply as $du) : ?>
+                                <div class="row pl-3 pr-3 mt-2" style="<?php echo ($du['namapetugas'] && $du['ket'] != null) ? 'display:content;' : 'display:none;' ?>">
+                                    <div class="col">
+                                        <div class="balasan">
+                                            <span class="font-weight-bold text-gray-800"><i class="fas fa-reply fa-xs"></i> <small>Dibalas: <?php echo ($du['id_petugas'] == null) ? '-' : 'Petugas ' . $du['namapetugas'] . ' (' . $du['tgl_proses'] . ')' ?></small></span>
+                                            <p class="mt-1"><?php echo $du['ket'] ?>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>

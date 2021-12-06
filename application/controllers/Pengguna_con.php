@@ -50,9 +50,12 @@ class Pengguna_con extends CI_Controller
             $this->pagination->initialize($config);
             //End Pagination 
 
-            $data['start'] = $this->uri->segment(3);
+            $data['start'] = (int) $this->uri->segment(3);
             $data['d_surat'] = $this->pengguna_mod->getData_surat($config['per_page'], $data['start'], $data['ses_akun']);
+            // $data['d_surat'] = $this->pengguna_mod->getData_surat($data['ses_akun']);
             $data['jenisaduan'] = $this->pengguna_mod->jenisaduan();
+
+            // var_dump($data['d_surat']);
             $data['title'] = 'Dashboard';
 
             if ($data['ses_akun']['img_ktp'] == null || $data['ses_akun']['img_kk'] == null) {
@@ -146,6 +149,7 @@ class Pengguna_con extends CI_Controller
         if ($this->session->userdata('level') == 2) {
             $data['ses_akun'] = $this->pengguna_mod->pengguna($this->session->userdata('email'));
             $data['dl'] = $this->pengguna_mod->getData_byid($id_surat);
+            $data['reply'] = $this->pengguna_mod->getData_allReply($id_surat);
             $proses = $this->pengguna_mod->kamusProses();
 
             if (array_key_exists($data['dl']['proses'], $proses)) {

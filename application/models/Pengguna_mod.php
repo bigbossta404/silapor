@@ -20,33 +20,54 @@ class Pengguna_mod extends CI_Model
         return $query->row_array();
     }
 
+    // function getData_surat($limit, $start, $data)
+    // {
+    //     $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, proses, DATE_FORMAT(a.tgl_proses,"%d/%m/%Y") tgl_proses');
+    //     $this->db->from('(SELECT MAX(tgl_proses) AS tgl_proses, id_sttlp
+    //     FROM aktivitas_sttlp
+    //     GROUP BY id_sttlp) r');
+    //     $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = r.id_sttlp');
+    //     $this->db->join('sttlp s', 'a.id_sttlp = s.id_sttlp');
+    //     $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
+    //     $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
+    //     // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
+    //     $this->db->where('p.email', $data['email']);
+    //     $this->db->where('a.tgl_proses', 'r.tgl_proses');
+    //     $this->db->order_by('tanggal', 'DESC');
+    //     $this->db->limit($limit, $start);
+
+    //     $query = $this->db->get();
+    //     return $query->result_array();
+    // }
     function getData_surat($limit, $start, $data)
     {
-        $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses');
-        $this->db->from('sttlp s');
-        $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
-        $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
-        $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = s.id_sttlp');
-        // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
-        $this->db->where('p.email', $data['email']);
-        $this->db->order_by('tanggal', 'DESC');
-        $this->db->limit($limit, $start);
-
-        $query = $this->db->get();
+        $query = $this->db->query('SELECT s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, proses, DATE_FORMAT(t.tgl_proses,"%d/%m/%Y") tgl_proses
+        FROM (SELECT MAX(tgl_proses) AS tgl_proses, id_sttlp
+             FROM aktivitas_sttlp
+             GROUP BY id_sttlp)r
+        JOIN aktivitas_sttlp t ON t.id_sttlp = r.id_sttlp 
+        JOIN sttlp s ON s.`id_sttlp` = t.`id_sttlp`
+        JOIN pelapor p ON p.`id_pelapor` = s.`id_pelapor`
+        LEFT JOIN berkas b ON b.`id_berkas` = s.`id_berkas`
+        WHERE email = "' . $data['email'] . '"
+        AND t.`tgl_proses` = r.tgl_proses
+        ORDER BY tanggal DESC limit ' . $limit . ' offset ' . $start);
         return $query->result_array();
     }
 
     function countAllsurat($data)
     {
-        $this->db->select('no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses');
-        $this->db->from('sttlp s');
-        $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
-        $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
-        $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = s.id_sttlp');
-        // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
-        $this->db->where('p.email', $data['email']);
-        $this->db->order_by('tanggal', 'DESC');
-        $query = $this->db->get();
+        $query = $this->db->query('SELECT s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, b.nama_berkas nberkas, proses, DATE_FORMAT(t.tgl_proses,"%d/%m/%Y") tgl_proses
+        FROM (SELECT MAX(tgl_proses) AS tgl_proses, id_sttlp
+             FROM aktivitas_sttlp
+             GROUP BY id_sttlp)r
+        JOIN aktivitas_sttlp t ON t.id_sttlp = r.id_sttlp 
+        JOIN sttlp s ON s.`id_sttlp` = t.`id_sttlp`
+        JOIN pelapor p ON p.`id_pelapor` = s.`id_pelapor`
+        LEFT JOIN berkas b ON b.`id_berkas` = s.`id_berkas`
+        WHERE email = "' . $data['email'] . '"
+        AND t.`tgl_proses` = r.tgl_proses
+        ORDER BY tanggal DESC');
         return $query->num_rows();
     }
     function getData_byid($id)
@@ -59,10 +80,39 @@ class Pengguna_mod extends CI_Model
         // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
         $this->db->join('petugas pt', 'pt.id_petugas = s.`id_petugas`', 'left');
         $this->db->where('s.id_sttlp', $id);
+        $this->db->where('tgl_proses', '(SELECT MAX(tgl_proses) FROM aktivitas_sttlp a2 WHERE a2.`id_sttlp` = s.`id_sttlp`)', False);
 
         $query = $this->db->get();
         return $query->row_array();
     }
+    function getData_allReply($id)
+    {
+        $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, ket, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
+        $this->db->from('sttlp s');
+        $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
+        $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = s.id_sttlp');
+        $this->db->join('petugas pt', 'pt.id_petugas = s.`id_petugas`');
+        $this->db->where('s.id_sttlp', $id);
+        $this->db->where('ket is NOT NULL', NULL, FALSE);
+        $this->db->order_by('tgl_proses', 'DESC');
+
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+    // function getData_byid($id)
+    // {
+    //     $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
+    //     $this->db->from('sttlp s');
+    //     $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
+    //     $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
+    //     $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = s.id_sttlp');
+    //     // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
+    //     $this->db->join('petugas pt', 'pt.id_petugas = s.`id_petugas`', 'left');
+    //     $this->db->where('s.id_sttlp', $id);
+
+    //     $query = $this->db->get();
+    //     return $query->row_array();
+    // }
     function jenisaduan()
     {
         $this->db->select('*');
