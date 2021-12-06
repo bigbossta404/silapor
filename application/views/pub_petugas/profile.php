@@ -40,8 +40,8 @@
                 <!-- Nav Item - User Information -->
                 <li class="nav-item dropdown no-arrow">
                     <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?= ucfirst($ses_akun['nama']) ?> </span>
-                        <img class="img-profile rounded-circle" src="<?= ($ses_akun['profile'] == null) ? base_url('assets/img/profile/default.png') : base_url('assets/img/profile/' . $ses_akun['profile'])  ?>">
+                        <span class="mr-2 d-none d-lg-inline text-gray-600 small"> <?= ucfirst($user['nama']) ?> </span>
+                        <img class="img-profile rounded-circle" src="<?= ($user['profile'] == null) ? base_url('assets/img/profile/default.png') : base_url('assets/img/profile/' . $user['profile'])  ?>">
                     </a>
                     <!-- Dropdown - User Information -->
                     <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -66,69 +66,78 @@
         </nav>
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container">
             <div class="wrapper bg-white">
                 <form id="submit_p" enctype="multipart/form-data">
                     <div class="d-flex align-items-start py-3 border-bottom">
-                        <img src="<?= ($ses_akun['profile'] == null) ? base_url('assets/img/profile/default.png') : base_url('assets/img/profile/' . $ses_akun['profile'])  ?>" class="img" alt="">
-                        <div class="pl-sm-4 pl-2" id="img-section"> <b>Foto Profile</b>
-                            <p>Jenis file wajib .png/jpg/jpeg dan dibawah 1MB</p>
-                            <input type="file" name="upload-pp" class="form-control-file" id="upload-pp">
-                            <span class="error-input_pp error-dialog text-danger mt-2"></span>
+                        <img src="<?= ($user['profile'] == null) ? base_url('assets/img/profile/default.png') : base_url('assets/img/profile/' . $user['profile'])  ?>" class="img" alt="">
+                        <div class="pl-sm-4 pl-2" id="img-section">
+                            <label for="">Status akun</label>
+                            <div class=" d-flex align-items-center">
+                                <select type="text" class="bg-light form-control mr-3" id="jk_p" name="jk_p" placeholder="steve_@email.com">
+                                    <option value="1" <?php echo ($user['active'] == '1' ? 'selected' : '') ?>>Aktif</option>
+                                    <option value="2" <?php echo ($user['active'] == '2' ? 'selected' : '') ?>>Pending</option>
+                                </select>
+                                <button class="btn btn-success">Simpan</button>
+                            </div>
                         </div>
                     </div>
                     <div class="py-2">
                         <div class="row py-2">
                             <div class="col-md-6">
-                                <label for="nama">Nama Depan</label>
-                                <input type="text" class="bg-light form-control" id="nama_p" name="nama_p" placeholder="Bambang" value="<?= $ses_akun['nama'] ?>">
+                                <label for="nama">Nama Lengkap</label>
+                                <input type="text" class="bg-light form-control" id="nama_p" name="nama_p" placeholder="Bambang" value="<?= $user['nama'] ?>" disabled>
                                 <span class="error-nama_p error-dialog text-danger mt-2"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="email">Email Address</label>
-                                <input type="text" class="bg-light form-control" id="email_p" name="email_p" placeholder="namamu_@email.com" value="<?= $ses_akun['email'] ?>">
+                                <input type="text" class="bg-light form-control" id="email_p" name="email_p" placeholder="namamu_@email.com" value="<?= $user['email'] ?>" disabled>
                                 <span class="error-email_p error-dialog text-danger mt-2"></span>
                             </div>
+
                         </div>
                         <div class="row py-2">
                             <div class="col-md-6 pt-md-0 pt-3">
                                 <label for="phone">Nomor Telp.</label>
-                                <input type="number" class="bg-light form-control" id="nomor_p" name="nomor_p" placeholder="08123xxxx" value="<?= $ses_akun['notelp'] ?>">
+                                <input type="number" class="bg-light form-control" id="nomor_p" placeholder="08123xxxx" value="<?= $user['notelp'] ?>" disabled>
                                 <span class="error-nomor_p error-dialog text-danger mt-2"></span>
                             </div>
                             <div class="col-md-6">
                                 <label for="jk">Jenis Kelamin</label>
-                                <select type="text" class="bg-light form-control" id="jk_p" name="jk_p" placeholder="steve_@email.com">
-                                    <option value>Jenis Kelamin</option>
-                                    <option value="Pria" <?php echo ($ses_akun['jk'] == 'Pria' ? 'selected' : '') ?>>Pria</option>
-                                    <option value="Wanita" <?php echo ($ses_akun['jk'] == 'Wanita' ? 'selected' : '') ?>>Wanita</option>
-                                </select>
+                                <input type="text" class="bg-light form-control" id="jk_p" value="<?php echo $user['jk'] ?>" disabled>
                                 <span class="error-jk_p error-dialog text-danger mt-2"></span>
                             </div>
                         </div>
                         <div class="row py-2">
                             <div class="col-md-6 pt-md-0 pt-3">
                                 <label for="phone">Alamat.</label>
-                                <textarea type="text" class="bg-light form-control" id="alamat_p" name="alamat_p" placeholder="jl. indah RT 00 / RW 00"><?= $ses_akun['alamat'] ?></textarea>
+                                <textarea type="text" class="bg-light form-control" id="alamat_p" name="alamat_p" placeholder="jl. indah RT 00 / RW 00" disabled><?= $user['alamat'] ?></textarea>
                                 <span class="error-alamat_p error-dialog text-danger mt-2"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex">
+                                    <div class="ektp mr-4">
+                                        <label for="ktp">E-KTP <?php echo ($user['img_ktp'] == null) ? '(kosong)' : '(terunggah) <i class="text-success fas fa-check-circle"></i>' ?></label><br>
+                                        <button class="btn btn-primary" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</button>
+                                        <button class="btn btn-danger" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
+                                    </div>
+                                    <div class="kk">
+                                        <label for="ktp">Kartu Keluarga <?php echo ($user['img_kk'] == null) ? '(kosong)' : '(terunggah) <i class="text-success fas fa-check-circle"></i>' ?></label><br>
+                                        <button class="btn btn-primary" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</button>
+                                        <button class="btn btn-danger" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="row py-2">
-                            <div class="col-md-6">
-                                <label for="ktp">E-KTP (pdf/png/jpg 1mb) <?php echo ($ses_akun['img_ktp'] == null) ? '' : '<i class="text-success fas fa-check-circle"></i>' ?></label>
-                                <input id="input-ktp" name="input-ktp" type="file" class="file input-ktp" data-show-preview="false">
-                                <span class="error-input_ktp error-dialog text-danger mt-2"></span>
-                            </div>
                             <div class="col-md-6 pt-md-0 pt-3" id="lang">
-                                <label for="ktp">Kartu Keluarga (pdf/png/jpg 1mb) <?php echo ($ses_akun['img_kk'] == null) ? '' : '<i class="text-success fas fa-check-circle"></i>' ?></label>
-                                <input id="input-kk" name="input-kk" type="file" class="file input-kk" data-show-preview="false">
-                                <span class="error-input_kk error-dialog text-danger mt-2"></span>
+
                             </div>
                         </div>
-                        <div class="py-3 pb-4 mt-3">
+                        <!-- <div class="py-3 pb-4 mt-3">
                             <button class="btn btn-success mr-3" type="submit" id="saveprofile">Simpan</button>
                             <button class="btn btn-secondary border button">Batal</button>
-                        </div>
+                        </div> -->
 
                         <!-- <div class="d-sm-flex align-items-center pt-3" id="deactivate">
                         <div> <b>Deactivate your account</b>

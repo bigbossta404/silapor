@@ -177,8 +177,8 @@ label {
     font-size: 10px;
 }
 
-.datepicker td,
-.datepicker th {
+.datepicker-days td,
+.datepicker-days th {
     text-align: center !important;
     width: 25px !important;
     height: 20px !important;
@@ -187,6 +187,51 @@ label {
     padding: 10px !important;
 }
 
+.datepicker-months td,
+.datepicker-years td,
+.datepicker-decades td {
+    text-align: center !important;
+    width: 90px !important;
+    height: 20px !important;
+    border-radius: 4px !important;
+    border: none !important;
+    padding: 10px !important;
+}
+
+.datepicker-decades th,
+.datepicker-years th,
+.datepicker-months th {
+    text-align: center !important;
+    width: 60px !important;
+    height: 20px !important;
+    border-radius: 4px !important;
+    border: none !important;
+    padding: 10px !important;
+}
+
 .datepicker-dropdown {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+/* Balasan */
+
+.text-rekap {
+    background-color: #dfdfdf;
+    padding: 8px;
+}
+
+
+/* Laman Data Pelapor */
+
+.status-akun {
+    font-size: 15px;
+    width: 60%;
+    color: #fff;
+    padding: 2px 0px 2px 0px;
+    border-radius: 20px;
+}
+
+.status-akun p {
+    margin-bottom: 0;
 }

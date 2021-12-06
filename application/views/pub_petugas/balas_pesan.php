@@ -73,9 +73,13 @@
                         <div class="card-body">
                             <div class="row no-gutters align-items-center pl-3 pr-3">
                                 <div class="col d-flex align-items-center">
-                                    <a href="#" class="btn btn-primary mr-3"><i class="far fa-paper-plane"></i> Balas</a>
+                                    <a href="#" class="btn btn-primary mr-3" data-toggle="modal" data-target=".balaslaporan"><i class="far fa-paper-plane"></i> Balas</a>
                                     <a href="#" class="btn btn-danger "><i class="fas fa-print"></i></i> Cetak Surat</a>
-                                    <span class="ml-auto">Status: <span class="rounded bg-success p-1 w100"></span></span>
+                                    <span class="ml-auto">Status:
+                                        <span class="w100 font-weight-bold">
+                                            <?php echo ucwords($dl['proses']) ?>
+                                        </span>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -91,10 +95,10 @@
                                     <div class="info-pinjam">
                                         <div class="nolap">
                                             <div class="mb-0 font-weight-bold text-gray-800">
-                                                No Lap. <?php echo $dl['idsurat'] ?>
+                                                No Lap. <?php echo $dl['idsttlp'] ?>
                                             </div>
                                         </div>
-                                        <p class="mb-2">Surat <?php echo $dl['nberkas'] ?> - Dikirim pada tanggal <?php echo $dl['tglkirim'] ?></p>
+                                        <p class="mb-2"><?php echo ($dl['nberkas'] == null) ? 'Surat N/A' : 'Surat ' . $dl['nberkas'] ?> - Dikirim pada tanggal <?php echo $dl['tglkirim'] ?></p>
                                     </div>
                                 </div>
                                 <div class="col-auto d-flex align-items-center">
@@ -111,14 +115,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row pl-3 pr-3" style="<?php echo ($dl['namapetugas'] && $dl['ket'] != null) ? 'display:content;' : 'display:none;' ?>">
-                                <div class="col">
-                                    <div class="balasan">
-                                        <span class="font-weight-bold text-gray-800"><i class="fas fa-reply fa-xs"></i> <small>Dibalas: <?php echo ($dl['id_petugas'] == null) ? '-' : 'Petugas ' . $dl['namapetugas'] . ' (' . $dl['tgl_proses'] . ')' ?></small></span>
-                                        <p class="mt-1"><?php echo $dl['ket'] ?>
+                            <?php foreach ($reply as $du) : ?>
+                                <div class="row pl-3 pr-3 mt-2" style="<?php echo ($du['namapetugas'] && $du['ket'] != null) ? 'display:content;' : 'display:none;' ?>">
+                                    <div class="col">
+                                        <div class="balasan">
+                                            <span class="font-weight-bold text-gray-800"><i class="fas fa-reply fa-xs"></i> <small>Dibalas: <?php echo ($du['id_petugas'] == null) ? '-' : 'Petugas ' . $du['namapetugas'] . ' (' . $du['tgl_proses'] . ')' ?></small></span>
+                                            <p class="mt-1"><?php echo $du['ket'] ?>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
                 </div>

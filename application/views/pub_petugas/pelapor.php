@@ -71,12 +71,12 @@
                 <div class="col-xl mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <table id="tablesurat" class="table table-striped table-bordered" width="100%" cellspacing="0">
+                            <table id="tablepelapor" class="table table-striped table-bordered" width="100%" cellspacing="0">
                                 <thead>
-                                    <th>Surat</th>
-                                    <th>Keterangan</th>
-                                    <th>Tempat</th>
-                                    <th>Kejadian</th>
+                                    <th>No</th>
+                                    <th>Nama</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
                                     <th>Aksi</th>
                                 </thead>
                                 <tbody>

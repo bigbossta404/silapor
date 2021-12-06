@@ -36,7 +36,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item  <?php echo (count($this->uri->segment_array()) <= 2 && $this->uri->segment(1) == 'pengguna') ? 'active' : '' ?>">
+            <li class="nav-item  <?php echo (count($this->uri->segment_array()) == 1) ? 'active' : '' ?>">
                 <a class="nav-link" href="<?= base_url('/') ?>">
                     <i class="fas fa-fw fa-home"></i>
                     <span>Dashboard</span></a>
@@ -50,8 +50,8 @@
                 </a>
 
             </li>
-            <li class="nav-item <?php echo ($this->uri->segment(2) == 'profile') ? 'active' : '' ?>">
-                <a class="nav-link" href="<?= base_url('pengguna/profile') ?>">
+            <li class="nav-item <?php echo ($this->uri->segment(2) == 'pelapor') ? 'active' : '' ?>">
+                <a class="nav-link" href="<?= base_url('petugas/pelapor') ?>">
                     <i class="fas fa-address-card"></i>
                     <span>Pelapor</span>
                 </a>

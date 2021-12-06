@@ -27,11 +27,11 @@
 
 <!-- MODAL DIALOG -->
 
-<!-- <div class="modal fade buatlaporan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="padding-right:0;">
+<div class="modal fade balaslaporan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="padding-right:0;">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Buat Laporan</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Update & Balas STTLP</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -40,28 +40,37 @@
                 <div class="row px-4">
                     <div class="col-md">
                         <div class="form-group">
-                            <label for="exampleInputEmail1">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="nama" placeholder="Nama" value="<?= $ses_akun['nama'] ?>" disabled>
-                            <span class="error-nama error-dialog text-danger mt-2"></span>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-group">
-                            <label for="jenis">Jenis Aduan</label>
-                            <select class="form-control" id="aduan">
-                                <option selected value>-- Pilih Aduan --</option>
-                                <?php foreach ($jenisaduan as $jd) : ?>
-                                    <option value="<?= $jd['id_berkas']; ?>"> <?= $jd['nama_berkas'] ?> </option>
+                            <input type="text" value="<?= $dl['idsttlp'] ?>" id="idsttlp_req" hidden>
+                            <select class="form-control" id="berkas">
+                                <option value disabled hidden selected>-- Pilih Berkas --</option>
+                                <?php foreach ($berkas as $br) : ?>
+                                    <option value="<?= $br['id_berkas'] ?>" <?= ($dl['nberkas'] == $br['nama_berkas']) ? 'selected' : '' ?>><?= $br['nama_berkas']; ?></option>
                                 <?php endforeach; ?>
                             </select>
-                            <span class="error-aduan error-dialog text-danger mt-2"></span>
+                            <span class="error-berkas error-dialog text-danger mt-2"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row px-4">
+                    <div class="col-md">
+                        <div class="form-group">
+                            <select class="form-control" id="statusProses">
+                                <option value disabled hidden selected>-- Pilih Proses STTLP --</option>
+                                <option value="ditolak" <?= ($dl['proses'] == 'ditolak') ? 'selected' : '' ?>>Tolak</option>
+                                <!-- <option value="terkirim" <?= ($dl['proses'] == 'terkirim') ? 'selected' : '' ?>><?= $br['nama_berkas']; ?></option> -->
+                                <option value="diterima" <?= ($dl['proses'] == 'diterima') ? 'selected' : '' ?>>Terima</option>
+                                <option value="dievaluasi" <?= ($dl['proses'] == 'dievaluasi') ? 'selected' : '' ?>>Evaluasi</option>
+                                <option value="proses" <?= ($dl['proses'] == 'proses') ? 'selected' : '' ?>>Proses Aduan</option>
+                                <option value="selesai" <?= ($dl['proses'] == 'selesai') ? 'selected' : '' ?>>Selesai</option>
+                            </select>
+                            <span class="error-statusProses error-dialog text-danger mt-2"></span>
                         </div>
                     </div>
                 </div>
                 <div class="row px-4">
                     <div class="col-xl">
                         <div class="form-group">
-                            <textarea class="form-control" id="isilapor" onkeyup="countChar(this)" rows="8" placeholder="Keterangan"></textarea>
+                            <textarea class="form-control" id="isibalasan" onkeyup="countChar(this)" rows="8" placeholder="Keterangan"><?= $dl['ket'] ?></textarea>
                             <div class="mt-2">
                                 <span class="error-isilap error-dialog text-danger"></span>
                                 <span><small class="float-right infotype"><span id="counttype"></span>/500</small></span>
@@ -72,7 +81,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary" id="submitsurat">Kirim Surat</button>
+                <button type="button" class="btn btn-primary" id="submitbalasan">Submit</button>
             </div>
         </div>
     </div>

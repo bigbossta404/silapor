@@ -71,7 +71,10 @@
                 <div class="col-xl mb-4">
                     <div class="card">
                         <div class="card-body">
-                            <a href="" class="btn btn-primary">Cetak</a>
+                            <div class="utilitas-rekap d-flex align-items-center">
+                                <p class="m-0 mr-3 text-rekap">Inbox STTLP yang di pertanggung jawabkan oleh anda.</p>
+                                <a href="#" class="btn btn-success"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/ms-excel.png" /> Rekap data</a>
+                            </div>
                         </div>
                     </div>
                 </div>
