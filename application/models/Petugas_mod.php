@@ -334,18 +334,11 @@ class Petugas_mod extends CI_Model
 
     function cetakSTTLP($id)
     {
-        $this->db->select('s.id_sttlp, no_lp,  CASE
-        WHEN DATE_FORMAT(tanggal,"%w") = 1 THEN "Minggu"
-        WHEN DATE_FORMAT(tanggal,"%w") = 2 THEN "Senin"
-        WHEN DATE_FORMAT(tanggal,"%w") = 3 THEN "Selasa"
-        WHEN DATE_FORMAT(tanggal,"%w") = 4 THEN "Rabu"
-        WHEN DATE_FORMAT(tanggal,"%w") = 5 THEN "Kamis"
-        WHEN DATE_FORMAT(tanggal,"%w") = 6 THEN "Jumat" END harilap,DAY(tanggal) tgllap, MONTH(tanggal) bulanlap, YEAR(tanggal) tahunlap, DATE_FORMAT(tanggal,"%H:%i") jamlap, nama_berkas, nama, jk, alamat, email, notelp, keterangan, DATE_FORMAT(tgl_kejadian,"%d-%m-%Y")tgl_kejadian, tempat_kejadian', false);
-        $this->db->from('sttlp s');
-        $this->db->join('berkas b', 'b.id_berkas = s.id_berkas');
-        $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
-        $this->db->where('s.id_sttlp', $id);
-        $query = $this->db->get();
+        $query = $this->db->query('SELECT s.id_sttlp, no_lp,  CASE WHEN DATE_FORMAT(tanggal,"%w") = 1 THEN "Minggu" WHEN DATE_FORMAT(tanggal,"%w") = 2 THEN "Senin" WHEN DATE_FORMAT(tanggal,"%w") = 3 THEN "Selasa"  WHEN DATE_FORMAT(tanggal,"%w") = 4 THEN "Rabu" WHEN DATE_FORMAT(tanggal,"%w") = 5 THEN "Kamis" WHEN DATE_FORMAT(tanggal,"%w") = 6 THEN "Jumat" END as harilap ,DAY(tanggal) tgllap, MONTH(tanggal) bulanlap, YEAR(tanggal) tahunlap, DATE_FORMAT(tanggal,"%H:%i") jamlap, nama_berkas, nama, jk, alamat, email, notelp, keterangan, DATE_FORMAT(tgl_kejadian,"%d-%m-%Y")tgl_kejadian, tempat_kejadian
+  FROM sttlp s JOIN berkas b ON b.id_berkas = s.id_berkas
+  JOIN pelapor p ON p.id_pelapor = s.`id_pelapor`
+  WHERE id_sttlp = ' . $id . '
+  ');
         return $query->row_array();
     }
 }

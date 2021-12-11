@@ -402,6 +402,10 @@ class Petugas_con extends CI_Controller
     function cetakSurat($id)
     {
         if ($this->session->userdata('level') == 1) {
+            setlocale(LC_ALL, 'IND');
+            $date_now = date('Y-m-d');
+            $month_name = strftime('%B', strtotime($date_now));
+            $data['bulan'] = $month_name;
             $data['ds'] = $this->petugas_mod->cetakSTTLP($id);
             $this->load->view('pub_petugas/suratlapor', $data);
         } else {

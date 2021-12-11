@@ -25,40 +25,40 @@
                         <span>Nomor: <?= $ds['id_sttlp'] . '/' . $ds['no_lp'] . '/' . $ds['bulanlap'] . '/' . $ds['tahunlap'] . '/SPKT/DIY/SEK-PA' ?></span>
                     </div>
                     <div class="isi-surat">
-                        <span>Yang bertanda tangan di bawah ini Kepada Kepolisian Sektor Pakualaman Yogyakarta, menerangkan bahwa pada hari <?= $ds['harilap'] ?> tanggal <?= $ds['tgllap'] ?> tahun <?= $ds['tahunlap'] ?>, pukul <?= $ds['jamlap'] ?> wib, telah dilampirkan sebuah surat pelaporan dari pelapor yang mengaku beridentitas:</span>
+                        <span>Yang bertanda tangan di bawah ini Kepada Kepolisian Sektor Pakualaman Yogyakarta, menerangkan bahwa pada tanggal <?= $ds['tgllap'] ?> tahun <?= $ds['tahunlap'] ?>, pukul <?= $ds['jamlap'] ?> wib, telah dilampirkan sebuah surat pelaporan dari pelapor yang mengaku beridentitas:</span>
                         <table class="tableidentitas">
                             <tr>
                                 <td width="130">Nama</td>
                                 <td>: </td>
-                                <td>Fakhri</td>
+                                <td><?= $ds['nama'] ?></td>
                             </tr>
                             <tr>
                                 <td width="130">Jenis Kelamin</td>
                                 <td>: </td>
-                                <td>Fakhri</td>
+                                <td><?= $ds['jk'] ?></td>
                             </tr>
                             <tr>
                                 <td width="130">Alamat</td>
                                 <td>: </td>
-                                <td>Fakhri</td>
+                                <td><?= $ds['alamat'] ?></td>
                             </tr>
                             <tr>
                                 <td width="130">Email</td>
                                 <td>: </td>
-                                <td>Fakhri</td>
+                                <td><?= $ds['email'] ?></td>
                             </tr>
                             <tr>
                                 <td width="130">Nomor Telepon</td>
                                 <td>: </td>
-                                <td>Fakhri</td>
+                                <td><?= $ds['notelp'] ?></td>
                             </tr>
                         </table>
-                        <span>Melaporkan bahwa terjadi suatu perkara, sebagaimana keterangan: <?= $ds['keterangan'] ?> Terjadi pada tanggal <?= $ds['tgl_kejadian'] ?> beralamatkan di <?= $ds['tempat_kejadian'] ?>. Berdasarkan keterangan tersebut, telah diterima sebuah laporan dan diketahui di wilayah hukum Polsek Pakualaman Yogyakarta, Sehingga betul adanya surat ini dilaporkan oleh identitas yang bernama: <?= $ds['nama'] ?> Demikian Surat Keterangan Tanda Lapor <b> Kehilangan </b>ini dibuat agar dapat dipergunakan seperlunya.</span>
+                        <span>Melaporkan bahwa terjadi suatu perkara, sebagaimana keterangan: <?= $ds['keterangan'] ?> Terjadi pada tanggal <?= $ds['tgl_kejadian'] ?> beralamatkan di <?= $ds['tempat_kejadian'] ?>. Berdasarkan keterangan tersebut, telah diterima sebuah laporan dan diketahui di wilayah hukum Polsek Pakualaman Yogyakarta, Sehingga betul adanya surat ini dilaporkan oleh identitas yang bernama: <?= $ds['nama'] ?> Demikian Surat Keterangan Tanda Lapor <b> <?= $ds['nama_berkas'] ?> </b>ini dibuat agar dapat dipergunakan seperlunya.</span>
                     </div>
                 </div>
                 <div class="footer-page">
                     <div class="ttd">
-                        <div id="waktutgl">Yogyakarta, 10 Desember 2021</div>
+                        <div id="waktutgl">Yogyakarta, 10 <?= $bulan ?> 2021</div>
                         <div>MENGETAHUI <br>KAPOLSEK SEKTOR PAKUALAMAN <br>Ka. SPKT</div>
                         <div id="nama-kapolsek">SIGIT ARIYANTO ADI,S,ST,.M.M</div>
                         <div>KOMISARIS POLISI NRP 76120071</div>
@@ -68,7 +68,7 @@
                 <div class="catatan">
                     <span><b>Catatan:</b></span>
                     <ul>
-                        <li>Surat Keterangan Tanda Lapor Kehilangan ini <b>Bukan Pengganti</b> barang berharga/surat yang hilang, melainkan untuk mengurus surat yang baru.</li>
+                        <li>Surat Keterangan Tanda Lapor <?= ($ds['nama_berkas'] == 'kehilangan') ? 'Kehilangan ini <b>Bukan Pengganti</b> barang berharga/surat yang hilang' : $ds['nama_berkas'] . ' ini <b>Bukan Permintaan</b> ganti rugi kepada kepolisian' ?>, melainkan untuk mengurus surat yang baru.</li>
                         <li>Surat ini berlaku selama <b>14 (Empat Belas)</b> hari sejak tanggal dikeluarkan.</li>
                     </ul>
                 </div>
