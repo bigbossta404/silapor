@@ -67,11 +67,11 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-            <div class="row">
+            <div class="row ">
                 <div class="col-xl mb-4">
                     <div class="card shadow h-100 py-2">
                         <div class="card-body">
-                            <ul class="bs4-order-tracking">
+                            <ul class="bs4-order-tracking d-flex justify-content-center">
                                 <li class="step <?= ($proses >= 1) ? 'active' : '' ?>">
                                     <div><i class="fas fa-paper-plane"></i></div> Terkirim
                                 </li>
@@ -79,12 +79,9 @@
                                     <?= ($proses >= 2) ? '<div><i class="fas fa-download"></i></div> Diterima' : (($proses == 0) ? '<div><i class="far fa-times-circle"></i></div> Ditolak' : '<div><i class="fas fa-download"></i></div> Diterima') ?>
                                 </li>
                                 <li class="step <?= ($proses >= 3) ? 'active' : '' ?>">
-                                    <div><i class="fas fa-search"></i></div> Dievaluasi
-                                </li>
-                                <li class="step <?= ($proses >= 4) ? 'active' : '' ?>">
                                     <div><i class="fas fa-file-signature"></i></div> Proses
                                 </li>
-                                <li class="step <?= ($proses >= 5) ? 'active' : '' ?>">
+                                <li class="step <?= ($proses >= 4) ? 'active' : '' ?>">
                                     <div><i class=" far fa-check-circle"></i>
                                     </div> Selesai
                                 </li>
@@ -115,8 +112,16 @@
                             <div class="row pl-3 pr-3">
                                 <div class="col">
                                     <div class="keterangan">
+                                        <div class="tgl">
+                                            <span class="mb-0 font-weight-bold text-gray-800">Tanggal Kejadian:</span>
+                                            <?php echo $dl['tgl_kejadian'] ?>
+                                        </div>
+                                        <div class="lokasi">
+                                            <span class="mb-0 font-weight-bold text-gray-800">Lokasi:</span>
+                                            <?php echo $dl['tempat_kejadian'] ?>
+                                        </div>
                                         <div class="mb-0 font-weight-bold text-gray-800">
-                                            Keterangan:
+                                            Keterangan: <br>
                                         </div>
                                         <p><?php echo $dl['keterangan'] ?></p>
                                     </div>

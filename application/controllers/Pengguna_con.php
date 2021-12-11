@@ -262,6 +262,7 @@ class Pengguna_con extends CI_Controller
                     } else {
                         unlink('assets/img/ektp/' . $old_ktp);
                         $data['img_ktp'] = $this->ektp->data('file_name');
+                        $data['active'] = 0;
                     }
                 }
                 //Config KK 
@@ -281,6 +282,7 @@ class Pengguna_con extends CI_Controller
                     } else {
                         unlink('assets/img/kk/' . $old_kk);
                         $data['img_kk'] = $this->kk->data('file_name');
+                        $data['active'] = 0;
                     }
                 }
 
@@ -300,7 +302,9 @@ class Pengguna_con extends CI_Controller
                         $alert = array(
                             'sukses' => true,
                             'data' => $data,
-                            'old_email' => $this->session->userdata('email')
+                            'old_email' => $this->session->userdata('email'),
+                            'old_ktp' => $old_ktp,
+                            'old_kk' => $old_kk,
                         );
                         echo json_encode($alert);
                     } else {

@@ -116,7 +116,7 @@
                         <div class="row py-2">
                             <div class="col-md-6">
                                 <label for="ktp">E-KTP (pdf/png/jpg 1mb) <?php echo ($ses_akun['img_ktp'] == null) ? '' : '<i class="text-success fas fa-check-circle"></i>' ?></label>
-                                <input id="input-ktp" name="input-ktp" type="file" class="file input-ktp" data-show-preview="false">
+                                <input id="input-ktp" name="input-ktp" type="file" class="file input-ktp" data-show-preview="false" title="<?php echo $ses_akun['img_ktp'] ?>" placeholder="Nganu">
                                 <span class="error-input_ktp error-dialog text-danger mt-2"></span>
                             </div>
                             <div class="col-md-6 pt-md-0 pt-3" id="lang">

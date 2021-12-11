@@ -72,7 +72,7 @@ class Pengguna_mod extends CI_Model
     }
     function getData_byid($id)
     {
-        $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
+        $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas, DATE_FORMAT(tgl_kejadian,"%d/%m/%Y") tgl_kejadian, tempat_kejadian');
         $this->db->from('sttlp s');
         $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
@@ -94,7 +94,7 @@ class Pengguna_mod extends CI_Model
         $this->db->join('petugas pt', 'pt.id_petugas = s.`id_petugas`');
         $this->db->where('s.id_sttlp', $id);
         $this->db->where('ket is NOT NULL', NULL, FALSE);
-        $this->db->order_by('tgl_proses', 'DESC');
+        $this->db->order_by('MONTH(tgl_proses)  DESC, DAY(tgl_proses) DESC, YEAR(tgl_proses) DESC');
 
         $query = $this->db->get();
         return $query->result_array();
@@ -134,9 +134,8 @@ class Pengguna_mod extends CI_Model
             'ditolak' => 0,
             'terkirim' => 1,
             'diterima' => 2,
-            'dievaluasi' => 3,
-            'proses' => 4,
-            'selesai' => 5,
+            'proses' => 3,
+            'selesai' => 4,
         );
 
         return $data;

@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Petugas_con extends CI_Controller
 {
     function __construct()
@@ -100,6 +103,57 @@ class Petugas_con extends CI_Controller
             );
 
             echo json_encode($output);
+        } else {
+            redirect('/');
+        }
+    }
+
+    function rekapBalasan()
+    {
+        if ($this->session->userdata('level') == 1) {
+            $akun_petugas = $this->petugas_mod->pengguna($this->session->userdata('email'));
+            $list = $this->petugas_mod->getSttlpByPetugas($akun_petugas);
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->mergeCells('A1:H1');
+            $sheet->setCellValue('A1', 'Rekap Surat Tanda Terima Laporan Polisi');
+            $sheet->getStyle('A1:H1')
+                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->mergeCells('A2:H2');
+            $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
+            $sheet->getStyle('A2:H2')
+                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->setCellValue('A3', 'No');
+            $sheet->setCellValue('B3', 'Nomor');
+            $sheet->setCellValue('C3', 'Petugas');
+            $sheet->setCellValue('D3', 'Pelapor');
+            $sheet->setCellValue('E3', 'Berkas');
+            $sheet->setCellValue('F3', 'Tanggal Kejadian');
+            $sheet->setCellValue('G3', 'Tanggal Kirim');
+            $sheet->setCellValue('H3', 'Status');
+            foreach (range('A', 'H') as $columnID) {
+                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+            $rows = 4;
+            $id = 1;
+            foreach ($list as $val) {
+                $sheet->setCellValue('A' . $rows, $id);
+                $sheet->setCellValue('B' . $rows, $val['no_lp']);
+                $sheet->setCellValue('C' . $rows, $akun_petugas['nama']);
+                $sheet->setCellValue('D' . $rows, $val['pengguna']);
+                $sheet->setCellValue('E' . $rows, $val['nama_berkas']);
+                $sheet->setCellValue('F' . $rows, $val['tgl_kejadian']);
+                $sheet->setCellValue('G' . $rows, $val['tanggal']);
+                $sheet->setCellValue('H' . $rows, $val['proses']);
+                $rows++;
+                $id++;
+            }
+            $writer = new Xlsx($spreadsheet);
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="Rekap_All_Balasan-' . $akun_petugas['id_petugas'] . '.xlsx"');
+            $writer->save('php://output');
         } else {
             redirect('/');
         }
@@ -281,6 +335,75 @@ class Petugas_con extends CI_Controller
             } else {
                 echo json_encode('gagal');
             }
+        } else {
+            redirect('/');
+        }
+    }
+
+    // CETAK EXCEL
+    function rekapAkunPelapor()
+    {
+        if ($this->session->userdata('level') == 1) {
+            $list = $this->petugas_mod->allPelapor();
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->mergeCells('A1:I1');
+            $sheet->setCellValue('A1', 'Rekap Data Akun Pelapor');
+            $sheet->getStyle('A1:I1')
+                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->mergeCells('A2:I2');
+            $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
+            $sheet->getStyle('A2:I2')
+                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->setCellValue('A3', 'No');
+            $sheet->setCellValue('B3', 'Nama');
+            $sheet->setCellValue('C3', 'JK');
+            $sheet->setCellValue('D3', 'Email');
+            $sheet->setCellValue('E3', 'Telp');
+            $sheet->setCellValue('F3', 'Alamat');
+            $sheet->setCellValue('G3', 'E-KTP');
+            $sheet->setCellValue('H3', 'KK');
+            $sheet->setCellValue('I3', 'Status');
+            foreach (range('A', 'E') as $columnID) {
+                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+            foreach (range('G', 'I') as $columnID) {
+                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+            $rows = 4;
+            $id = 1;
+            foreach ($list as $val) {
+                $sheet->setCellValue('A' . $rows, $id);
+                $sheet->setCellValue('B' . $rows, $val['nama']);
+                $sheet->setCellValue('C' . $rows, $val['jk']);
+                $sheet->setCellValue('D' . $rows, $val['email']);
+                $sheet->setCellValue('E' . $rows, $val['notelp']);
+                $sheet->setCellValue('F' . $rows, $val['alamat']);
+                $sheet->setCellValue('G' . $rows, ($val['img_ktp'] == null) ? 'Kosong' : 'Ada');
+                $sheet->setCellValue('H' . $rows, ($val['img_kk'] == null) ? 'Kosong' : 'Ada');
+                $sheet->setCellValue('I' . $rows, ($val['active'] == 0) ? 'Pending' : 'Aktif');
+                $rows++;
+                $id++;
+            }
+            $writer = new Xlsx($spreadsheet);
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="Rekap_All_Balasan-' . date('dmY') . '.xlsx"');
+            $writer->save('php://output');
+        } else {
+            redirect('/');
+        }
+    }
+
+    // Cetak PDF
+
+    function cetakSurat($id)
+    {
+        if ($this->session->userdata('level') == 1) {
+            $data['ds'] = $this->petugas_mod->cetakSTTLP($id);
+            $this->load->view('pub_petugas/suratlapor', $data);
         } else {
             redirect('/');
         }

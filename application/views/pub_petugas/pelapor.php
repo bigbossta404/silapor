@@ -71,6 +71,18 @@
                 <div class="col-xl mb-4">
                     <div class="card">
                         <div class="card-body">
+                            <div class="utilitas-rekap d-flex align-items-center">
+                                <p class="m-0 mr-3 text-rekap">Klik tombol berlogo pensin untuk meninjau akun pelapor.</p>
+                                <a href="<?php echo base_url('petugas_con/rekapAkunPelapor') ?>" class="btn btn-success"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/ms-excel.png" /> Rekap data</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl mb-4">
+                    <div class="card">
+                        <div class="card-body">
                             <table id="tablepelapor" class="table table-striped table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <th>No</th>

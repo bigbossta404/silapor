@@ -105,7 +105,10 @@ $(document).ready(function(){
                         if(data.data['email'] != data.old_email){
                             window.location.href = '../auth/logout';
                             $('.pesan').html('<div class="alert alert-success alert-dismissible" role="alert">Email diubah, silahkan login kembali.<span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span></div>');
-                        }else{
+                        }else if(data.data['img_ktp'] != data.old_ktp || data.data['img_kk'] != data.old_kk){
+                            window.location.href = '../auth/logout';
+                        }
+                        else{
                             location.reload();
                         }
                     });

@@ -73,7 +73,7 @@
                         <div class="card-body">
                             <div class="utilitas-rekap d-flex align-items-center">
                                 <p class="m-0 mr-3 text-rekap">Inbox STTLP yang di pertanggung jawabkan oleh anda.</p>
-                                <a href="#" class="btn btn-success"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/ms-excel.png" /> Rekap data</a>
+                                <a href="<?php echo base_url('petugas_con/rekapBalasan') ?>" class="btn btn-success"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/ms-excel.png" /> Rekap data</a>
                             </div>
                         </div>
                     </div>

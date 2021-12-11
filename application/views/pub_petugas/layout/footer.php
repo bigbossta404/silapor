@@ -59,7 +59,6 @@
                                 <option value="ditolak" <?= ($dl['proses'] == 'ditolak') ? 'selected' : '' ?>>Tolak</option>
                                 <!-- <option value="terkirim" <?= ($dl['proses'] == 'terkirim') ? 'selected' : '' ?>><?= $br['nama_berkas']; ?></option> -->
                                 <option value="diterima" <?= ($dl['proses'] == 'diterima') ? 'selected' : '' ?>>Terima</option>
-                                <option value="dievaluasi" <?= ($dl['proses'] == 'dievaluasi') ? 'selected' : '' ?>>Evaluasi</option>
                                 <option value="proses" <?= ($dl['proses'] == 'proses') ? 'selected' : '' ?>>Proses Aduan</option>
                                 <option value="selesai" <?= ($dl['proses'] == 'selesai') ? 'selected' : '' ?>>Selesai</option>
                             </select>

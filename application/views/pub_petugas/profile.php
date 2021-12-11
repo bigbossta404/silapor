@@ -76,7 +76,7 @@
                             <div class=" d-flex align-items-center">
                                 <select type="text" class="bg-light form-control mr-3" id="status_pelapor" name="status_pelapor" placeholder="steve_@email.com">
                                     <option value="1" <?php echo ($user['active'] == '1' ? 'selected' : '') ?>>Aktif</option>
-                                    <option value="2" <?php echo ($user['active'] == '2' ? 'selected' : '') ?>>Pending</option>
+                                    <option value="0" <?php echo ($user['active'] == '0' ? 'selected' : '') ?>>Pending</option>
                                 </select>
                                 <button type="button" class="btn btn-success" id="simpanActive">Simpan</button>
                             </div>
@@ -118,18 +118,17 @@
                                 <div class="row">
                                     <div class="col">
                                         <label for="ktp">E-KTP <?php echo ($user['img_ktp'] == null) ? '(kosong)' : '(terunggah) <i class="text-success fas fa-check-circle"></i>' ?></label><br>
-                                        <button class="btn btn-primary mr-2" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</button>
+                                        <a href="<?php echo base_url('assets/img/ektp/' . $user['img_ktp']) ?>" class="btn btn-primary mr-2" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</a>
                                         <button class="btn btn-danger" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col">
                                         <label for="ktp">Kartu Keluarga <?php echo ($user['img_kk'] == null) ? '(kosong)' : '(terunggah) <i class="text-success fas fa-check-circle"></i>' ?></label><br>
-                                        <button class="btn btn-primary mr-2" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</button>
+                                        <a href="<?php echo base_url('assets/img/kk/' . $user['img_kk']) ?>" class="btn btn-primary mr-2" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</a>
                                         <button class="btn btn-danger" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="row py-2">

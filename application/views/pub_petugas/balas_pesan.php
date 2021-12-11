@@ -74,7 +74,7 @@
                             <div class="row no-gutters align-items-center pl-3 pr-3">
                                 <div class="col d-flex align-items-center">
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal" data-target=".balaslaporan"><i class="far fa-paper-plane"></i> Balas</a>
-                                    <a href="#" class="btn btn-danger "><i class="fas fa-print"></i></i> Cetak Surat</a>
+                                    <a href="<?= base_url('petugas_con/cetakSurat/' . $dl['idsttlp']) ?>" class="btn btn-danger "><i class="fas fa-print"></i></i> Cetak Surat</a>
                                     <span class="ml-auto">Status:
                                         <span class="w100 font-weight-bold">
                                             <?php echo ucwords($dl['proses']) ?>
@@ -90,7 +90,7 @@
                 <div class="col-xl mb-4">
                     <div class="card shadow h-100 py-2">
                         <div class="card-body">
-                            <div class="row no-gutters align-items-center pl-3 pr-3 border-bottom">
+                            <div class="row no-gutters align-items-center pl-3 pr-3" style="border-bottom: 2px solid #e3e6f0;">
                                 <div class="col">
                                     <div class="info-pinjam">
                                         <div class="nolap">
@@ -108,8 +108,16 @@
                             <div class="row pl-3 pr-3">
                                 <div class="col">
                                     <div class="keterangan">
+                                        <div class="tgl">
+                                            <span class="mb-0 font-weight-bold text-gray-800">Tanggal Kejadian:</span>
+                                            <?php echo $dl['tgl_kejadian'] ?>
+                                        </div>
+                                        <div class="lokasi">
+                                            <span class="mb-0 font-weight-bold text-gray-800">Lokasi:</span>
+                                            <?php echo $dl['tempat_kejadian'] ?>
+                                        </div>
                                         <div class="mb-0 font-weight-bold text-gray-800">
-                                            Keterangan:
+                                            Keterangan: <br>
                                         </div>
                                         <p><?php echo $dl['keterangan'] ?></p>
                                     </div>
