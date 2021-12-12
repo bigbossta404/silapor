@@ -157,7 +157,7 @@ class Pengguna_con extends CI_Controller
             }
 
             $data['title'] = 'Detail Laporan';
-            $data['heading'] = ' <h4 class="mb-0 text-gray-800">Detail Laporan</h4>';
+            $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="../../pengguna_con/cetakSurat/' . $id_surat . '" class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
             $this->load->view('pub_pengguna/layout/header', $data);
             $this->load->view('pub_pengguna/detailLap', $data);
             $this->load->view('pub_pengguna/layout/footer', $data);
@@ -324,6 +324,24 @@ class Pengguna_con extends CI_Controller
             return FALSE;
         } else {
             return TRUE;
+        }
+    }
+
+    // Cetak PDF
+
+    function cetakSurat($id)
+    {
+        if ($this->session->userdata('level') == 2) {
+            setlocale(LC_ALL, 'IND');
+            $date_now = date('Y-m-d');
+            $month_name = strftime('%B', strtotime($date_now));
+            $data['bulan'] = $month_name;
+            // echo $id;
+            $data['ds'] = $this->pengguna_mod->cetakSTTLP($id);
+            // var_dump($data['ds']);
+            $this->load->view('pub_pengguna/suratlapor', $data);
+        } else {
+            redirect('/');
         }
     }
 }

@@ -87,7 +87,8 @@
                                         </div>
                                         <div class="col-auto d-flex align-items-center">
                                             <div class="mr-4">Respon <?php echo ($ds['tgl_proses'] != null) ? $ds['tgl_proses'] : '-' ?></div>
-                                            <div class="btn btn-primary btn-buka" id="<?php echo $ds['idsttlp'] ?>"><i class="fas fa-envelope-open-text"></i> Buka</div>
+                                            <button class="btn btn-primary btn-buka mr-3" id="<?php echo $ds['idsttlp'] ?>"><i class="fas fa-envelope-open-text"></i> Buka</button>
+                                            <button class="btn btn-danger btn-hapus-surat" <?php echo ($ds['proses'] == 'selesai') ? 'id="' . $ds['idsttlp'] . '"' : 'disabled' ?>><i class="fas fa-trash-alt"></i></button>
                                         </div>
                                     </div>
                                 </div>

@@ -99,20 +99,6 @@ class Pengguna_mod extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
-    // function getData_byid($id)
-    // {
-    //     $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas, pt.nama namapetugas');
-    //     $this->db->from('sttlp s');
-    //     $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
-    //     $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
-    //     $this->db->join('aktivitas_sttlp a', 'a.id_sttlp = s.id_sttlp');
-    //     // $this->db->join('proses ps', 'ps.id_proses = a.`id_proses`');
-    //     $this->db->join('petugas pt', 'pt.id_petugas = s.`id_petugas`', 'left');
-    //     $this->db->where('s.id_sttlp', $id);
-
-    //     $query = $this->db->get();
-    //     return $query->row_array();
-    // }
     function jenisaduan()
     {
         $this->db->select('*');
@@ -168,4 +154,21 @@ class Pengguna_mod extends CI_Model
     }
 
     // End CRUD Laporan
+    //     function cetakSTTLP($id)
+    //     {
+    //         $query = $this->db->query('SELECT * From sttlp
+    //   WHERE id_sttlp = ' . $id . '
+    //   ');
+    // return $query->row_array();
+    // }
+    function cetakSTTLP($id)
+    {
+        $query = $this->db->query('SELECT s.id_sttlp, no_lp,  CASE WHEN DATE_FORMAT(tanggal,"%w") = 1 THEN "Minggu" WHEN DATE_FORMAT(tanggal,"%w") = 2 THEN "Senin" WHEN DATE_FORMAT(tanggal,"%w") = 3 THEN "Selasa"  WHEN DATE_FORMAT(tanggal,"%w") = 4 THEN "Rabu" WHEN DATE_FORMAT(tanggal,"%w") = 5 THEN "Kamis" WHEN DATE_FORMAT(tanggal,"%w") = 6 THEN "Jumat" END as harilap ,DAY(tanggal) tgllap, MONTH(tanggal) bulanlap, YEAR(tanggal) tahunlap, DATE_FORMAT(tanggal,"%H:%i") jamlap, nama_berkas, nama, jk, alamat, email, notelp, keterangan, DATE_FORMAT(tgl_kejadian,"%d-%m-%Y")tgl_kejadian, tempat_kejadian
+      FROM sttlp s 
+      left JOIN berkas b ON b.id_berkas = s.id_berkas
+      JOIN pelapor p ON p.id_pelapor = s.`id_pelapor`
+      WHERE s.id_sttlp = ' . $id . '
+      ');
+        return $query->row_array();
+    }
 }
