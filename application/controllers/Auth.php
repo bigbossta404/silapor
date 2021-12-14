@@ -241,6 +241,7 @@ class Auth extends CI_Controller
             $data =  [
                 'nama' => $this->input->post('nama-reg'),
                 'email' => $this->input->post('email-reg'),
+                'jk' => $this->input->post('jk-reg'),
                 'password' => $this->input->post('password-reg'),
                 'active' => '0',
                 'is_exist' => '1'
