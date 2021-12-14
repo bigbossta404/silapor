@@ -58,7 +58,7 @@ class Pengguna_con extends CI_Controller
             // var_dump($data['d_surat']);
             $data['title'] = 'Dashboard';
 
-            if ($data['ses_akun']['img_ktp'] == null || $data['ses_akun']['img_kk'] == null) {
+            if ($data['ses_akun']['img_ktp'] == null || $data['ses_akun']['img_kk'] == null || $data['ses_akun']['alamat'] == null || $data['ses_akun']['notelp'] == null) {
                 $data['btn'] = ' <div class="d-sm-flex align-items-center">
             <h1 class="h4 mb-0 text-gray-800">Kotak Surat</h1>
             <div class="btn btn-primary ml-4" data-toggle="modal" data-target=".noticelap"><i class="fas fa-plus"></i> Buat Laporan</div>
@@ -133,7 +133,8 @@ class Pengguna_con extends CI_Controller
                 'keterangan' => $this->input->post('isilapor'),
                 'id_pelapor' => $session['id_pelapor'],
                 'tgl_kejadian' => $this->input->post('tgl'),
-                'tempat_kejadian' => $this->input->post('tempat')
+                'tempat_kejadian' => $this->input->post('tempat'),
+                'is_exist' => 1
             );
             $do_submit = $this->pengguna_mod->insertLapor($datalapor);
             if ($do_submit == true) {
@@ -165,7 +166,17 @@ class Pengguna_con extends CI_Controller
             redirect('/');
         }
     }
+    function hapusLaporan($id_surat)
+    {
+        $do_delete = $this->pengguna_mod->deleteSurat($id_surat);
+        if ($do_delete) {
+            echo json_encode('sukses');
+        } else {
+            echo json_encode('gagal');
+        }
+    }
 
+    // =========================================== PROFILE =================================
     public function viewProfile()
     {
         if ($this->session->userdata('level') == 2) {
@@ -299,14 +310,23 @@ class Pengguna_con extends CI_Controller
 
                     $do_save = $this->pengguna_mod->updateProfile($data, $id);
                     if ($do_save) {
-                        $alert = array(
-                            'sukses' => true,
-                            'data' => $data,
-                            'old_email' => $this->session->userdata('email'),
-                            'old_ktp' => $old_ktp,
-                            'old_kk' => $old_kk,
-                        );
-                        echo json_encode($alert);
+                        if (array_key_exists("img_ktp", $data) || array_key_exists("img_kk", $data)) {
+                            $alert = array(
+                                'sukses' => true,
+                                'data' => $data,
+                                'old_email' => $this->session->userdata('email'),
+                                'old_ktp' => $old_ktp,
+                                'old_kk' => $old_kk,
+                            );
+                            echo json_encode($alert);
+                        } else {
+                            $alert = array(
+                                'sukses' => true,
+                                'data' => $data,
+                                'old_email' => $this->session->userdata('email'),
+                            );
+                            echo json_encode($alert);
+                        }
                     } else {
                         echo json_encode('gagal');
                     }

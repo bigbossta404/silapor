@@ -118,7 +118,7 @@ class Petugas_mod extends CI_Model
 
     //================== Datatables Balasan
     var $column_order_balas = array('no_lp', 'keterangan', 'nama_berkas', null); //set column field database for datatable orderable
-    var $column_search_balas = array('nama', 'no_lp', 'nama_berkas', 'tanggal'); //set column field database for datatable searchable just firstname , lastname , address are searchable
+    var $column_search_balas = array('nama', 'no_lp', 'nama_berkas', 'tanggal', 'proses'); //set column field database for datatable searchable just firstname , lastname , address are searchable
     var $order_balas = ['tanggal' => 'desc']; // default o
     private function _get_datatableBalas($id)
     {

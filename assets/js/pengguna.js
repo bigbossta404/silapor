@@ -49,7 +49,8 @@ $(document).ready(function(){
             }
         })
         
-    })
+    });
+
     $(this).on('click','.btn-buka',function(){
         var id_surat = $(this).attr('id');
         var count = (location.pathname.split('/').length - 1) - (location.pathname[location.pathname.length - 1] == '/' ? 1 : 0);
@@ -70,6 +71,94 @@ $(document).ready(function(){
                 success:function(){
                     window.location.href = '../../pengguna_con/viewLaporan/'+id_surat;
                 }        
+            })
+        }
+    });
+
+    $(this).on('click','.btn-hapus-surat',function(){
+        var id_surat = $(this).attr('id');
+        var count = (location.pathname.split('/').length - 1) - (location.pathname[location.pathname.length - 1] == '/' ? 1 : 0);
+        if(count == 3){
+            Swal.fire({
+            title: 'Yakin hapus surat?',
+            text: "Data tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya, Hapus'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                $.ajax({
+                    url: '../pengguna_con/hapusLaporan/'+id_surat,
+                    type: 'POST',
+                    data: {id_surat:id_surat},
+                    dataType: 'JSON',
+                    success:function(data){
+                        if(data == 'sukses'){
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Berhasil dihapus',
+                                showConfirmButton: false,
+                                timer: 1500
+                            }).then(function(){
+                                location.reload();
+                            })
+                        }else{
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Gagal dihapus',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+                        }
+                    }        
+                })
+            }
+        });
+        }else{
+            Swal.fire({
+                title: 'Yakin hapus surat?',
+                text: "Data tidak bisa dikembalikan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                cancelButtonText: 'Batal',
+                confirmButtonText: 'Ya, Hapus'
+            }).then((result)=>{
+                if(result.isConfirmed){
+                    $.ajax({
+                        url: '../../pengguna_con/hapusLaporan/'+id_surat,
+                        type: 'POST',
+                        data: {id_surat:id_surat},
+                        dataType: 'JSON',
+                        success:function(data){
+                            if(data == 'sukses'){
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: 'Berhasil dihapus',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                }).then(function(){
+                                    location.reload();
+                                })
+                            }else{
+                                Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: 'Gagal dihapus',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                })
+                            }
+                        }        
+                    })
+                }
             })
         }
     });
@@ -104,8 +193,8 @@ $(document).ready(function(){
                     }).then(function(){
                         if(data.data['email'] != data.old_email){
                             window.location.href = '../auth/logout';
-                            $('.pesan').html('<div class="alert alert-success alert-dismissible" role="alert">Email diubah, silahkan login kembali.<span type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></span></div>');
-                        }else if(data.data['img_ktp'] != data.old_ktp || data.data['img_kk'] != data.old_kk){
+                        }
+                        else if(data.data['img_ktp'] != data.old_ktp || data.data['img_kk'] != data.old_kk){
                             window.location.href = '../auth/logout';
                         }
                         else{

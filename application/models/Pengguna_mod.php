@@ -50,7 +50,7 @@ class Pengguna_mod extends CI_Model
         JOIN pelapor p ON p.`id_pelapor` = s.`id_pelapor`
         LEFT JOIN berkas b ON b.`id_berkas` = s.`id_berkas`
         WHERE email = "' . $data['email'] . '"
-        AND t.`tgl_proses` = r.tgl_proses
+        AND t.`tgl_proses` = r.tgl_proses AND s.is_exist = 1
         ORDER BY tanggal DESC limit ' . $limit . ' offset ' . $start);
         return $query->result_array();
     }
@@ -66,7 +66,7 @@ class Pengguna_mod extends CI_Model
         JOIN pelapor p ON p.`id_pelapor` = s.`id_pelapor`
         LEFT JOIN berkas b ON b.`id_berkas` = s.`id_berkas`
         WHERE email = "' . $data['email'] . '"
-        AND t.`tgl_proses` = r.tgl_proses
+        AND t.`tgl_proses` = r.tgl_proses AND s.is_exist = 1
         ORDER BY tanggal DESC');
         return $query->num_rows();
     }
@@ -144,6 +144,15 @@ class Pengguna_mod extends CI_Model
         }
     }
 
+    function deleteSurat($id)
+    {
+        $this->db->set('is_exist', '0');
+        $this->db->where('id_sttlp', $id);
+        $this->db->update('sttlp');
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
     function updateProfile($data, $id)
     {
         $this->db->where('id_pelapor', $id);

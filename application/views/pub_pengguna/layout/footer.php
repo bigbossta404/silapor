@@ -92,7 +92,7 @@
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Upload E-KTP & KK</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle">Lengkapi Profile</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -102,7 +102,7 @@
                     <img src="<?php echo ($ses_akun['jk'] == 'Pria') ?  base_url('/assets/img/m-ktp.jpg') : base_url('/assets/img/f-ktp.jpg') ?>" width="300" alt="">
                 </div>
                 <div class="modal-text mt-4 d-flex justify-content-center">
-                    <p>Anda belum melengkapi unggah <span class="bg-warning font-weight-bold text-dark pl-2 pr-2">E-KTP dan KK</span>, silahkan lengkapi dengan mengunjungi laman Profile atau klik <a href="<?= base_url('pengguna/profile') ?>">disini</a></p>
+                    <p>Anda belum melengkapi <span class="bg-warning font-weight-bold text-dark pl-2 pr-2">Data Profile</span>, silahkan lengkapi dengan mengunjungi laman Profile atau klik <a href="<?= base_url('pengguna/profile') ?>">disini</a></p>
                 </div>
             </div>
             <div class="modal-footer">
