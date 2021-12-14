@@ -34,6 +34,15 @@ class Petugas_mod extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+    public function allPetugas()
+    {
+        $this->db->select('p.id_petugas, nama, email, p.active, count(id_sttlp) pelayanan');
+        $this->db->from('petugas p');
+        $this->db->join('sttlp s', 'p.id_petugas = s.id_petugas', 'left');
+        $this->db->group_by('p.id_petugas');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function getSttlpByPetugas($id)
     {
         $this->db->select('s.id_sttlp id_sttlp, no_lp, p.nama pengguna, tanggal, keterangan, nama_berkas ,s.id_petugas, tgl_proses, proses, tgl_kejadian');

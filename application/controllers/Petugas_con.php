@@ -309,6 +309,7 @@ class Petugas_con extends CI_Controller
         }
     }
 
+
     public function viewProfile($id)
     {
         if ($this->session->userdata('level') == 1) {
@@ -340,7 +341,20 @@ class Petugas_con extends CI_Controller
             redirect('/');
         }
     }
-
+    public function petugasView()
+    {
+        if ($this->session->userdata('level') == 1) {
+            $data['ses_akun'] = $this->petugas_mod->pengguna($this->session->userdata('email'));
+            $data['petugas'] = $this->petugas_mod->allPetugas();
+            $data['title'] = 'Profile Pelapor';
+            $data['heading'] = ' <h4 class="mb-0 text-gray-800">Pengaturan Akun</h4>';
+            $this->load->view('pub_petugas/layout/header', $data);
+            $this->load->view('pub_petugas/petugas', $data);
+            $this->load->view('pub_petugas/layout/footer', $data);
+        } else {
+            redirect('/');
+        }
+    }
     // CETAK EXCEL
     function rekapAkunPelapor()
     {
@@ -391,7 +405,52 @@ class Petugas_con extends CI_Controller
             $writer = new Xlsx($spreadsheet);
 
             header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="Rekap_All_Balasan-' . date('dmY') . '.xlsx"');
+            header('Content-Disposition: attachment;filename="Rekap_All_Pelapor-' . date('dmY') . '.xlsx"');
+            $writer->save('php://output');
+        } else {
+            redirect('/');
+        }
+    }
+    function rekapAkunPetugas()
+    {
+        if ($this->session->userdata('level') == 1) {
+            $list = $this->petugas_mod->allPetugas();
+            $spreadsheet = new Spreadsheet();
+            $sheet = $spreadsheet->getActiveSheet();
+            $sheet->mergeCells('A1:F1');
+            $sheet->setCellValue('A1', 'Rekap Data Akun Petugas');
+            $sheet->getStyle('A1:F1')
+                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->mergeCells('A2:F2');
+            $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
+            $sheet->getStyle('A2:F2')
+                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+            $sheet->setCellValue('A3', 'No');
+            $sheet->setCellValue('B3', 'ID Petugas');
+            $sheet->setCellValue('C3', 'Nama');
+            $sheet->setCellValue('D3', 'Email');
+            $sheet->setCellValue('E3', 'Pelayanan');
+            $sheet->setCellValue('F3', 'Status');
+            foreach (range('A', 'F') as $columnID) {
+                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+                    ->setAutoSize(true);
+            }
+            $rows = 4;
+            $id = 1;
+            foreach ($list as $val) {
+                $sheet->setCellValue('A' . $rows, $id);
+                $sheet->setCellValue('B' . $rows, $val['id_petugas']);
+                $sheet->setCellValue('C' . $rows, $val['nama']);
+                $sheet->setCellValue('D' . $rows, $val['email']);
+                $sheet->setCellValue('E' . $rows, $val['pelayanan']);
+                $sheet->setCellValue('F' . $rows, ($val['active'] == 0) ? 'Pending' : 'Aktif');
+                $rows++;
+                $id++;
+            }
+            $writer = new Xlsx($spreadsheet);
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="Rekap_All_Petugas-' . date('dmY') . '.xlsx"');
             $writer->save('php://output');
         } else {
             redirect('/');

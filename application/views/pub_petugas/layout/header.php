@@ -57,6 +57,13 @@
                 </a>
 
             </li>
+            <li class="nav-item <?php echo ($this->uri->segment(2) == 'petugasakun') ? 'active' : '' ?>">
+                <a class="nav-link" href="<?= base_url('petugas/petugasakun') ?>">
+                    <i class="fas fa-address-card"></i>
+                    <span>Petugas</span>
+                </a>
+
+            </li>
 
             <hr class="sidebar-divider">
 

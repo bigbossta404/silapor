@@ -210,5 +210,25 @@ $(document).ready( function () {
             null
           ]
     });
+    $('#tablepetugas').DataTable({
+        "language": {
+            "emptyTable": "Tidak Ada Akun Petugas",
+            "processing": "Memuat Data",
+            "zeroRecords": "Data Tidak Ditemukan"
+        },
+        "columnDefs": [
+        {
+            "targets": [0,3,4],
+            "className": "text-center",
+        }
+    ],
+        "columns": [
+            { "width": "0%" },
+            null,
+            null,
+            { "width": "20%" },
+            null,
+          ]
+    });
 
 });
