@@ -74,7 +74,7 @@
                             <div class="row no-gutters align-items-center pl-3 pr-3">
                                 <div class="col d-flex align-items-center">
                                     <a href="#" class="btn btn-primary mr-3" data-toggle="modal" data-target=".balaslaporan"><i class="far fa-paper-plane"></i> Balas</a>
-                                    <a href="<?= base_url('petugas_con/cetakSurat/' . $dl['idsttlp']) ?>" class="btn btn-danger "><i class="fas fa-print"></i></i> Cetak Surat</a>
+                                    <?php echo ($dl['id_petugas'] != null) ? '<a href="../../petugas_con/cetakSurat/' . $dl['idsttlp'] . '" class="btn btn-danger "><i class="fas fa-print"></i></i> Cetak Surat</a>' : '' ?>
                                     <span class="ml-auto">Status:
                                         <span class="w100 font-weight-bold">
                                             <?php echo ucwords($dl['proses']) ?>

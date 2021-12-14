@@ -58,7 +58,7 @@
                 </div>
                 <div class="footer-page">
                     <div class="ttd">
-                        <div id="waktutgl">Yogyakarta, 10 <?= $bulan ?> 2021</div>
+                        <div id="waktutgl">Yogyakarta, <?= $datenow['hari'] . ' ' . $datenow['bulan'] . ' ' . $datenow['tahun'] ?></div>
                         <div>MENGETAHUI <br>KAPOLSEK SEKTOR PAKUALAMAN <br>Ka. SPKT</div>
                         <div id="nama-kapolsek">SIGIT ARIYANTO ADI,S,ST,.M.M</div>
                         <div>KOMISARIS POLISI NRP 76120071</div>

@@ -87,7 +87,8 @@ class Petugas_con extends CI_Controller
             $data = array();
             foreach ($list as $surat) {
                 $row = array();
-                $row[] = '<b>' . $surat->no_lp . '</b><br> <span>' . $surat->pengguna . '<br><small>' . $surat->tanggal . '<small></span>';
+                $row[] = '<b>' . $surat->no_lp . '</b><br> <span>' . $surat->pengguna . '<br></span>';
+                $row[] = $surat->tanggal;
                 $row[] = $surat->nama_berkas;
                 $row[] = $surat->proses;
                 $row[] =  '<button class="btn btn-primary btn_active btn_updatebalas" id="' . $surat->id_sttlp . '"><i class="fas fa-pencil-alt"></i></button>
@@ -404,8 +405,12 @@ class Petugas_con extends CI_Controller
         if ($this->session->userdata('level') == 1) {
             setlocale(LC_ALL, 'IND');
             $date_now = date('Y-m-d');
-            $month_name = strftime('%B', strtotime($date_now));
-            $data['bulan'] = $month_name;
+            $data['datenow'] = array(
+                'hari' => strftime('%d', strtotime($date_now)),
+                'bulan' => strftime('%B', strtotime($date_now)),
+                'tahun' => strftime('%Y', strtotime($date_now)),
+            );
+            // $data['bulan'] = $month_name;
             $data['ds'] = $this->petugas_mod->cetakSTTLP($id);
             $this->load->view('pub_petugas/suratlapor', $data);
         } else {

@@ -117,13 +117,13 @@ class Petugas_mod extends CI_Model
     // ============================================================
 
     //================== Datatables Balasan
-    var $column_order_balas = array('no_lp', 'keterangan', 'nama_berkas', null); //set column field database for datatable orderable
+    var $column_order_balas = array('no_lp', 'tanggal', 'keterangan', 'nama_berkas', null); //set column field database for datatable orderable
     var $column_search_balas = array('nama', 'no_lp', 'nama_berkas', 'tanggal', 'proses'); //set column field database for datatable searchable just firstname , lastname , address are searchable
     var $order_balas = ['tanggal' => 'desc']; // default o
     private function _get_datatableBalas($id)
     {
 
-        $this->db->select('s.id_sttlp, no_lp, p.nama pengguna, tanggal, keterangan, nama_berkas ,s.id_petugas, tgl_proses, proses');
+        $this->db->select('s.id_sttlp, no_lp, p.nama pengguna, date_format(tanggal,"%d-%m-%Y ( %H:%I )") tanggal, keterangan, nama_berkas ,s.id_petugas, tgl_proses, proses');
         $this->db->from('sttlp s');
         $this->db->join('pelapor p', 's.id_pelapor = p.id_pelapor');
         $this->db->join('aktivitas_sttlp aks', 'aks.id_sttlp = s.id_sttlp');

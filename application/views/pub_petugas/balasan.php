@@ -86,7 +86,7 @@
                             <table id="tablebalas" class="table table-striped table-bordered" width="100%" cellspacing="0">
                                 <thead>
                                     <th>Surat</th>
-                                    <!-- <th>Keterangan</th> -->
+                                    <th>Tanggal Kirim</th>
                                     <th>Jenis</th>
                                     <th>Status</th>
                                     <th>Aksi</th>

@@ -169,12 +169,13 @@ $(document).ready( function () {
             type: "POST"
         },
         "columnDefs": [{
-            "targets": [3],
+            "targets": [4],
             "className": "text-center",
             "orderable": false
         }],
         "columns": [
             { "width": "20%" },
+            null,
             null,
             null,
             null
