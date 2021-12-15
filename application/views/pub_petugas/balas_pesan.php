@@ -95,7 +95,7 @@
                                     <div class="info-pinjam">
                                         <div class="nolap">
                                             <div class="mb-0 font-weight-bold text-gray-800">
-                                                No Lap. <?php echo $dl['idsttlp'] ?>
+                                                No. <?php echo $dl['no_lp'] ?>
                                             </div>
                                         </div>
                                         <p class="mb-2"><?php echo ($dl['nberkas'] == null) ? 'Surat N/A' : 'Surat ' . $dl['nberkas'] ?> - Dikirim pada tanggal <?php echo $dl['tglkirim'] ?></p>

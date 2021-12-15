@@ -46,8 +46,7 @@ class Petugas_con extends CI_Controller
                 $row[] = $surat->tempat_kejadian;
                 $row[] = $surat->tgl_kejadian;
                 // $row[] = ($surat->nama_berkas == null) ? '<span class="bg-warning text-dark text-weight-bold pt-1 pb-1 pl-2 pr-2 rounded">Belum disortir<span>' : $surat->nama_berkas;
-                $row[] =  '<button class="btn btn-primary btn_active btn_balas" id="' . $surat->id_sttlp . '"><i class="far fa-folder-open"></i></button>
-                            <button class="btn btn-danger btn_hapusakun" id="' . $surat->id_sttlp . '"><i class="fas fa-trash-alt"></i></button>';
+                $row[] =  '<button class="btn btn-primary btn_active btn_balas" id="' . $surat->id_sttlp . '"><i class="far fa-folder-open"></i> Buka</button>';
                 $data[] = $row;
             }
 
@@ -106,6 +105,16 @@ class Petugas_con extends CI_Controller
             echo json_encode($output);
         } else {
             redirect('/');
+        }
+    }
+
+    function deleteInbox($id_sttlp)
+    {
+        $do_delete = $this->petugas_mod->deleteBalasan($id_sttlp);
+        if ($do_delete) {
+            echo json_encode('sukses');
+        } else {
+            echo json_encode('gagal');
         }
     }
 
@@ -292,7 +301,7 @@ class Petugas_con extends CI_Controller
                 $row[] = $p->email;
                 $row[] = ($p->active == 1) ? '<div class="d-flex justify-content-center"><span class="bg-success status-akun">Aktif</span></div>' : '<div class="d-flex justify-content-center"><span class="bg-warning status-akun">Pending</span></div>';
                 $row[] =  '<a href="../petugas_con/viewProfile/' . $p->id_pelapor . '" class="btn btn-primary btn_active btn_updatebalas"><i class="fas fa-pencil-alt"></i></a>
-                            <a href="#" class="btn btn-danger btn_hapus_balas" id="' . $p->id_pelapor . '"><i class="fas fa-trash-alt"></i></a>';
+                            <a href="#" class="btn btn-danger btn_hapus_akun" id="' . $p->id_pelapor . '"><i class="fas fa-trash-alt"></i></a>';
                 $data[] = $row;
             }
 
@@ -309,6 +318,15 @@ class Petugas_con extends CI_Controller
         }
     }
 
+    function deleteProfileAkun($id)
+    {
+        $do_delete = $this->petugas_mod->deleteProfile($id);
+        if ($do_delete) {
+            echo json_encode('sukses');
+        } else {
+            echo json_encode('gagal');
+        }
+    }
 
     public function viewProfile($id)
     {

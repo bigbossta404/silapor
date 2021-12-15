@@ -203,6 +203,7 @@ class Petugas_mod extends CI_Model
 
         $this->db->select('*');
         $this->db->from('pelapor');
+        $this->db->where('is_exist', '1');
 
         $i = 0;
 
@@ -327,6 +328,25 @@ class Petugas_mod extends CI_Model
     {
         $this->db->set('tgl_proses', 'NOW()', FALSE);
         $this->db->insert('aktivitas_sttlp ', $data);
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
+    function deleteBalasan($id)
+    {
+        $this->db->where('id_sttlp', $id);
+        $this->db->delete('sttlp');
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
+    function deleteProfile($id)
+    {
+        $this->db->set('email', '-');
+        $this->db->set('active', '0');
+        $this->db->set('is_exist', '0');
+        $this->db->where('id_pelapor', $id);
+        $this->db->update('pelapor');
         if ($this->db->affected_rows() > 0) {
             return true; // to the controller
         }

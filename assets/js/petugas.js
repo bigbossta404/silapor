@@ -1,15 +1,86 @@
 $(document).ready(function(){
    
-    $(this).on('click','.btn-buka',function(){
+    $(this).on('click','.btn_hapus_balas',function(){
         var id_sttlp = $(this).attr('id');
-        $.ajax({
-            url: '../pengguna_con/viewLaporan/'+id_sttlp,
-            type: 'POST',
-            data: {id_sttlp:id_sttlp},
-            success:function(){
-                window.location.href = '../pengguna_con/viewLaporan/'+id_sttlp;
-            }        
-        })
+        // alert(id_sttlp);
+        Swal.fire({
+            title: 'Yakin hapus STTLP?',
+            text: "Data akan dihapus permanen!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya, Hapus'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                $.ajax({
+                    url: '../petugas_con/deleteInbox/'+id_sttlp,
+                    type: 'POST',
+                    data: {id_sttlp:id_sttlp},
+                    dataType: 'JSON',
+                    success:function(data){
+                        if(data == 'sukses'){
+                            Swal.fire(
+                                'Terhapus!',
+                                'STTLP berhasil dihapus.',
+                                'success',
+                              )
+                              .then(function(){
+                                $('#tablebalas').DataTable().ajax.reload();
+                              });
+                        }else{
+                            Swal.fire(
+                                'Gagal!',
+                                'STTLP gagal dihapus.',
+                                'error',
+                              )
+                        }
+                    }        
+                })
+            }
+        });
+    });
+    $(this).on('click','.btn_hapus_akun',function(){
+        var id_pelapor = $(this).attr('id');
+        // alert(id_sttlp);
+        Swal.fire({
+            title: 'Yakin Hapus Akun?',
+            text: "Akun tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya, Hapus'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                $.ajax({
+                    url: '../petugas_con/deleteProfileAkun/'+id_pelapor,
+                    type: 'POST',
+                    data: {id_pelapor:id_pelapor},
+                    dataType: 'JSON',
+                    success:function(data){
+                        if(data == 'sukses'){
+                            Swal.fire(
+                                'Terhapus!',
+                                'Akun berhasil dihapus.',
+                                'success',
+                              )
+                              .then(function(){
+                                $('#tablepelapor').DataTable().ajax.reload();
+                              });
+                        }else{
+                            Swal.fire(
+                                'Gagal!',
+                                'Akun gagal dihapus.',
+                                'error',
+                              )
+                        }
+                    }        
+                })
+            }
+        });
     });
     
     $('#input-kk').fileinput({
@@ -132,7 +203,7 @@ $(document).ready(function(){
 $(document).ready( function () {
     $('#tablesurat').DataTable({
         "language": {
-            "emptyTable": "Tidak Ada Tagihan",
+            "emptyTable": "Tidak Ada STTLP Masuk",
             "processing": "Memuat Data",
             "zeroRecords": "Data Tidak Ditemukan"
         },
@@ -158,7 +229,7 @@ $(document).ready( function () {
 
     $('#tablebalas').DataTable({
         "language": {
-            "emptyTable": "Tidak Ada Tagihan",
+            "emptyTable": "Tidak Ada Balasan",
             "processing": "Memuat Data",
             "zeroRecords": "Data Tidak Ditemukan"
         },
@@ -183,7 +254,7 @@ $(document).ready( function () {
     });
     $('#tablepelapor').DataTable({
         "language": {
-            "emptyTable": "Tidak Ada Tagihan",
+            "emptyTable": "Tidak Ada Akun",
             "processing": "Memuat Data",
             "zeroRecords": "Data Tidak Ditemukan"
         },
