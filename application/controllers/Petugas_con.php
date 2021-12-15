@@ -125,6 +125,15 @@ class Petugas_con extends CI_Controller
             $list = $this->petugas_mod->getSttlpByPetugas($akun_petugas);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
+            $styleArray = array(
+                'borders' => array(
+                    'allborders' => array(
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+                        'color' => array('argb' => 'FFFF0000'),
+                    ),
+                ),
+            );
+            $sheet->getStyle('A1:')->applyFromArray($styleArray);
             $sheet->mergeCells('A1:H1');
             $sheet->setCellValue('A1', 'Rekap Surat Tanda Terima Laporan Polisi');
             $sheet->getStyle('A1:H1')
@@ -144,6 +153,7 @@ class Petugas_con extends CI_Controller
             foreach (range('A', 'H') as $columnID) {
                 $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
                     ->setAutoSize(true);
+                // $sheet->getStyle('B2:G8')->applyFromArray($styleArray);
             }
             $rows = 4;
             $id = 1;
@@ -322,6 +332,30 @@ class Petugas_con extends CI_Controller
     {
         $do_delete = $this->petugas_mod->deleteProfile($id);
         if ($do_delete) {
+            echo json_encode('sukses');
+        } else {
+            echo json_encode('gagal');
+        }
+    }
+    function deleteProfileKTP($id)
+    {
+        $data = $this->petugas_mod->pelapor($id);
+        $img_ktp = $data['img_ktp'];
+        $do_delete = $this->petugas_mod->deleteProfileKTP($id);
+        if ($do_delete) {
+            unlink('assets/img/ektp/' . $img_ktp);
+            echo json_encode('sukses');
+        } else {
+            echo json_encode('gagal');
+        }
+    }
+    function deleteProfileKK($id)
+    {
+        $data = $this->petugas_mod->pelapor($id);
+        $img_kk = $data['img_kk'];
+        $do_delete = $this->petugas_mod->deleteProfileKK($id);
+        if ($do_delete) {
+            unlink('assets/img/kk/' . $img_kk);
             echo json_encode('sukses');
         } else {
             echo json_encode('gagal');

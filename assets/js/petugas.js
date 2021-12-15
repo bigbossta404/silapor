@@ -82,6 +82,88 @@ $(document).ready(function(){
             }
         });
     });
+    $(this).on('click','.btn_hapus_ktp',function(){
+        var id_pelapor = $(this).attr('id');
+        // alert(id_sttlp);
+        Swal.fire({
+            title: 'Hapus KTP Pelapor?',
+            text: "Data tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya, Hapus'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                $.ajax({
+                    url: '../../petugas_con/deleteProfileKTP/'+id_pelapor,
+                    type: 'POST',
+                    data: {id_pelapor:id_pelapor},
+                    dataType: 'JSON',
+                    success:function(data){
+                        if(data == 'sukses'){
+                            Swal.fire(
+                                'Terhapus!',
+                                'KTP berhasil dihapus.',
+                                'success',
+                              )
+                              .then(function(){
+                                location.reload();
+                              });
+                        }else{
+                            Swal.fire(
+                                'Gagal!',
+                                'KTP gagal dihapus.',
+                                'error',
+                              )
+                        }
+                    }        
+                })
+            }
+        });
+    });
+    $(this).on('click','.btn_hapus_kk',function(){
+        var id_pelapor = $(this).attr('id');
+        // alert(id_sttlp);
+        Swal.fire({
+            title: 'Hapus KK Pelapor?',
+            text: "Data tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya, Hapus'
+        }).then((result)=>{
+            if(result.isConfirmed){
+                $.ajax({
+                    url: '../../petugas_con/deleteProfileKK/'+id_pelapor,
+                    type: 'POST',
+                    data: {id_pelapor:id_pelapor},
+                    dataType: 'JSON',
+                    success:function(data){
+                        if(data == 'sukses'){
+                            Swal.fire(
+                                'Terhapus!',
+                                'KK berhasil dihapus.',
+                                'success',
+                              )
+                              .then(function(){
+                                location.reload();
+                              });
+                        }else{
+                            Swal.fire(
+                                'Gagal!',
+                                'KK gagal dihapus.',
+                                'error',
+                              )
+                        }
+                    }        
+                })
+            }
+        });
+    });
     
     $('#input-kk').fileinput({
         "showRemove" : false,

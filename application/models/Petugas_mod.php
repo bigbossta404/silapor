@@ -351,6 +351,26 @@ class Petugas_mod extends CI_Model
             return true; // to the controller
         }
     }
+    function deleteProfileKTP($id)
+    {
+        $this->db->set('active', '0');
+        $this->db->set('img_ktp', null);
+        $this->db->where('id_pelapor', $id);
+        $this->db->update('pelapor');
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
+    function deleteProfileKK($id)
+    {
+        $this->db->set('active', '0');
+        $this->db->set('img_kk', null);
+        $this->db->where('id_pelapor', $id);
+        $this->db->update('pelapor');
+        if ($this->db->affected_rows() > 0) {
+            return true; // to the controller
+        }
+    }
     function updateAktivasi($data)
     {
         $this->db->set('active', $data['status']);

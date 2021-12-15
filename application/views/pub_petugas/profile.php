@@ -118,15 +118,15 @@
                                 <div class="row">
                                     <div class="col">
                                         <label for="ktp">E-KTP <?php echo ($user['img_ktp'] == null) ? '(kosong)' : '(terunggah) <i class="text-success fas fa-check-circle"></i>' ?></label><br>
-                                        <a href="<?php echo base_url('assets/img/ektp/' . $user['img_ktp']) ?>" class="btn btn-primary mr-2" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</a>
-                                        <button class="btn btn-danger" <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
+                                        <a href="<?php echo ($user['img_kk'] == null) ? '#' : base_url('assets/img/ektp/' . $user['img_ktp']) ?>" class="btn btn-primary mr-2 <?php echo ($user['img_ktp'] == null) ? 'disabled' : '' ?>"><i class="fas fa-external-link-alt"></i> Lihat</a>
+                                        <button class="btn btn-danger btn_hapus_ktp" type="button" <?php echo ($user['img_ktp'] == null) ? 'disabled' : 'id="' . $user['id_pelapor'] . '"' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col">
                                         <label for="ktp">Kartu Keluarga <?php echo ($user['img_kk'] == null) ? '(kosong)' : '(terunggah) <i class="text-success fas fa-check-circle"></i>' ?></label><br>
-                                        <a href="<?php echo base_url('assets/img/kk/' . $user['img_kk']) ?>" class="btn btn-primary mr-2" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-external-link-alt"></i> Lihat</a>
-                                        <button class="btn btn-danger" <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
+                                        <a href="<?php echo ($user['img_kk'] == null) ? '#' : base_url('assets/img/kk/' . $user['img_kk']) ?>" class="btn btn-primary mr-2 <?php echo ($user['img_kk'] == null) ? 'disabled' : '' ?>"><i class="fas fa-external-link-alt"></i> Lihat</a>
+                                        <button class="btn btn-danger btn_hapus_kk" type="button" <?php echo ($user['img_kk'] == null) ? 'disabled' : 'id="' . $user['id_pelapor'] . '"' ?>><i class="fas fa-trash-alt"></i> Hapus</button>
                                     </div>
                                 </div>
                             </div>
