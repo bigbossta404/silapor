@@ -365,6 +365,7 @@ class Petugas_con extends CI_Controller
     public function viewProfile($id)
     {
         if ($this->session->userdata('level') == 1) {
+            $data['ses_akun'] = $this->petugas_mod->pengguna($this->session->userdata('email'));
             $data['user'] = $this->petugas_mod->pelapor($id);
             $data['title'] = 'Profile Pelapor';
             $data['heading'] = ' <h4 class="mb-0 text-gray-800">Pengaturan Akun</h4>';

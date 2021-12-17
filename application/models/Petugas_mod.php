@@ -353,7 +353,7 @@ class Petugas_mod extends CI_Model
     }
     function deleteProfileKTP($id)
     {
-        $this->db->set('active', '0');
+        // $this->db->set('active', '0');
         $this->db->set('img_ktp', null);
         $this->db->where('id_pelapor', $id);
         $this->db->update('pelapor');
@@ -363,7 +363,7 @@ class Petugas_mod extends CI_Model
     }
     function deleteProfileKK($id)
     {
-        $this->db->set('active', '0');
+        // $this->db->set('active', '0');
         $this->db->set('img_kk', null);
         $this->db->where('id_pelapor', $id);
         $this->db->update('pelapor');

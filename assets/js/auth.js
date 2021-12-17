@@ -19,7 +19,7 @@ $(document).ready(function(){
                         showConfirmButton: false,
                         timer: 1500
                     }).then(function(){
-                        window.location.href = '../login';
+                        window.location.href = 'login';
                     });
                 }else if(data == 'gagal'){
                     Swal.fire({

@@ -11,6 +11,11 @@ class Pengguna_con extends CI_Controller
         $this->load->library('session');
         $this->load->library('pagination');
         $this->load->library('form_validation');
+
+        $cek_active = $this->pengguna_mod->getAkun($this->session->userdata('email'));
+        if ($cek_active['active'] == 0 || $cek_active['is_exist'] == 0) {
+            redirect('auth/logout');
+        }
     }
     public function index()
     {
