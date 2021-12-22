@@ -163,7 +163,11 @@ class Pengguna_con extends CI_Controller
             }
 
             $data['title'] = 'Detail Laporan';
-            $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="../../pengguna_con/cetakSurat/' . $id_surat . '" class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
+            if ($data['dl']['proses'] == 'proses' || $data['dl']['proses'] == 'selesai') {
+                $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="../../pengguna_con/cetakSurat/' . $id_surat . '" class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
+            } else {
+                $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4>';
+            }
             $this->load->view('pub_pengguna/layout/header', $data);
             $this->load->view('pub_pengguna/detailLap', $data);
             $this->load->view('pub_pengguna/layout/footer', $data);

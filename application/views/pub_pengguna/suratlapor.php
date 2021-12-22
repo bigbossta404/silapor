@@ -51,6 +51,11 @@
                                 <td>: </td>
                                 <td><?= $ds['notelp'] ?></td>
                             </tr>
+                            <tr>
+                                <td width="130">Status</td>
+                                <td>: </td>
+                                <td><?= ucwords($ds['proses']) ?></td>
+                            </tr>
                         </table>
                         <span>Melaporkan bahwa terjadi suatu perkara, sebagaimana keterangan: <?= $ds['keterangan'] ?> Terjadi pada tanggal <?= $ds['tgl_kejadian'] ?> beralamatkan di <?= $ds['tempat_kejadian'] ?>. Berdasarkan keterangan tersebut, telah diterima sebuah laporan dan diketahui di wilayah hukum Polsek Pakualaman Yogyakarta, Sehingga betul adanya surat ini dilaporkan oleh saya atas nama: <?= $ds['nama'] ?> Demikian Surat Keterangan Tanda Lapor <b> <?= $ds['nama_berkas'] ?> </b>ini dibuat agar dapat dipergunakan seperlunya.</span>
                     </div>

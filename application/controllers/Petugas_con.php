@@ -14,6 +14,7 @@ class Petugas_con extends CI_Controller
         $this->load->library('session');
         $this->load->library('pagination');
         $this->load->library('form_validation');
+        $this->load->library('email');
     }
     public function index()
     {
@@ -125,15 +126,15 @@ class Petugas_con extends CI_Controller
             $list = $this->petugas_mod->getSttlpByPetugas($akun_petugas);
             $spreadsheet = new Spreadsheet();
             $sheet = $spreadsheet->getActiveSheet();
-            $styleArray = array(
-                'borders' => array(
-                    'allborders' => array(
-                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
-                        'color' => array('argb' => 'FFFF0000'),
-                    ),
-                ),
-            );
-            $sheet->getStyle('A1:')->applyFromArray($styleArray);
+            // $styleArray = array(
+            //     'borders' => array(
+            //         'allborders' => array(
+            //             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
+            //             'color' => array('argb' => 'FFFF0000'),
+            //         ),
+            //     ),
+            // );
+            // $sheet->getStyle('A1:')->applyFromArray($styleArray);
             $sheet->mergeCells('A1:H1');
             $sheet->setCellValue('A1', 'Rekap Surat Tanda Terima Laporan Polisi');
             $sheet->getStyle('A1:H1')
@@ -243,15 +244,44 @@ class Petugas_con extends CI_Controller
                 );
                 $cekdata = $this->petugas_mod->getData_byid($this->input->post('id'));
 
+                $this->load->library('mailer');
+                $email_pengirim = 'fakhrifadlan14@gmail.com';
+                $nama_pengirim = 'Kepolisian Pakualaman';
+                $pass = 'spongebob404';
+
+                $email_penerima = 'rfakhriapp@gmail.com';
+                $subjek = 'Kabar Terbaru STTLP Anda!';
+                // $attachment = $_FILES['attachment'];
+                // $content = $this->load->view('content', array('pesan' => $pesan), true); // Ambil isi file content.php dan masukan ke variabel $content
+
+
                 if ($cekdata['proses'] != $this->input->post('statusProses') || $cekdata['ket'] != $this->input->post('isibalasan')) {
                     if ($cekdata['ket'] == $this->input->post('isibalasan')) {
                         unset($datalapor['ket']);
                         $do_submit = $this->petugas_mod->insertBalasan($datalapor);
                         if ($do_submit == true) {
+
                             $this->db->set('id_petugas', $session['id_petugas']);
                             $this->db->set('id_berkas', $this->input->post('berkas'));
                             $this->db->where('id_sttlp', $this->input->post('id'));
                             $this->db->update('sttlp');
+
+                            $pesan = 'Hi ' . $cekdata['nama'] . ', STTLP anda yang kini berstatus: <b>' . ucwords($this->input->post('statusProses')) . '</b> baru saja kami tindaklanjuti, silahkan untuk pergi ke laman Sistem Kepolisian Pakualaman pada website Silapor agar bisa meninjau lebih detail lagi terkait STTLP anda, Terima kasih.';
+                            $sendmail = array(
+                                'email_pengirim' => $email_pengirim,
+                                'nama_pengirim' => $nama_pengirim,
+                                'pass' => $pass,
+                                'email_penerima' => $email_penerima,
+                                'subjek' => $subjek,
+                                'pesan' => $pesan,
+                                // 'content' => $content,
+                                // 'attachment' => $attachment
+                            );
+                            if (empty($attachment['name'])) {
+                                $this->mailer->send($sendmail); // Panggil fungsi send yang ada di librari Mailer
+                            } else {
+                                $this->mailer->send_with_attachment($sendmail); // Panggil fungsi send_with_attachment yang ada di librari Mailer
+                            }
 
                             echo json_encode('sukses');
                         } else {
@@ -265,6 +295,22 @@ class Petugas_con extends CI_Controller
                             $this->db->where('id_sttlp', $this->input->post('id'));
                             $this->db->update('sttlp');
 
+                            $pesan = 'Hi ' . $cekdata['nama'] . ', STTLP anda yang kini berstatus: <b>' . ucwords($this->input->post('statusProses')) . '</b> baru saja kami tindaklanjuti, silahkan untuk pergi ke laman Sistem Kepolisian Pakualaman pada website Silapor agar bisa meninjau lebih detail lagi terkait STTLP anda, Terima kasih.';
+                            $sendmail = array(
+                                'email_pengirim' => $email_pengirim,
+                                'nama_pengirim' => $nama_pengirim,
+                                'pass' => $pass,
+                                'email_penerima' => $email_penerima,
+                                'subjek' => $subjek,
+                                'pesan' => $pesan,
+                                // 'content' => $content,
+                                // 'attachment' => $attachment
+                            );
+                            if (empty($attachment['name'])) {
+                                $this->mailer->send($sendmail); // Panggil fungsi send yang ada di librari Mailer
+                            } else {
+                                $this->mailer->send_with_attachment($sendmail); // Panggil fungsi send_with_attachment yang ada di librari Mailer
+                            }
                             echo json_encode('sukses');
                         } else {
                             echo json_encode('gagal');
@@ -275,6 +321,23 @@ class Petugas_con extends CI_Controller
                     $this->db->set('id_berkas', $this->input->post('berkas'));
                     $this->db->where('id_sttlp', $this->input->post('id'));
                     $this->db->update('sttlp');
+
+                    $pesan = 'Hi ' . $cekdata['nama'] . ', STTLP anda yang kini berstatus: <b>' . ucwords($this->input->post('statusProses')) . '</b> baru saja kami tindaklanjuti, silahkan untuk pergi ke laman Sistem Kepolisian Pakualaman pada website Silapor agar bisa meninjau lebih detail lagi terkait STTLP anda, Terima kasih.';
+                    $sendmail = array(
+                        'email_pengirim' => $email_pengirim,
+                        'nama_pengirim' => $nama_pengirim,
+                        'pass' => $pass,
+                        'email_penerima' => $email_penerima,
+                        'subjek' => $subjek,
+                        'pesan' => $pesan,
+                        // 'content' => $content,
+                        // 'attachment' => $attachment
+                    );
+                    if (empty($attachment['name'])) {
+                        $this->mailer->send($sendmail); // Panggil fungsi send yang ada di librari Mailer
+                    } else {
+                        $this->mailer->send_with_attachment($sendmail); // Panggil fungsi send_with_attachment yang ada di librari Mailer
+                    }
                     echo json_encode('sukses');
                 }
             }

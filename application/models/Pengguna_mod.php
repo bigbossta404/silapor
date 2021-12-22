@@ -172,9 +172,10 @@ class Pengguna_mod extends CI_Model
     // }
     function cetakSTTLP($id)
     {
-        $query = $this->db->query('SELECT s.id_sttlp, no_lp,  CASE WHEN DATE_FORMAT(tanggal,"%w") = 1 THEN "Minggu" WHEN DATE_FORMAT(tanggal,"%w") = 2 THEN "Senin" WHEN DATE_FORMAT(tanggal,"%w") = 3 THEN "Selasa"  WHEN DATE_FORMAT(tanggal,"%w") = 4 THEN "Rabu" WHEN DATE_FORMAT(tanggal,"%w") = 5 THEN "Kamis" WHEN DATE_FORMAT(tanggal,"%w") = 6 THEN "Jumat" END as harilap ,DAY(tanggal) tgllap, MONTH(tanggal) bulanlap, YEAR(tanggal) tahunlap, DATE_FORMAT(tanggal,"%H:%i") jamlap, nama_berkas, nama, jk, alamat, email, notelp, keterangan, DATE_FORMAT(tgl_kejadian,"%d-%m-%Y")tgl_kejadian, tempat_kejadian
+        $query = $this->db->query('SELECT s.id_sttlp, no_lp,  CASE WHEN DATE_FORMAT(tanggal,"%w") = 1 THEN "Minggu" WHEN DATE_FORMAT(tanggal,"%w") = 2 THEN "Senin" WHEN DATE_FORMAT(tanggal,"%w") = 3 THEN "Selasa"  WHEN DATE_FORMAT(tanggal,"%w") = 4 THEN "Rabu" WHEN DATE_FORMAT(tanggal,"%w") = 5 THEN "Kamis" WHEN DATE_FORMAT(tanggal,"%w") = 6 THEN "Jumat" END as harilap ,DAY(tanggal) tgllap, MONTH(tanggal) bulanlap, YEAR(tanggal) tahunlap, DATE_FORMAT(tanggal,"%H:%i") jamlap, nama_berkas, nama, jk, alamat, email, notelp, keterangan, DATE_FORMAT(tgl_kejadian,"%d-%m-%Y")tgl_kejadian, tempat_kejadian, proses
       FROM sttlp s 
       left JOIN berkas b ON b.id_berkas = s.id_berkas
+      left JOIN aktivitas_sttlp ak on ak.id_sttlp = s.id_sttlp
       JOIN pelapor p ON p.id_pelapor = s.`id_pelapor`
       WHERE s.id_sttlp = ' . $id . '
       ');
