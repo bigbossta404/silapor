@@ -70,6 +70,7 @@ class Petugas_con extends CI_Controller
         if ($this->session->userdata('level') == 1) {
             $data['ses_akun'] = $this->petugas_mod->pengguna($this->session->userdata('email'));
             $data['title'] = 'Balasan Anda';
+            $data['jumberkas'] = $this->petugas_mod->jumBerkas($data['ses_akun']['id_petugas']);
 
             $this->load->view('pub_petugas/layout/header', $data);
             $this->load->view('pub_petugas/balasan', $data);
@@ -242,18 +243,37 @@ class Petugas_con extends CI_Controller
                     'proses' => $this->input->post('statusProses'),
                     'id_sttlp' => $this->input->post('id')
                 );
+                // if ($this->input->post('statusProses') == 'selesai') {
+                //     if (!empty($_FILES['uploaporan']['name'])) {
+                //         $config = array();
+                //         $config['file_name'] = $this->input->post('id');
+                //         $config['upload_path']          = './assets/img/laporan';
+                //         $config['allowed_types']        = 'pdf';
+                //         $config['max_size']             = 5048;
+
+                //         $this->load->library('upload', $config, 'lap');
+                //         $this->lap->initialize($config);
+                //         $lap = $this->lap->do_upload('uploaporan');
+
+                //         if (!$lap) {
+                //             echo json_encode('error-uploadlap');
+                //         }
+                //         // else {
+                //         //     unlink('assets/img/ektp/' . $old_lap);
+                //         // }
+                //     }
+                // }
                 $cekdata = $this->petugas_mod->getData_byid($this->input->post('id'));
 
                 $this->load->library('mailer');
                 $email_pengirim = 'fakhrifadlan14@gmail.com';
                 $nama_pengirim = 'Kepolisian Pakualaman';
-                $pass = 'spongebob404';
+                $pass = '******';
 
-                $email_penerima = 'rfakhriapp@gmail.com';
+                $email_penerima = $cekdata['email_pelapor'];
                 $subjek = 'Kabar Terbaru STTLP Anda!';
                 // $attachment = $_FILES['attachment'];
                 // $content = $this->load->view('content', array('pesan' => $pesan), true); // Ambil isi file content.php dan masukan ke variabel $content
-
 
                 if ($cekdata['proses'] != $this->input->post('statusProses') || $cekdata['ket'] != $this->input->post('isibalasan')) {
                     if ($cekdata['ket'] == $this->input->post('isibalasan')) {

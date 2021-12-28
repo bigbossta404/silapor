@@ -229,6 +229,8 @@ $(document).ready(function(){
                         }else if(data.error){
                             $('.error-berkas').html(data['berkas'])
                             $('.error-statusProses').html(data['statusProses'])
+                        }else if(data == 'error-uploadlap'){
+                            $('.error-uploadlap').html('Upload tidak valid!')
                         }
                         
                     }
@@ -279,6 +281,16 @@ $(document).ready(function(){
         })
         
     })
+
+    // OPEN Upload
+    // $('#statusProses').on('change', function() {
+    //     if(this.value == 'selesai'){
+    //         $('.upload-selesai').css({'display':'block'});
+    //     }else{
+    //         $('.upload-selesai').css({'display':'none'});
+    //     }
+    //   });
+
 })
 
 // Datatables

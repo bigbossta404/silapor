@@ -91,13 +91,26 @@ body {
 
 .ttd {
     /* width: 40%; */
-    position: relative;
+    /* position: relative;
     float: right;
-    text-align: center;
+    text-align: center; */
 }
 
 .catatan {
     margin-top: 1em;
+}
+
+.row {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.row-date {
+    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 
 #waktutgl {

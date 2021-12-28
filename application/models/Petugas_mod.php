@@ -125,6 +125,22 @@ class Petugas_mod extends CI_Model
     }
     // ============================================================
 
+    // ================= Jumlah Berkas yang dimiliki
+
+    public function jumBerkas($id)
+    {
+        $this->db->select('sum(if(s.id_berkas = "1", 1, 0)) as aniaya, sum(if(s.id_berkas = "2", 1, 0)) as izin, sum(if(s.id_berkas = "3", 1, 0)) as kehilangan, sum(if(s.id_berkas = "4", 1, 0)) as rugi');
+        $this->db->from('sttlp s');
+        $this->db->join('pelapor p', 's.id_pelapor = p.id_pelapor');
+        $this->db->join('aktivitas_sttlp aks', 'aks.id_sttlp = s.id_sttlp');
+        $this->db->join('berkas b', 'b.id_berkas = s.id_berkas');
+        $this->db->where('s.id_petugas', $id);
+        $this->db->where('tgl_proses', '(SELECT MAX(tgl_proses) FROM aktivitas_sttlp a2 WHERE a2.`id_sttlp` = s.`id_sttlp`)', False);
+
+        $query = $this->db->get();
+        return $query->row_array();
+    }
+
     //================== Datatables Balasan
     var $column_order_balas = array('no_lp', 'tanggal', 'keterangan', 'nama_berkas', null); //set column field database for datatable orderable
     var $column_search_balas = array('nama', 'no_lp', 'nama_berkas', 'tanggal', 'proses'); //set column field database for datatable searchable just firstname , lastname , address are searchable
@@ -261,7 +277,7 @@ class Petugas_mod extends CI_Model
 
     function getData_byid($id)
     {
-        $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, b.id_berkas idberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas id_petugas, pt.nama namapetugas, DATE_FORMAT(tgl_kejadian,"%d/%m/%Y") tgl_kejadian, tempat_kejadian');
+        $this->db->select('s.id_sttlp idsttlp, no_lp, p.nama, p.email email_pelapor, DATE_FORMAT(tanggal,"%d/%m/%Y") tglkirim, keterangan, ket, b.nama_berkas nberkas, b.id_berkas idberkas, proses, DATE_FORMAT(tgl_proses,"%d/%m/%Y") tgl_proses, s.id_petugas id_petugas, pt.nama namapetugas, DATE_FORMAT(tgl_kejadian,"%d/%m/%Y") tgl_kejadian, tempat_kejadian');
         $this->db->from('sttlp s');
         $this->db->join('pelapor p', 'p.id_pelapor = s.id_pelapor');
         $this->db->join('berkas b', 'b.id_berkas = s.id_berkas', 'LEFT');
@@ -383,9 +399,10 @@ class Petugas_mod extends CI_Model
 
     function cetakSTTLP($id)
     {
-        $query = $this->db->query('SELECT s.id_sttlp, no_lp,  CASE WHEN DATE_FORMAT(tanggal,"%w") = 1 THEN "Minggu" WHEN DATE_FORMAT(tanggal,"%w") = 2 THEN "Senin" WHEN DATE_FORMAT(tanggal,"%w") = 3 THEN "Selasa"  WHEN DATE_FORMAT(tanggal,"%w") = 4 THEN "Rabu" WHEN DATE_FORMAT(tanggal,"%w") = 5 THEN "Kamis" WHEN DATE_FORMAT(tanggal,"%w") = 6 THEN "Jumat" END as harilap ,DAY(tanggal) tgllap, MONTH(tanggal) bulanlap, YEAR(tanggal) tahunlap, DATE_FORMAT(tanggal,"%H:%i") jamlap, nama_berkas, nama, jk, alamat, email, notelp, keterangan, DATE_FORMAT(tgl_kejadian,"%d-%m-%Y")tgl_kejadian, tempat_kejadian
+        $query = $this->db->query('SELECT s.id_sttlp, no_lp,  CASE WHEN DATE_FORMAT(tanggal,"%w") = 1 THEN "Minggu" WHEN DATE_FORMAT(tanggal,"%w") = 2 THEN "Senin" WHEN DATE_FORMAT(tanggal,"%w") = 3 THEN "Selasa"  WHEN DATE_FORMAT(tanggal,"%w") = 4 THEN "Rabu" WHEN DATE_FORMAT(tanggal,"%w") = 5 THEN "Kamis" WHEN DATE_FORMAT(tanggal,"%w") = 6 THEN "Jumat" END as harilap ,DAY(tanggal) tgllap, MONTH(tanggal) bulanlap, YEAR(tanggal) tahunlap, DATE_FORMAT(tanggal,"%H:%i") jamlap, nama_berkas, p.nama namapelapor, jk, alamat, p.email, notelp, keterangan, DATE_FORMAT(tgl_kejadian,"%d-%m-%Y")tgl_kejadian, tempat_kejadian, pt.nama namapetugas, s.id_petugas
   FROM sttlp s JOIN berkas b ON b.id_berkas = s.id_berkas
   JOIN pelapor p ON p.id_pelapor = s.`id_pelapor`
+  join petugas pt on pt.id_petugas = s.id_petugas
   WHERE id_sttlp = ' . $id . '
   ');
         return $query->row_array();

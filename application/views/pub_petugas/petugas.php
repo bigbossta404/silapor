@@ -73,7 +73,7 @@
                         <div class="card-body">
                             <div class="utilitas-rekap d-flex align-items-center">
                                 <p class="m-0 mr-3 text-rekap">List data dibawah untuk meninjau akun petugas.</p>
-                                <a href="<?php echo base_url('petugas_con/rekapAkunPetugas') ?>" class="btn btn-success"><img src="https://img.icons8.com/ios-glyphs/30/ffffff/ms-excel.png" /> Rekap data</a>
+                                <a href="<?php echo base_url('petugas_con/rekapAkunPetugas') ?>" class="btn btn-success"><i class="fas fa-file-excel"></i> Rekap data</a>
                             </div>
                         </div>
                     </div>

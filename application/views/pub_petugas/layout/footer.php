@@ -25,6 +25,52 @@
     </div>
 </div>
 
+<!-- Berkas -->
+<div class="modal fade" id="berkasModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Riwayat Berkas</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row p-3 align-items-center">
+                    <div class="col">
+                        <table class="table w-100">
+                            <tr class="table-info">
+                                <th>Berkas</th>
+                                <th>Jumlah</th>
+                            </tr>
+                            <tr>
+                                <td>Penganiayaan</td>
+                                <td><?= $jumberkas['aniaya'] ?></td>
+                            </tr>
+                            <tr>
+                                <td>Izin</td>
+                                <td><?= $jumberkas['izin'] ?></td>
+                            </tr>
+                            <tr>
+                                <td>Kehilangan</td>
+                                <td><?= $jumberkas['kehilangan'] ?></td>
+                            </tr>
+                            <tr>
+                                <td>Ganti Kerugian</td>
+                                <td><?= $jumberkas['rugi'] ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" type="button" data-dismiss="modal">Keluar</button>
+                <!-- <a class="btn btn-primary" href="<?= base_url('auth/logout') ?>">Keluar</a> -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- MODAL DIALOG -->
 
 <div class="modal fade balaslaporan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="padding-right:0;">
@@ -66,6 +112,15 @@
                         </div>
                     </div>
                 </div>
+                <!-- <div class="row px-4 upload-selesai" style="display: <?php echo ($dl['proses'] == 'selesai') ? 'block' : 'none;' ?> ">
+                    <div class="col-xl">
+                        <div class="form-group">
+                            <label for="uploaporan">Unggah Laporan Selesai (pdf)</label>
+                            <input type="file" class="form-control-file" id="uploaporan" name="uploaporan">
+                            <span class="error-uploadlap error-dialog text-danger mt-2"></span>
+                        </div>
+                    </div>
+                </div> -->
                 <div class="row px-4">
                     <div class="col-xl">
                         <div class="form-group">
@@ -118,11 +173,11 @@
 <script src=<?= base_url('assets/js/sweetalert2.min.js') ?>></script>
 <script src=<?= base_url('assets/js/petugas.js') ?>></script>
 <script src=<?= base_url('assets/js/fileinput.min.js') ?>></script>
-<script src=<?= base_url('assets/vendor/chart.js/Chart.min.js') ?>></script>
+<!-- <script src=<?= base_url('assets/vendor/chart.js/Chart.min.js') ?>></script> -->
 <script src="<?= base_url('assets/datatables/js/jquery.dataTables.min.js') ?>"></script>
 <script src=<?= base_url('assets/datatables/js/dataTables.bootstrap4.min.js') ?>></script>
-<script src=<?= base_url('assets/js/demo/chart-area-demo.js') ?>></script>
-<script src=<?= base_url('assets/js/demo/chart-pie-demo.js') ?>></script>
+<!-- <script src=<?= base_url('assets/js/demo/chart-area-demo.js') ?>></script>
+<script src=<?= base_url('assets/js/demo/chart-pie-demo.js') ?>></script> -->
 <script>
     $('#counttype').text(0)
 
