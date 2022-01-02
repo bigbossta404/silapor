@@ -363,8 +363,11 @@ class Pengguna_con extends CI_Controller
         if ($this->session->userdata('level') == 2) {
             setlocale(LC_ALL, 'IND');
             $date_now = date('Y-m-d');
-            $month_name = strftime('%B', strtotime($date_now));
-            $data['bulan'] = $month_name;
+            $data['datenow'] = array(
+                'hari' => strftime('%d', strtotime($date_now)),
+                'bulan' => strftime('%B', strtotime($date_now)),
+                'tahun' => strftime('%Y', strtotime($date_now)),
+            );
             // echo $id;
             $data['ds'] = $this->pengguna_mod->cetakSTTLP($id);
             // var_dump($data['ds']);

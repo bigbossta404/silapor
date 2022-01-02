@@ -60,14 +60,14 @@
                         <span>Melaporkan bahwa terjadi suatu perkara, sebagaimana keterangan: <?= $ds['keterangan'] ?> Terjadi pada tanggal <?= $ds['tgl_kejadian'] ?> beralamatkan di <?= $ds['tempat_kejadian'] ?>. Berdasarkan keterangan tersebut, telah diterima sebuah laporan dan diketahui di wilayah hukum Polsek Pakualaman Yogyakarta, Sehingga betul adanya surat ini dilaporkan oleh saya atas nama: <?= $ds['nama'] ?> Demikian Surat Keterangan Tanda Lapor <b> <?= $ds['nama_berkas'] ?> </b>ini dibuat agar dapat dipergunakan seperlunya.</span>
                     </div>
                 </div>
-                <!-- <div class="footer-page">
-                    <div class="ttd">
-                        <div id="waktutgl">Yogyakarta, 10 <?= $bulan ?> 2021</div>
-                        <div>MENGETAHUI <br>KAPOLSEK SEKTOR PAKUALAMAN <br>Ka. SPKT</div>
-                        <div id="nama-kapolsek">SIGIT ARIYANTO ADI,S,ST,.M.M</div>
-                        <div>KOMISARIS POLISI NRP 76120071</div>
+                <div class="footer-page">
+                    <div class="ttd2">
+                        <div id="waktutgl">Yogyakarta, <?= $datenow['hari'] . ' ' . $datenow['bulan'] . ' ' . $datenow['tahun'] ?></div>
+                        <div>PELAPOR SEKTOR PAKUALAMAN</div>
+                        <div id="nama-pelapor"><?= strtoupper($ds['nama']) ?></div>
+                        <!-- <div>KOMISARIS POLISI NRP 76120071</div> -->
                     </div>
-                </div> -->
+                </div>
                 <br>
                 <div class="catatan">
                     <span><b>Catatan:</b></span>
@@ -82,7 +82,7 @@
 
     <script src=<?= base_url('assets/js/jquery-3.5.1.min.js') ?>></script>
     <script>
-        window.print();
+        // window.print();
     </script>
 </body>
 
