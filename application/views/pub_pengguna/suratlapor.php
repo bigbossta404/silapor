@@ -61,12 +61,12 @@
                     </div>
                 </div>
                 <div class="footer-page">
-                    <div class="ttd2">
-                        <div id="waktutgl">Yogyakarta, <?= $datenow['hari'] . ' ' . $datenow['bulan'] . ' ' . $datenow['tahun'] ?></div>
+                    <!-- <div class="ttd2"> -->
+                    <!-- <div id="waktutgl">Yogyakarta, <?= $datenow['hari'] . ' ' . $datenow['bulan'] . ' ' . $datenow['tahun'] ?></div>
                         <div>PELAPOR SEKTOR PAKUALAMAN</div>
-                        <div id="nama-pelapor"><?= strtoupper($ds['nama']) ?></div>
-                        <!-- <div>KOMISARIS POLISI NRP 76120071</div> -->
-                    </div>
+                        <div id="nama-pelapor"><?= strtoupper($ds['nama']) ?></div> -->
+                    <!-- <div>KOMISARIS POLISI NRP 76120071</div> -->
+                    <!-- </div> -->
                 </div>
                 <br>
                 <div class="catatan">
@@ -82,7 +82,7 @@
 
     <script src=<?= base_url('assets/js/jquery-3.5.1.min.js') ?>></script>
     <script>
-        // window.print();
+        window.print();
     </script>
 </body>
 

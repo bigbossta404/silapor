@@ -3,6 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Mpdf\Mpdf;
 
 class Petugas_con extends CI_Controller
 {
@@ -491,109 +492,49 @@ class Petugas_con extends CI_Controller
             redirect('/');
         }
     }
-    // CETAK EXCEL
+
     function rekapAkunPelapor()
     {
         if ($this->session->userdata('level') == 1) {
+            $mpdf = new Mpdf();
             $list = $this->petugas_mod->allPelapor();
-            $spreadsheet = new Spreadsheet();
-            $sheet = $spreadsheet->getActiveSheet();
-            $sheet->mergeCells('A1:I1');
-            $sheet->setCellValue('A1', 'Rekap Data Akun Pelapor');
-            $sheet->getStyle('A1:I1')
-                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-            $sheet->mergeCells('A2:I2');
-            $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
-            $sheet->getStyle('A2:I2')
-                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-            $sheet->setCellValue('A3', 'No');
-            $sheet->setCellValue('B3', 'Nama');
-            $sheet->setCellValue('C3', 'JK');
-            $sheet->setCellValue('D3', 'Email');
-            $sheet->setCellValue('E3', 'Telp');
-            $sheet->setCellValue('F3', 'Alamat');
-            $sheet->setCellValue('G3', 'E-KTP');
-            $sheet->setCellValue('H3', 'KK');
-            $sheet->setCellValue('I3', 'Status');
-            foreach (range('A', 'E') as $columnID) {
-                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
-                    ->setAutoSize(true);
-            }
-            foreach (range('G', 'I') as $columnID) {
-                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
-                    ->setAutoSize(true);
-            }
-            $rows = 4;
-            $id = 1;
-            foreach ($list as $val) {
-                $sheet->setCellValue('A' . $rows, $id);
-                $sheet->setCellValue('B' . $rows, $val['nama']);
-                $sheet->setCellValue('C' . $rows, $val['jk']);
-                $sheet->setCellValue('D' . $rows, $val['email']);
-                $sheet->setCellValue('E' . $rows, $val['notelp']);
-                $sheet->setCellValue('F' . $rows, $val['alamat']);
-                $sheet->setCellValue('G' . $rows, ($val['img_ktp'] == null) ? 'Kosong' : 'Ada');
-                $sheet->setCellValue('H' . $rows, ($val['img_kk'] == null) ? 'Kosong' : 'Ada');
-                $sheet->setCellValue('I' . $rows, ($val['active'] == 0) ? 'Pending' : 'Aktif');
-                $rows++;
-                $id++;
-            }
-            $writer = new Xlsx($spreadsheet);
-
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="Rekap_All_Pelapor-' . date('dmY') . '.xlsx"');
-            $writer->save('php://output');
+            setlocale(LC_ALL, 'IND');
+            $date_now = date('Y-m-d');
+            $date = array(
+                'hari' => strftime('%d', strtotime($date_now)),
+                'bulan' => strftime('%B', strtotime($date_now)),
+                'bulan_angka' => strftime('%m', strtotime($date_now)),
+                'tahun' => strftime('%Y', strtotime($date_now)),
+            );
+            $data = $this->load->view('pub_petugas/rekap_pelapor', ['listpelapor' => $list, 'date' => $date], TRUE);
+            $mpdf->WriteHTML($data);
+            $mpdf->Output('rekap_pelapor_' . $date_now . '.pdf', 'I');
         } else {
             redirect('/');
         }
     }
+
     function rekapAkunPetugas()
     {
         if ($this->session->userdata('level') == 1) {
-            $list = $this->petugas_mod->allPetugas();
-            $spreadsheet = new Spreadsheet();
-            $sheet = $spreadsheet->getActiveSheet();
-            $sheet->mergeCells('A1:F1');
-            $sheet->setCellValue('A1', 'Rekap Data Akun Petugas');
-            $sheet->getStyle('A1:F1')
-                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-            $sheet->mergeCells('A2:F2');
-            $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
-            $sheet->getStyle('A2:F2')
-                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-            $sheet->setCellValue('A3', 'No');
-            $sheet->setCellValue('B3', 'ID Petugas');
-            $sheet->setCellValue('C3', 'Nama');
-            $sheet->setCellValue('D3', 'Email');
-            $sheet->setCellValue('E3', 'Pelayanan');
-            $sheet->setCellValue('F3', 'Status');
-            foreach (range('A', 'F') as $columnID) {
-                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
-                    ->setAutoSize(true);
-            }
-            $rows = 4;
-            $id = 1;
-            foreach ($list as $val) {
-                $sheet->setCellValue('A' . $rows, $id);
-                $sheet->setCellValue('B' . $rows, $val['id_petugas']);
-                $sheet->setCellValue('C' . $rows, $val['nama']);
-                $sheet->setCellValue('D' . $rows, $val['email']);
-                $sheet->setCellValue('E' . $rows, $val['pelayanan']);
-                $sheet->setCellValue('F' . $rows, ($val['active'] == 0) ? 'Pending' : 'Aktif');
-                $rows++;
-                $id++;
-            }
-            $writer = new Xlsx($spreadsheet);
 
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="Rekap_All_Petugas-' . date('dmY') . '.xlsx"');
-            $writer->save('php://output');
+            $mpdf = new Mpdf();
+            $list = $this->petugas_mod->allPetugas();
+            setlocale(LC_ALL, 'IND');
+            $date_now = date('Y-m-d');
+            $date = array(
+                'hari' => strftime('%d', strtotime($date_now)),
+                'bulan' => strftime('%B', strtotime($date_now)),
+                'bulan_angka' => strftime('%m', strtotime($date_now)),
+                'tahun' => strftime('%Y', strtotime($date_now)),
+            );
+            $data = $this->load->view('pub_petugas/rekap_petugas', ['listpetugas' => $list, 'date' => $date], TRUE);
+            $mpdf->WriteHTML($data);
+            $mpdf->Output('rekap_petugas_' . $date_now . '.pdf', 'I');
         } else {
             redirect('/');
         }
     }
-
-    // Cetak PDF
 
     function cetakSurat($id)
     {
@@ -612,4 +553,107 @@ class Petugas_con extends CI_Controller
             redirect('/');
         }
     }
+    // function rekapAkunPelapor()
+    // {
+    //     if ($this->session->userdata('level') == 1) {
+    //         $list = $this->petugas_mod->allPelapor();
+    //         $spreadsheet = new Spreadsheet();
+    //         $sheet = $spreadsheet->getActiveSheet();
+    //         $sheet->mergeCells('A1:I1');
+    //         $sheet->setCellValue('A1', 'Rekap Data Akun Pelapor');
+    //         $sheet->getStyle('A1:I1')
+    //             ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    //         $sheet->mergeCells('A2:I2');
+    //         $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
+    //         $sheet->getStyle('A2:I2')
+    //             ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    //         $sheet->setCellValue('A3', 'No');
+    //         $sheet->setCellValue('B3', 'Nama');
+    //         $sheet->setCellValue('C3', 'JK');
+    //         $sheet->setCellValue('D3', 'Email');
+    //         $sheet->setCellValue('E3', 'Telp');
+    //         $sheet->setCellValue('F3', 'Alamat');
+    //         $sheet->setCellValue('G3', 'E-KTP');
+    //         $sheet->setCellValue('H3', 'KK');
+    //         $sheet->setCellValue('I3', 'Status');
+    //         foreach (range('A', 'E') as $columnID) {
+    //             $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+    //                 ->setAutoSize(true);
+    //         }
+    //         foreach (range('G', 'I') as $columnID) {
+    //             $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+    //                 ->setAutoSize(true);
+    //         }
+    //         $rows = 4;
+    //         $id = 1;
+    //         foreach ($list as $val) {
+    //             $sheet->setCellValue('A' . $rows, $id);
+    //             $sheet->setCellValue('B' . $rows, $val['nama']);
+    //             $sheet->setCellValue('C' . $rows, $val['jk']);
+    //             $sheet->setCellValue('D' . $rows, $val['email']);
+    //             $sheet->setCellValue('E' . $rows, $val['notelp']);
+    //             $sheet->setCellValue('F' . $rows, $val['alamat']);
+    //             $sheet->setCellValue('G' . $rows, ($val['img_ktp'] == null) ? 'Kosong' : 'Ada');
+    //             $sheet->setCellValue('H' . $rows, ($val['img_kk'] == null) ? 'Kosong' : 'Ada');
+    //             $sheet->setCellValue('I' . $rows, ($val['active'] == 0) ? 'Pending' : 'Aktif');
+    //             $rows++;
+    //             $id++;
+    //         }
+    //         $writer = new Xlsx($spreadsheet);
+
+    //         header('Content-Type: application/vnd.ms-excel');
+    //         header('Content-Disposition: attachment;filename="Rekap_All_Pelapor-' . date('dmY') . '.xlsx"');
+    //         $writer->save('php://output');
+    //     } else {
+    //         redirect('/');
+    //     }
+    // }
+    // function rekapAkunPetugas()
+    // {
+    //     if ($this->session->userdata('level') == 1) {
+    //         $list = $this->petugas_mod->allPetugas();
+    //         $spreadsheet = new Spreadsheet();
+    //         $sheet = $spreadsheet->getActiveSheet();
+    //         $sheet->mergeCells('A1:F1');
+    //         $sheet->setCellValue('A1', 'Rekap Data Akun Petugas');
+    //         $sheet->getStyle('A1:F1')
+    //             ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    //         $sheet->mergeCells('A2:F2');
+    //         $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
+    //         $sheet->getStyle('A2:F2')
+    //             ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    //         $sheet->setCellValue('A3', 'No');
+    //         $sheet->setCellValue('B3', 'ID Petugas');
+    //         $sheet->setCellValue('C3', 'Nama');
+    //         $sheet->setCellValue('D3', 'Email');
+    //         $sheet->setCellValue('E3', 'Pelayanan');
+    //         $sheet->setCellValue('F3', 'Status');
+    //         foreach (range('A', 'F') as $columnID) {
+    //             $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+    //                 ->setAutoSize(true);
+    //         }
+    //         $rows = 4;
+    //         $id = 1;
+    //         foreach ($list as $val) {
+    //             $sheet->setCellValue('A' . $rows, $id);
+    //             $sheet->setCellValue('B' . $rows, $val['id_petugas']);
+    //             $sheet->setCellValue('C' . $rows, $val['nama']);
+    //             $sheet->setCellValue('D' . $rows, $val['email']);
+    //             $sheet->setCellValue('E' . $rows, $val['pelayanan']);
+    //             $sheet->setCellValue('F' . $rows, ($val['active'] == 0) ? 'Pending' : 'Aktif');
+    //             $rows++;
+    //             $id++;
+    //         }
+    //         $writer = new Xlsx($spreadsheet);
+
+    //         header('Content-Type: application/vnd.ms-excel');
+    //         header('Content-Disposition: attachment;filename="Rekap_All_Petugas-' . date('dmY') . '.xlsx"');
+    //         $writer->save('php://output');
+    //     } else {
+    //         redirect('/');
+    //     }
+    // }
+
+    // Cetak PDF
+
 }

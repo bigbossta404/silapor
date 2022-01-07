@@ -1,0 +1,39 @@
+.heading {
+    text-align: center;
+    padding-bottom: 10px;
+    border-bottom: double;
+}
+
+.kop {
+    margin: 2em 0 2em 0;
+    text-align: center;
+}
+
+.kop span:nth-child(1) {
+    border-bottom: 1px solid;
+    width: fit-content;
+    font-weight: bold;
+}
+
+#lambang {
+    width: 12%;
+}
+
+.tablelist td,
+.tablelist th {
+    border: 1px solid rgb(206, 206, 206);
+    padding: 8px;
+}
+
+.tablelist th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #b5b800;
+    color: white;
+}
+
+.tablelist {
+    border-collapse: collapse;
+    width: 100%;
+}

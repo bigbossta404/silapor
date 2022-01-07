@@ -65,18 +65,20 @@
                     <div class="row">
                         <div class="col">
                             <div class="ttd">
+                                <div>PELAPOR</div>
+                                <div id="nama-pelapor"><?= strtoupper($ds['namapelapor']) ?></div>
+                                <!-- <div id="nama-pelapor">SIGIT ARIYANTO ADI,S,ST,.M.M</div> -->
+                                <!-- <div>KOMISARIS POLISI NRP 76120071</div> -->
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="ttd">
                                 <div>MENGETAHUI <br>PETUGAS SEKTOR PAKUALAMAN</div>
                                 <div id="nama-kapolsek"><?= strtoupper($ds['namapetugas']) ?></div>
                                 <div>ANGGOTA POLISI NRP <?= $ds['id_petugas'] ?></div>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="ttd">
-                                <div>MENGETAHUI <br>KAPOLSEK SEKTOR PAKUALAMAN <br>Ka. SPKT</div>
-                                <div id="nama-kapolsek">SIGIT ARIYANTO ADI,S,ST,.M.M</div>
-                                <div>KOMISARIS POLISI NRP 76120071</div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <br>
