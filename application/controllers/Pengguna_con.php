@@ -163,8 +163,15 @@ class Pengguna_con extends CI_Controller
             }
 
             $data['title'] = 'Detail Laporan';
-            if ($data['dl']['proses'] == 'proses' || $data['dl']['proses'] == 'selesai') {
+            if ($data['dl']['proses'] == 'proses') {
                 $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="../../pengguna_con/cetakSurat/' . $id_surat . '" class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
+            } else if ($data['dl']['proses'] == 'selesai') {
+                $cekfile = file_exists('assets/img/laporan' . $id_surat . '.pdf');
+                if ($cekfile) {
+                    $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="' . base_url('assets/img/laporan/' . $id_surat . '.pdf') . ' " class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
+                } else {
+                    $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="#" class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
+                }
             } else {
                 $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4>';
             }
