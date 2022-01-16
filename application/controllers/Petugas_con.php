@@ -72,7 +72,7 @@ class Petugas_con extends CI_Controller
             $data['ses_akun'] = $this->petugas_mod->pengguna($this->session->userdata('email'));
             $data['title'] = 'Balasan Anda';
             $data['jumberkas'] = $this->petugas_mod->jumBerkas($data['ses_akun']['id_petugas']);
-
+            $data['filtertahun'] = $this->petugas_mod->getSttlpByYearPetugas($data['ses_akun']);
             $this->load->view('pub_petugas/layout/header', $data);
             $this->load->view('pub_petugas/balasan', $data);
             $this->load->view('pub_petugas/layout/footer', $data);
@@ -126,61 +126,78 @@ class Petugas_con extends CI_Controller
         if ($this->session->userdata('level') == 1) {
             $akun_petugas = $this->petugas_mod->pengguna($this->session->userdata('email'));
             $list = $this->petugas_mod->getSttlpByPetugas($akun_petugas);
-            $spreadsheet = new Spreadsheet();
-            $sheet = $spreadsheet->getActiveSheet();
-            // $styleArray = array(
-            //     'borders' => array(
-            //         'allborders' => array(
-            //             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THICK,
-            //             'color' => array('argb' => 'FFFF0000'),
-            //         ),
-            //     ),
-            // );
-            // $sheet->getStyle('A1:')->applyFromArray($styleArray);
-            $sheet->mergeCells('A1:H1');
-            $sheet->setCellValue('A1', 'Rekap Surat Tanda Terima Laporan Polisi');
-            $sheet->getStyle('A1:H1')
-                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-            $sheet->mergeCells('A2:H2');
-            $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
-            $sheet->getStyle('A2:H2')
-                ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-            $sheet->setCellValue('A3', 'No');
-            $sheet->setCellValue('B3', 'Nomor');
-            $sheet->setCellValue('C3', 'Petugas');
-            $sheet->setCellValue('D3', 'Pelapor');
-            $sheet->setCellValue('E3', 'Berkas');
-            $sheet->setCellValue('F3', 'Tanggal Kejadian');
-            $sheet->setCellValue('G3', 'Tanggal Kirim');
-            $sheet->setCellValue('H3', 'Status');
-            foreach (range('A', 'H') as $columnID) {
-                $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
-                    ->setAutoSize(true);
-                // $sheet->getStyle('B2:G8')->applyFromArray($styleArray);
-            }
-            $rows = 4;
-            $id = 1;
-            foreach ($list as $val) {
-                $sheet->setCellValue('A' . $rows, $id);
-                $sheet->setCellValue('B' . $rows, $val['no_lp']);
-                $sheet->setCellValue('C' . $rows, $akun_petugas['nama']);
-                $sheet->setCellValue('D' . $rows, $val['pengguna']);
-                $sheet->setCellValue('E' . $rows, $val['nama_berkas']);
-                $sheet->setCellValue('F' . $rows, $val['tgl_kejadian']);
-                $sheet->setCellValue('G' . $rows, $val['tanggal']);
-                $sheet->setCellValue('H' . $rows, $val['proses']);
-                $rows++;
-                $id++;
-            }
-            $writer = new Xlsx($spreadsheet);
-
-            header('Content-Type: application/vnd.ms-excel');
-            header('Content-Disposition: attachment;filename="Rekap_All_Balasan-' . $akun_petugas['id_petugas'] . '.xlsx"');
-            $writer->save('php://output');
+            $mpdf = new Mpdf([
+                'mode' => 'utf-8',
+                'format' => 'A4-L',
+                'orientation' => 'L'
+            ]);
+            setlocale(LC_ALL, 'IND');
+            $date_now = date('Y-m-d');
+            $date = array(
+                'hari' => strftime('%d', strtotime($date_now)),
+                'bulan' => strftime('%B', strtotime($date_now)),
+                'bulan_angka' => strftime('%m', strtotime($date_now)),
+                'tahun' => strftime('%Y', strtotime($date_now)),
+            );
+            $data = $this->load->view('pub_petugas/rekap_balasan', ['listbalasan' => $list, 'date' => $date, 'petugas' => $akun_petugas['nama']], TRUE);
+            $mpdf->WriteHTML($data);
+            $mpdf->Output('rekap_balasan_' . $akun_petugas['nama'] . '_' . $date_now . '.pdf', 'I');
         } else {
             redirect('/');
         }
     }
+    // function rekapBalasan()
+    // {
+    //     if ($this->session->userdata('level') == 1) {
+    //         $akun_petugas = $this->petugas_mod->pengguna($this->session->userdata('email'));
+    //         $list = $this->petugas_mod->getSttlpByPetugas($akun_petugas);
+    //         $spreadsheet = new Spreadsheet();
+    //         $sheet = $spreadsheet->getActiveSheet();
+
+    //         $sheet->mergeCells('A1:H1');
+    //         $sheet->setCellValue('A1', 'Rekap Surat Tanda Terima Laporan Polisi');
+    //         $sheet->getStyle('A1:H1')
+    //             ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    //         $sheet->mergeCells('A2:H2');
+    //         $sheet->setCellValue('A2', 'Per ' . date('d/m/Y'));
+    //         $sheet->getStyle('A2:H2')
+    //             ->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+    //         $sheet->setCellValue('A3', 'No');
+    //         $sheet->setCellValue('B3', 'Nomor');
+    //         $sheet->setCellValue('C3', 'Petugas');
+    //         $sheet->setCellValue('D3', 'Pelapor');
+    //         $sheet->setCellValue('E3', 'Berkas');
+    //         $sheet->setCellValue('F3', 'Tanggal Kejadian');
+    //         $sheet->setCellValue('G3', 'Tanggal Kirim');
+    //         $sheet->setCellValue('H3', 'Status');
+    //         foreach (range('A', 'H') as $columnID) {
+    //             $spreadsheet->getActiveSheet()->getColumnDimension($columnID)
+    //                 ->setAutoSize(true);
+    //             // $sheet->getStyle('B2:G8')->applyFromArray($styleArray);
+    //         }
+    //         $rows = 4;
+    //         $id = 1;
+    //         foreach ($list as $val) {
+    //             $sheet->setCellValue('A' . $rows, $id);
+    //             $sheet->setCellValue('B' . $rows, $val['no_lp']);
+    //             $sheet->setCellValue('C' . $rows, $akun_petugas['nama']);
+    //             $sheet->setCellValue('D' . $rows, $val['pengguna']);
+    //             $sheet->setCellValue('E' . $rows, $val['nama_berkas']);
+    //             $sheet->setCellValue('F' . $rows, $val['tgl_kejadian']);
+    //             $sheet->setCellValue('G' . $rows, $val['tanggal']);
+    //             $sheet->setCellValue('H' . $rows, $val['proses']);
+    //             $rows++;
+    //             $id++;
+    //         }
+    //         $writer = new Xlsx($spreadsheet);
+
+    //         header('Content-Type: application/vnd.ms-excel');
+    //         header('Content-Disposition: attachment;filename="Rekap_All_Balasan-' . $akun_petugas['id_petugas'] . '.xlsx"');
+    //         $writer->save('php://output');
+    //     } else {
+    //         redirect('/');
+    //     }
+    // }
 
     public function pesanBalasan($id_sttlp)
     {
@@ -190,6 +207,8 @@ class Petugas_con extends CI_Controller
             $data['reply'] = $this->petugas_mod->getData_allReply($id_sttlp);
             $data['berkas'] = $this->petugas_mod->getData_berkas();
             $data['proses'] = $this->petugas_mod->kamusProses();
+
+            $data['cekfile'] = file_exists('assets/img/laporan/' . $id_sttlp . '.pdf');
 
             $data['title'] = 'Detail Laporan';
             $data['heading'] = ' <h4 class="mb-0 text-gray-800">Detail Laporan</h4>';
@@ -244,37 +263,45 @@ class Petugas_con extends CI_Controller
                     'proses' => $this->input->post('statusProses'),
                     'id_sttlp' => $this->input->post('id')
                 );
-                // if ($this->input->post('statusProses') == 'selesai') {
-                //     if (!empty($_FILES['uploaporan']['name'])) {
-                //         $config = array();
-                //         $config['file_name'] = $this->input->post('id');
-                //         $config['upload_path']          = './assets/img/laporan';
-                //         $config['allowed_types']        = 'pdf';
-                //         $config['max_size']             = 5048;
 
-                //         $this->load->library('upload', $config, 'lap');
-                //         $this->lap->initialize($config);
-                //         $lap = $this->lap->do_upload('uploaporan');
+                if ($this->input->post('statusProses') == 'selesai') {
+                    if (!empty($_FILES['uploadlaporan']['name'])) {
+                        $config = array();
+                        $config['file_name'] = $this->input->post('id');
+                        $config['upload_path']          = './assets/img/laporan';
+                        $config['allowed_types']        = 'pdf';
+                        $config['max_size']             = 5048;
 
-                //         if (!$lap) {
-                //             echo json_encode('error-uploadlap');
-                //         }
-                //         // else {
-                //         //     unlink('assets/img/ektp/' . $old_lap);
-                //         // }
-                //     }
-                // }
+                        $this->load->library('upload', $config, 'lap');
+                        $this->lap->initialize($config);
+                        $lap = $this->lap->do_upload('uploadlaporan');
+
+                        if (!$lap) {
+                            echo json_encode('error-uploadlap');
+                        }
+                        // else {
+                        //     echo json_encode('sukses upload');
+                        // }
+                        //  
+                    }
+                }
                 $cekdata = $this->petugas_mod->getData_byid($this->input->post('id'));
 
                 $this->load->library('mailer');
                 $email_pengirim = 'fakhrifadlan14@gmail.com';
                 $nama_pengirim = 'Kepolisian Pakualaman';
-                $pass = '******';
+                $pass = 'spongebob404';
 
                 $email_penerima = $cekdata['email_pelapor'];
                 $subjek = 'Kabar Terbaru STTLP Anda!';
-                // $attachment = $_FILES['attachment'];
-                // $content = $this->load->view('content', array('pesan' => $pesan), true); // Ambil isi file content.php dan masukan ke variabel $content
+
+                $sendmail = array(
+                    'email_pengirim' => $email_pengirim,
+                    'nama_pengirim' => $nama_pengirim,
+                    'pass' => $pass,
+                    'email_penerima' => $email_penerima,
+                    'subjek' => $subjek
+                );
 
                 if ($cekdata['proses'] != $this->input->post('statusProses') || $cekdata['ket'] != $this->input->post('isibalasan')) {
                     if ($cekdata['ket'] == $this->input->post('isibalasan')) {
@@ -288,23 +315,11 @@ class Petugas_con extends CI_Controller
                             $this->db->update('sttlp');
 
                             $pesan = 'Hi ' . $cekdata['nama'] . ', STTLP anda yang kini berstatus: <b>' . ucwords($this->input->post('statusProses')) . '</b> baru saja kami tindaklanjuti, silahkan untuk pergi ke laman Sistem Kepolisian Pakualaman pada website Silapor agar bisa meninjau lebih detail lagi terkait STTLP anda, Terima kasih.';
-                            $sendmail = array(
-                                'email_pengirim' => $email_pengirim,
-                                'nama_pengirim' => $nama_pengirim,
-                                'pass' => $pass,
-                                'email_penerima' => $email_penerima,
-                                'subjek' => $subjek,
-                                'pesan' => $pesan,
-                                // 'content' => $content,
-                                // 'attachment' => $attachment
-                            );
-                            if (empty($attachment['name'])) {
-                                $this->mailer->send($sendmail); // Panggil fungsi send yang ada di librari Mailer
-                            } else {
-                                $this->mailer->send_with_attachment($sendmail); // Panggil fungsi send_with_attachment yang ada di librari Mailer
-                            }
 
-                            echo json_encode('sukses');
+                            $sendmail['pesan'] = $pesan;
+                            if ($this->mailer->send($sendmail)) {
+                                echo json_encode('sukses');
+                            }
                         } else {
                             echo json_encode('gagal');
                         }
@@ -317,22 +332,10 @@ class Petugas_con extends CI_Controller
                             $this->db->update('sttlp');
 
                             $pesan = 'Hi ' . $cekdata['nama'] . ', STTLP anda yang kini berstatus: <b>' . ucwords($this->input->post('statusProses')) . '</b> baru saja kami tindaklanjuti, silahkan untuk pergi ke laman Sistem Kepolisian Pakualaman pada website Silapor agar bisa meninjau lebih detail lagi terkait STTLP anda, Terima kasih.';
-                            $sendmail = array(
-                                'email_pengirim' => $email_pengirim,
-                                'nama_pengirim' => $nama_pengirim,
-                                'pass' => $pass,
-                                'email_penerima' => $email_penerima,
-                                'subjek' => $subjek,
-                                'pesan' => $pesan,
-                                // 'content' => $content,
-                                // 'attachment' => $attachment
-                            );
-                            if (empty($attachment['name'])) {
-                                $this->mailer->send($sendmail); // Panggil fungsi send yang ada di librari Mailer
-                            } else {
-                                $this->mailer->send_with_attachment($sendmail); // Panggil fungsi send_with_attachment yang ada di librari Mailer
+                            $sendmail['pesan'] = $pesan;
+                            if ($this->mailer->send($sendmail)) {
+                                echo json_encode('sukses');
                             }
-                            echo json_encode('sukses');
                         } else {
                             echo json_encode('gagal');
                         }
@@ -344,22 +347,16 @@ class Petugas_con extends CI_Controller
                     $this->db->update('sttlp');
 
                     $pesan = 'Hi ' . $cekdata['nama'] . ', STTLP anda yang kini berstatus: <b>' . ucwords($this->input->post('statusProses')) . '</b> baru saja kami tindaklanjuti, silahkan untuk pergi ke laman Sistem Kepolisian Pakualaman pada website Silapor agar bisa meninjau lebih detail lagi terkait STTLP anda, Terima kasih.';
-                    $sendmail = array(
-                        'email_pengirim' => $email_pengirim,
-                        'nama_pengirim' => $nama_pengirim,
-                        'pass' => $pass,
-                        'email_penerima' => $email_penerima,
-                        'subjek' => $subjek,
-                        'pesan' => $pesan,
-                        // 'content' => $content,
-                        // 'attachment' => $attachment
-                    );
-                    if (empty($attachment['name'])) {
-                        $this->mailer->send($sendmail); // Panggil fungsi send yang ada di librari Mailer
-                    } else {
-                        $this->mailer->send_with_attachment($sendmail); // Panggil fungsi send_with_attachment yang ada di librari Mailer
+                    $sendmail['pesan'] = $pesan;
+                    if ($this->mailer->send($sendmail)) {
+                        echo json_encode('sukses');
                     }
-                    echo json_encode('sukses');
+                    // if (empty($attachment['name'])) {
+                    //     $this->mailer->send($sendmail); // Panggil fungsi send yang ada di librari Mailer
+                    // } else {
+                    //     $this->mailer->send_with_attachment($sendmail); // Panggil fungsi send_with_attachment yang ada di librari Mailer
+                    // }
+                    // echo json_encode('sukses');
                 }
             }
         } else {
@@ -496,8 +493,8 @@ class Petugas_con extends CI_Controller
     function rekapAkunPelapor()
     {
         if ($this->session->userdata('level') == 1) {
-            $mpdf = new Mpdf();
             $list = $this->petugas_mod->allPelapor();
+            $mpdf = new Mpdf();
             setlocale(LC_ALL, 'IND');
             $date_now = date('Y-m-d');
             $date = array(

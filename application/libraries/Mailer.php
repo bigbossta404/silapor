@@ -35,9 +35,10 @@ class Mailer
         // $mail->AddEmbeddedImage('image/logo.png', 'logo_mynotescode', 'logo.png'); // Aktifkan jika ingin menampilkan gambar dalam email
         $send = $mail->send();
         if ($send) { // Jika Email berhasil dikirim
-            $response = array('status' => 'Sukses', 'message' => 'Email berhasil dikirim');
+            $response = true;
+            // $response = array('status' => 'Sukses', 'message' => 'Email berhasil dikirim');
         } else { // Jika Email Gagal dikirim
-            $response = array('status' => 'Gagal', 'message' => 'Email gagal dikirim');
+            $response = false;
         }
         return $response;
     }

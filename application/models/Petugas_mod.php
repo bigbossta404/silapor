@@ -56,6 +56,16 @@ class Petugas_mod extends CI_Model
         $query = $this->db->get();
         return $query->result_array();
     }
+
+    public function getSttlpByYearPetugas($id)
+    {
+        $this->db->select('YEAR(tanggal) tahun');
+        $this->db->from('sttlp');
+        $this->db->where('id_petugas', $id['id_petugas']);
+        $this->db->group_by('YEAR(tanggal)');
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     //================== Datatables Surat
     var $column_order_surat = array('no_lp', 'keterangan', 'tempat_kejadian', 'tgl_kejadian', null); //set column field database for datatable orderable
     var $column_search_surat = array('nama', 'no_lp', 'tgl_kejadian', 'tanggal', 'tempat_kejadian'); //set column field database for datatable searchable just firstname , lastname , address are searchable

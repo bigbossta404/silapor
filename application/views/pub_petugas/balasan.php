@@ -72,7 +72,15 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="utilitas-rekap d-flex align-items-center">
-                                <p class="m-0 mr-3 text-rekap">Inbox STTLP yang di pertanggung jawabkan oleh anda.</p>
+                                <p class="m-0 mr-2 text-rekap">Inbox STTLP yang dipertanggung jawabkan oleh anda.</p>
+                                <div class="sorttahun mr-2">
+                                    <select id="filtertahun" class="form-control">
+                                        <option value="" selected>Tampilkan Semua</option>
+                                        <?php foreach ($filtertahun as $filter) : ?>
+                                            <option value="<?php echo $filter['tahun']; ?>"><?php echo $filter['tahun']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
                                 <a href="<?php echo base_url('petugas_con/rekapBalasan') ?>" class="btn btn-success mr-2"><i class="fas fa-file-excel"></i> Rekap data</a>
                                 <button href="#" class="btn btn-primary" data-toggle="modal" data-target="#berkasModal"><i class="fas fa-history"></i> Berkas</button>
                             </div>

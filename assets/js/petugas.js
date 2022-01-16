@@ -182,11 +182,79 @@ $(document).ready(function(){
         id = $(this).attr('id');
         window.location = 'petugas_con/pesanBalasan/' + id;
     })
-    $(this).on('click','#submitbalasan',function(){
-        var id = $('#idsttlp_req').val();
-        var berkas = $('#berkas').val();
-        var statusProses = $('#statusProses').val();
-        var isibalasan = $('#isibalasan').val();
+    // $(this).on('click','#submitbalasan',function(){
+    //     var id = $('#idsttlp_req').val();
+    //     var berkas = $('#berkas').val();
+    //     var statusProses = $('#statusProses').val();
+    //     var isibalasan = $('#isibalasan').val();
+    //     Swal.fire({
+    //         title: 'Apakah sudah benar?',
+    //         text: "Jika sudah, silahkan klik kirim",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         cancelButtonText: 'Batal',
+    //         confirmButtonText: 'Ya, kirim'
+    //     }).then((result)=>{
+    //         if(result.isConfirmed){
+    //             $.ajax({    
+    //                 url:'../submitBalasan',
+    //                 data: {id:id,berkas:berkas,statusProses:statusProses,isibalasan:isibalasan},
+    //                 type: 'POST',
+    //                 dataType: 'JSON',
+    //                 success:function(data){
+    //                     if(data == 'gagal'){
+    //                         console.log('gagal insert')
+    //                     }else if(data == 'sukses'){
+    //                         $('.balaslaporan').modal('toggle');
+    //                         Swal.fire(
+    //                             'Terkirim!',
+    //                             'Laporan anda sudah dikirim.',
+    //                             'success',
+    //                           )
+    //                           .then(function(){
+    //                             location.reload();
+    //                           });
+    //                     }else if(data == 'sama'){
+    //                         $('.balaslaporan').modal('toggle');
+    //                         Swal.fire(
+    //                             'Opps!',
+    //                             'Tidak ada perubahan dari penginputan.',
+    //                             'warning',
+    //                           )
+    //                           .then(function(){
+    //                             location.reload();
+    //                           });
+    //                     }else if(data.error){
+    //                         $('.error-berkas').html(data['berkas'])
+    //                         $('.error-statusProses').html(data['statusProses'])
+    //                     }else if(data == 'error-uploadlap'){
+    //                         $('.error-uploadlap').html('Upload tidak valid!')
+    //                     }
+                        
+    //                 }
+    //             })
+    //         }
+    //     })
+        
+    // })   
+    var file = false;
+    if($('.btnLihatlap').attr('href') != '#'){
+        file = true;
+    } 
+    $('#uploadlaporan').fileinput({
+        showRemove : false,
+        showUpload : false ,
+        msgPlaceholder: file ? $('#idsttlp_req').val() + '.pdf' : 'Tidak ada file',
+        rtl: true,
+        browseLabel: 'Browse'
+    })
+    // $(this).on('click','#submitbalasan',function(e){
+    $('#submit_balas').on('submit',function(e){
+        
+        e.preventDefault();
+
         Swal.fire({
             title: 'Apakah sudah benar?',
             text: "Jika sudah, silahkan klik kirim",
@@ -200,9 +268,12 @@ $(document).ready(function(){
             if(result.isConfirmed){
                 $.ajax({    
                     url:'../submitBalasan',
-                    data: {id:id,berkas:berkas,statusProses:statusProses,isibalasan:isibalasan},
-                    type: 'POST',
-                    dataType: 'JSON',
+                    type:"POST",
+                    dataType: "json",
+                    data:new FormData(this),
+                    processData: false,
+                    contentType: false,
+                    async:false,
                     success:function(data){
                         if(data == 'gagal'){
                             console.log('gagal insert')
@@ -239,6 +310,8 @@ $(document).ready(function(){
         })
         
     })
+
+
     $(this).on('click','#simpanActive',function(){
         var email = $('#email_pelapor').val();
         var status = $('#status_pelapor').val();
@@ -283,13 +356,13 @@ $(document).ready(function(){
     })
 
     // OPEN Upload
-    // $('#statusProses').on('change', function() {
-    //     if(this.value == 'selesai'){
-    //         $('.upload-selesai').css({'display':'block'});
-    //     }else{
-    //         $('.upload-selesai').css({'display':'none'});
-    //     }
-    //   });
+    $('#statusProses').on('change', function() {
+        if(this.value == 'selesai'){
+            $('.upload-selesai').css({'display':'block'});
+        }else{
+            $('.upload-selesai').css({'display':'none'});
+        }
+      });
 
 })
 
@@ -394,6 +467,15 @@ $(document).ready( function () {
             { "width": "20%" },
             null,
           ]
+    });
+
+    $(document).ready(function() {
+        $('#filtertahun').on('change', function() {
+            var table = $('#tablebalas').DataTable({
+                "retrieve": true
+            })
+            table.columns(1).search(this.value).draw();
+        })
     });
 
 });
