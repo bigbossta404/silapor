@@ -66,9 +66,21 @@
         </nav>
 
         <!-- Begin Page Content -->
+
         <div class="container-fluid">
-            <?php if (!empty($d_surat)) {
-                foreach ($d_surat as $ds) : ?>
+            <?php if (!empty($d_surat)) { ?>
+                <div class="row">
+                    <div class="col-xl mb-4">
+                        <div class="card shadow">
+                            <div class="card-body">
+                                <div class="utilitas-rekap d-flex align-items-center">
+                                    <p class="m-0 mr-3 text-rekap">Silahkan hubungi petugas apabila proses belum ada perubahan / tanggapan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <?php foreach ($d_surat as $ds) : ?>
                     <div class="row">
                         <div class="col-xl mb-4">
                             <div class="card <?php echo ($ds['proses'] == 'terkirim') || ($ds['proses'] == 'diterima') || ($ds['proses'] == 'proses') || ($ds['proses'] == 'dievaluasi') ? 'border-left-primary' : (($ds['proses'] == 'ditolak') ? 'border-left-danger' : (($ds['proses'] == 'selesai') ? 'border-left-success' : 'border-left-primary')); ?> shadow h-100 py-2">

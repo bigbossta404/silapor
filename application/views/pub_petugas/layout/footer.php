@@ -45,7 +45,7 @@
                             </tr>
                             <tr>
                                 <td>Penganiayaan</td>
-                                <td><?= $jumberkas['aniaya'] ?></td>
+                                <td><?= isset($jumberkas['aniaya']) ? $jumberkas['aniaya']  : '' ?></td>
                             </tr>
                             <tr>
                                 <td>Izin</td>
@@ -72,82 +72,83 @@
 </div>
 
 <!-- MODAL DIALOG -->
-
-<div class="modal fade balaslaporan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="padding-right:0;">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Update & Balas STTLP</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <form id="submit_balas" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <div class="row px-4">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <input type="text" name="id" value="<?= $dl['idsttlp'] ?>" id="idsttlp_req" hidden>
-                                <select class="form-control" name="berkas" id="berkas">
-                                    <option value disabled hidden selected>-- Pilih Berkas --</option>
-                                    <?php foreach ($berkas as $br) : ?>
-                                        <option value="<?= $br['id_berkas'] ?>" <?= ($dl['nberkas'] == $br['nama_berkas']) ? 'selected' : '' ?>><?= $br['nama_berkas']; ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <span class="error-berkas error-dialog text-danger mt-2"></span>
+<?php if (isset($dl['idsttlp'])) { ?>
+    <div class="modal fade balaslaporan" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="padding-right:0;">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Update & Balas STTLP</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="submit_balas" enctype="multipart/form-data">
+                    <div class="modal-body">
+                        <div class="row px-4">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <input type="text" name="id" value="<?= isset($dl['idsttlp']) ? $dl['idsttlp'] : '' ?>" id="idsttlp_req" hidden>
+                                    <select class="form-control" name="berkas" id="berkas">
+                                        <option value disabled hidden selected>-- Pilih Berkas --</option>
+                                        <?php foreach ($berkas as $br) : ?>
+                                            <option value="<?= $br['id_berkas'] ?>" <?= ($dl['nberkas'] == $br['nama_berkas']) ? 'selected' : '' ?>><?= $br['nama_berkas']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                    <span class="error-berkas error-dialog text-danger mt-2"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row px-4">
-                        <div class="col-md">
-                            <div class="form-group">
-                                <select class="form-control" name="statusProses" id="statusProses">
-                                    <option value disabled hidden selected>-- Pilih Proses STTLP --</option>
-                                    <option value="ditolak" <?= ($dl['proses'] == 'ditolak') ? 'selected' : '' ?>>Tolak</option>
-                                    <!-- <option value="terkirim" <?= ($dl['proses'] == 'terkirim') ? 'selected' : '' ?>><?= $br['nama_berkas']; ?></option> -->
-                                    <option value="diterima" <?= ($dl['proses'] == 'diterima') ? 'selected' : '' ?>>Terima</option>
-                                    <option value="proses" <?= ($dl['proses'] == 'proses') ? 'selected' : '' ?>>Proses Aduan</option>
-                                    <option value="selesai" <?= ($dl['proses'] == 'selesai') ? 'selected' : '' ?>>Selesai</option>
-                                </select>
-                                <span class="error-statusProses error-dialog text-danger mt-2"></span>
+                        <div class="row px-4">
+                            <div class="col-md">
+                                <div class="form-group">
+                                    <select class="form-control" name="statusProses" id="statusProses">
+                                        <option value disabled hidden selected>-- Pilih Proses STTLP --</option>
+                                        <option value="ditolak" <?= ($dl['proses'] == 'ditolak') ? 'selected' : '' ?>>Tolak</option>
+                                        <!-- <option value="terkirim" <?= ($dl['proses'] == 'terkirim') ? 'selected' : '' ?>><?= $br['nama_berkas']; ?></option> -->
+                                        <option value="diterima" <?= ($dl['proses'] == 'diterima') ? 'selected' : '' ?>>Terima</option>
+                                        <option value="proses" <?= ($dl['proses'] == 'proses') ? 'selected' : '' ?>>Proses Aduan</option>
+                                        <option value="selesai" <?= ($dl['proses'] == 'selesai') ? 'selected' : '' ?>>Selesai</option>
+                                    </select>
+                                    <span class="error-statusProses error-dialog text-danger mt-2"></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row px-4 upload-selesai" style="display: <?php echo ($dl['proses'] == 'selesai') ? 'block' : 'none;' ?> ">
-                        <div class="col">
-                            <div class="form-group">
-                                <label for="uploaporan" class="d-flex align-items-center">Unggah Laporan Selesai (pdf) <?php echo ($cekfile) ?  '<i class="ml-1 text-success fas fa-check-circle"></i>' : '' ?></label>
-                                <div class="d-flex">
-                                    <a href="<?php echo ($cekfile) ?  base_url('assets/img/laporan/' . $dl['idsttlp'] . '.pdf') : '#' ?>" class="btn btn-success mr-3 btnLihatlap <?php echo ($cekfile) ?  '' : 'disabled' ?>">Lihat</a>
-                                    <div dir=rtl>
-                                        <input type="file" class="file is-valid" id="uploadlaporan" name="uploadlaporan" data-show-preview="false" title="<?php echo $dl['proses'] ?>" />
+                        <div class="row px-4 upload-selesai" style="display: <?php echo ($dl['proses'] == 'selesai') ? 'block' : 'none;' ?> ">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="uploaporan" class="d-flex align-items-center">Unggah Laporan Selesai (pdf) <?php echo ($cekfile) ?  '<i class="ml-1 text-success fas fa-check-circle"></i>' : '' ?></label>
+                                    <div class="d-flex">
+                                        <a href="<?php echo ($cekfile) ?  base_url('assets/img/laporan/' . $dl['idsttlp'] . '.pdf') : '#' ?>" class="btn btn-success mr-3 btnLihatlap <?php echo ($cekfile) ?  '' : 'disabled' ?>">Lihat</a>
+                                        <div dir=rtl>
+                                            <input type="file" class="file is-valid" id="uploadlaporan" name="uploadlaporan" data-show-preview="false" title="<?php echo $dl['proses'] ?>" />
+                                        </div>
+                                    </div>
+                                    <span class="error-uploadlap error-dialog text-danger mt-2"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row px-4">
+                            <div class="col-xl">
+                                <div class="form-group">
+                                    <textarea class="form-control" name="isibalasan" id="isibalasan" onkeyup="countChar(this)" rows="8" placeholder="Keterangan"><?= $dl['ket'] ?></textarea>
+                                    <div class="mt-2">
+                                        <span class="error-isilap error-dialog text-danger"></span>
+                                        <span><small class="float-right infotype"><span id="counttype"></span>/500</small></span>
                                     </div>
                                 </div>
-                                <span class="error-uploadlap error-dialog text-danger mt-2"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row px-4">
-                        <div class="col-xl">
-                            <div class="form-group">
-                                <textarea class="form-control" name="isibalasan" id="isibalasan" onkeyup="countChar(this)" rows="8" placeholder="Keterangan"><?= $dl['ket'] ?></textarea>
-                                <div class="mt-2">
-                                    <span class="error-isilap error-dialog text-danger"></span>
-                                    <span><small class="float-right infotype"><span id="counttype"></span>/500</small></span>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                        <button type="submit" class="btn btn-primary" id="submitbalasan">Submit</button>
+                        <!-- <button type="button" class="btn btn-primary" id="submitbalasan">Submit</button> -->
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary" id="submitbalasan">Submit</button>
-                    <!-- <button type="button" class="btn btn-primary" id="submitbalasan">Submit</button> -->
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+<?php } ?>
 <div class="modal fade noticelap" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" style="padding-right:0;">
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content">
@@ -170,7 +171,7 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 
 
 <script src=<?= base_url('assets/js/jquery-3.5.1.min.js') ?>></script>
