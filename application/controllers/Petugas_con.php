@@ -139,7 +139,7 @@ class Petugas_con extends CI_Controller
                 'bulan_angka' => strftime('%m', strtotime($date_now)),
                 'tahun' => strftime('%Y', strtotime($date_now)),
             );
-            $data = $this->load->view('pub_petugas/rekap_balasan', ['listbalasan' => $list, 'date' => $date, 'petugas' => $akun_petugas['nama']], TRUE);
+            $data = $this->load->view('pub_petugas/rekap_balasan', ['listbalasan' => $list, 'date' => $date, 'petugas' => $akun_petugas['nama'], 'nopetugas' => $akun_petugas['id_petugas']], TRUE);
             $mpdf->WriteHTML($data);
             $mpdf->Output('rekap_balasan_' . $akun_petugas['nama'] . '_' . $date_now . '.pdf', 'I');
         } else {
@@ -493,6 +493,7 @@ class Petugas_con extends CI_Controller
     function rekapAkunPelapor()
     {
         if ($this->session->userdata('level') == 1) {
+            $akun_petugas = $this->petugas_mod->pengguna($this->session->userdata('email'));
             $list = $this->petugas_mod->allPelapor();
             $mpdf = new Mpdf();
             setlocale(LC_ALL, 'IND');
@@ -503,7 +504,7 @@ class Petugas_con extends CI_Controller
                 'bulan_angka' => strftime('%m', strtotime($date_now)),
                 'tahun' => strftime('%Y', strtotime($date_now)),
             );
-            $data = $this->load->view('pub_petugas/rekap_pelapor', ['listpelapor' => $list, 'date' => $date], TRUE);
+            $data = $this->load->view('pub_petugas/rekap_pelapor', ['listpelapor' => $list, 'date' => $date, 'petugas' => $akun_petugas['nama'], 'nopetugas' => $akun_petugas['id_petugas']], TRUE);
             $mpdf->WriteHTML($data);
             $mpdf->Output('rekap_pelapor_' . $date_now . '.pdf', 'I');
         } else {
@@ -514,7 +515,7 @@ class Petugas_con extends CI_Controller
     function rekapAkunPetugas()
     {
         if ($this->session->userdata('level') == 1) {
-
+            $akun_petugas = $this->petugas_mod->pengguna($this->session->userdata('email'));
             $mpdf = new Mpdf();
             $list = $this->petugas_mod->allPetugas();
             setlocale(LC_ALL, 'IND');
@@ -525,7 +526,7 @@ class Petugas_con extends CI_Controller
                 'bulan_angka' => strftime('%m', strtotime($date_now)),
                 'tahun' => strftime('%Y', strtotime($date_now)),
             );
-            $data = $this->load->view('pub_petugas/rekap_petugas', ['listpetugas' => $list, 'date' => $date], TRUE);
+            $data = $this->load->view('pub_petugas/rekap_petugas', ['listpetugas' => $list, 'date' => $date, 'petugas' => $akun_petugas['nama'], 'nopetugas' => $akun_petugas['id_petugas']], TRUE);
             $mpdf->WriteHTML($data);
             $mpdf->Output('rekap_petugas_' . $date_now . '.pdf', 'I');
         } else {

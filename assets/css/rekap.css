@@ -19,6 +19,20 @@
     width: 12%;
 }
 
+.footer {
+    text-align: center;
+    margin-top: 3em;
+    width: 100%;
+    display: table;
+    /* page-break-inside: avoid; */
+    /* height: 50px; */
+    /* color: blue; */
+}
+
+#nama-petugas {
+    margin-top: 6em;
+}
+
 .tablelist td,
 .tablelist th {
     border: 1px solid rgb(206, 206, 206);

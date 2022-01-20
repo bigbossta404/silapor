@@ -166,8 +166,8 @@ class Pengguna_con extends CI_Controller
             if ($data['dl']['proses'] == 'proses') {
                 $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="../../pengguna_con/cetakSurat/' . $id_surat . '" class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
             } else if ($data['dl']['proses'] == 'selesai') {
-                $cekfile = file_exists('assets/img/laporan' . $id_surat . '.pdf');
-                if ($cekfile) {
+                $cekfile = file_exists('assets/img/laporan/' . $id_surat . '.pdf');
+                if ($cekfile >= 1) {
                     $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="' . base_url('assets/img/laporan/' . $id_surat . '.pdf') . ' " class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
                 } else {
                     $data['heading'] = '<h4 class="mb-0 mr-3 text-gray-800">Detail Laporan</h4><a href="#" class="btn btn-danger" ><i class="fas fa-print"></i></i> Cetak Surat</a>';
@@ -379,6 +379,19 @@ class Pengguna_con extends CI_Controller
             $data['ds'] = $this->pengguna_mod->cetakSTTLP($id);
             // var_dump($data['ds']);
             $this->load->view('pub_pengguna/suratlapor', $data);
+        } else {
+            redirect('/');
+        }
+    }
+
+    public function tentang()
+    {
+        if ($this->session->userdata('level') == 2) {
+            $data['title'] = 'Tentang Aplikasi';
+            // $data['heading'] = ' <h4 class="mb-0 text-gray-800">Pengaturan Akun</h4>';
+            $this->load->view('pub_pengguna/layout/header', $data);
+            $this->load->view('pub_pengguna/profile', $data);
+            $this->load->view('pub_pengguna/layout/footer');
         } else {
             redirect('/');
         }

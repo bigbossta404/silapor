@@ -52,6 +52,22 @@
             </tbody>
         </table>
     </div>
+    <div class="footer">
+        <div class="col" align="left" style="width: 50%;float: left;">
+            <div class="ttd">
+                <div>MENGETAHUI <br>KAPOLSEK SEKTOR PAKUALAMAN</div>
+                <div id="nama-petugas">SIGIT ARIYANTO ADI,S,ST,.M.M</div>
+                <div>KOMISARIS POLISI NRP. 76120071</div>
+            </div>
+        </div>
+        <div class="col" align="left" style="width: 50%;float: left;">
+            <div class="ttd">
+                <div>MENGETAHUI <br>PETUGAS SEKTOR PAKUALAMAN</div>
+                <div id="nama-petugas"><?= strtoupper($petugas) ?></div>
+                <div>ANGGOTA POLISI NRP. <?= $nopetugas ?></div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </body>
 
