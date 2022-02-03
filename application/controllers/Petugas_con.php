@@ -290,7 +290,7 @@ class Petugas_con extends CI_Controller
                 $this->load->library('mailer');
                 $email_pengirim = 'fakhrifadlan14@gmail.com';
                 $nama_pengirim = 'Kepolisian Pakualaman';
-                $pass = 'spongebob404';
+                $pass = '*************';
 
                 $email_penerima = $cekdata['email_pelapor'];
                 $subjek = 'Kabar Terbaru STTLP Anda!';
